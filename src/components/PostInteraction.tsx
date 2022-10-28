@@ -1,6 +1,7 @@
 import react from 'react'
 import { IconBaseProps } from 'react-icons';
 import { FaComment, FaRetweet, FaHeart } from 'react-icons/fa'
+import { post } from '../services/post'
 
 interface Props {
     handleLike: () => void
@@ -9,8 +10,6 @@ interface Props {
     likeCount: number
     retweetCount: number
     commentCount: number
-    isLiked: boolean
-    isRetweeted: boolean
     id: number
 }
 

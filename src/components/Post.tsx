@@ -13,8 +13,6 @@ interface Props {
     likeCount: number
     retweetCount: number
     commentCount: number
-    isLiked: boolean
-    isRetweeted: boolean
     handleComment: () => void
     handleRetweet: () => void
     handleLike: () => void
@@ -41,9 +39,7 @@ export const Post: React.FC<Props> = (props: Props) => {
                  handleRetweet={props.handleRetweet}
                  likeCount={props.likeCount}
                  retweetCount={props.retweetCount}
-                 commentCount={props.commentCount}
-                 isLiked={props.isLiked}
-                 isRetweeted={props.isRetweeted}/> 
+                 commentCount={props.commentCount}/> 
             </div>          
         </div>
     )

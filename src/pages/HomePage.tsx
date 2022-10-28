@@ -1,16 +1,20 @@
 import react from 'react'
-import {useState } from 'react'
+import { useState, useCallback, useEffect, useRef } from 'react'
 import {Post} from '../components/Post'
 import { CreatePost } from '../components/CreatePost'
+import {useGetPosts} from '../hooks/useGetPosts'
+import { getPosts } from '../services/getPosts'
 
 export const HomePage: React.FC = ({}) => {
 
-
-const [newPost, setNewPost] = useState({
+    const [query, setQuery] = useState('')
+    const [page, setPage] = useState(1)
+    const { posts, loading } = useGetPosts(query, page)
+    const [newPost, setNewPost] = useState({
     postTextBody: '',
     postMedia: ''
-})
-const [postData, setPostData] = useState([{
+    })
+    const [postData, setPostData] = useState([{
     id:1,
     userName:'kreid01',
     userAt:'@kreid01',
@@ -21,9 +25,14 @@ const [postData, setPostData] = useState([{
     commentCount:201,
     likeCount:100,
     retweetCount:23,
-    isLiked: false,
-    isRetweeted: false
-}])
+    }])
+
+    console.log(posts)
+
+useEffect(() => {
+    setPostData(prevPostData => ([...prevPostData, ]))
+    setPage(prevNum => prevNum+1)
+}, [])
 
 const handleComment = () => {
 }
@@ -70,8 +79,6 @@ const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
                     commentCount={postData[0].commentCount}
                     likeCount={postData[0].likeCount}
                     retweetCount={postData[0].retweetCount}
-                    isLiked={postData[0].isRetweeted}
-                    isRetweeted={postData[0].isLiked}
                     handleComment={handleComment}
                     handleRetweet={handleRetweet}
                     handleLike={handleLike}
