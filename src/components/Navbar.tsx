@@ -4,14 +4,15 @@ import { FaHouseUser, FaEnvelope, FaSearch, FaBell, FaBookmark, FaList, FaUser, 
 import { IconBaseProps } from 'react-icons';
 
 
-export default function Navbar() {
+export const Navbar: React.FC = () => {
 
     return (
         <header>
-            <nav className='fixex w-80 h-screen flex flex-col bg-white shadow-lg'>
-                <div className='right-20'>
+            <nav className='fixed w-20 h-screen flex flex-col bg-white shadow-lg'>
+                <NavLink end to='/'>
                 <SideBarIcon 
                 icon={<FaTwitter size='30'/>}></SideBarIcon>
+                </NavLink>
                 <SideBarIcon 
                 icon={<FaHouseUser size='30'/>}></SideBarIcon>
                 <SideBarIcon 
@@ -28,7 +29,6 @@ export default function Navbar() {
                 icon={<FaUser size='30'/>}></SideBarIcon>
                 <SideBarIcon 
                 icon={<FaPenNib size='30'/>}></SideBarIcon>
-                </div>
             </nav>
         </header>
     )
