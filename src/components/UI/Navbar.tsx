@@ -13,8 +13,10 @@ export const Navbar: React.FC = () => {
                 <SideBarIcon 
                 icon={<FaTwitter size='30'/>}></SideBarIcon>
                 </NavLink>
+                <NavLink end to='/'>
                 <SideBarIcon 
                 icon={<FaHouseUser size='30'/>}></SideBarIcon>
+                </NavLink>
                 <SideBarIcon 
                 icon={<FaSearch size='30'/>}></SideBarIcon>
                 <SideBarIcon 

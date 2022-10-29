@@ -3,34 +3,33 @@ import axios from 'axios'
 
 export const useGetPosts = (query: string, page: number) => {
 
-    type Posts = {
+    type Post = {
         id:number,
         userName:string
         userAt:string
         userImg:string,
         postTextBody:string
-        postMediaBody:string
+        postMedia:string
         postDate:string
         commentCount:number
         likeCount:number
         retweetCount:number
     }
-    
-    type GetPostsResponse = {
-        data: Posts[]
-    }
-    
+     
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const [posts, setPosts] = useState<GetPostsResponse>()
+    const [posts, setPosts] = useState<Post[]>()
+    const [hasMore, setHasMore] = useState(false)
 
     const sendQuery  = useCallback(async (query: string)  => {
         try {
             await setLoading(true)
             await setError(false)
-            const {data, status} = await axios.get<GetPostsResponse>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=1`)
-            setPosts(data)
-            setLoading(false)
+            const {data} = await axios.get<Post[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=3`)
+            await setPosts(prevData => (prevData !== undefined) ? [...prevData, ...data] : [])
+            await setHasMore(data.length > 1)
+            console.log(data)
+            console.log(hasMore)
         } catch (error) {
             if (axios.isAxiosError(error)) {
               console.log('error message: ', error.message);
@@ -40,10 +39,10 @@ export const useGetPosts = (query: string, page: number) => {
               return 'An unexpected error occurred';
             }
         }
-    }, [page, query])
+    }, [query, page])
 
     useEffect(() => {
         sendQuery(query)
     }, [query, sendQuery, page])
-    return { loading, error, posts}
+    return { loading, error, posts, hasMore, setPosts}
 }   

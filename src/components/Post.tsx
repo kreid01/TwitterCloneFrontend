@@ -1,5 +1,6 @@
+import React from 'react'
 import react from 'react'
-import { PostInteraction } from './PostInteraction'
+import { PostInteraction } from '../utils/PostInteraction'
 
 interface Props {
     postData: Array<Object>
@@ -15,22 +16,21 @@ interface Props {
     commentCount: number
     handleComment: () => void
     handleRetweet: () => void
-    handleLike: () => void
+    handleLike: (id: number) => void
+    ref?: react.MutableRefObject<null>
 }
 
-
-
-export const Post: React.FC<Props> = (props: Props) => {
+export const Post: React.FC<Props> = (props: Props, ref) => {
 
     return (
-        <div className='flex'>
+        <div className='flex mt-5 mb-5'>
             <img className='w-12 h-12 rounded-full' src={props.userImg} alt=''/>
             <div className='flex-col pl-4'>  
                 <p className=''><strong>{props.userName}</strong>
-                <span>{props.userAt}·{props.postDate}</span></p>
+                <span className='text-gray-500'>@{props.userAt}·{props.postDate.substring(0,7)}</span></p>
                 <p>{props.postTextBody}</p>
                 <img 
-                className='w-full pt-2 max-h-72 rounded-xl'
+                className='w-80 pt-2 max-h-72 rounded-xl'
                 src={props.postMediaBody} alt=''/>
                  <PostInteraction 
                  id={props.id}

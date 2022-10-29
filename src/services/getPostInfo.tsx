@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-export const getPosts = async () => {
+export const getPostInfo = async (id: number) => {
 
-     type Posts = {
+     type Post = {
         id:number,
         userName:string
         userAt:string
@@ -14,15 +14,10 @@ export const getPosts = async () => {
         likeCount:number
         retweetCount:number
     }
-    
-    type GetPostsResponse = {
-        data: Posts[]
-    }
 
     try {
-        const {data, status} = await axios.get<GetPostsResponse>('https://localhost:7227/posts?PageNumber=1&PageSize=10')
+        const {data, status} = await axios.get<Post>(`https://localhost:7227/posts/${id}`)
         console.log("posted", data, status)
-        return data 
     } catch (err) {
     console.log(err)
     }
