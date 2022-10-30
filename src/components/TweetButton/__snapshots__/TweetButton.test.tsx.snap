@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matched snapshot 1`] = `
+<button
+  className="font-bold text-white ml-auto 
+ bg-blue-500 hover:bg-blue-400 p-2 pl-4
+ pr-4 rounded-2xl"
+  data-testid="tweetButton"
+  onClick={[Function]}
+>
+  Tweet
+</button>
+`;

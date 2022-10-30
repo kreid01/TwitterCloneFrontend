@@ -7,9 +7,9 @@ import { IconBaseProps } from 'react-icons';
 export const Navbar: React.FC = () => {
 
     return (
-        <header>
+        <header data-testid= "nav">
             <nav className='fixed w-20 h-screen flex flex-col bg-white shadow-lg'>
-                <NavLink end to='/'>
+                <NavLink  end to='/'>
                 <SideBarIcon 
                 icon={<FaTwitter size='30'/>}></SideBarIcon>
                 </NavLink>

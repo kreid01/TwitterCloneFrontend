@@ -4,6 +4,7 @@ import { CreatePost } from '../utils/CreatePost'
 import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
 import  updatePostWithLike  from '../services/updatePost'
+import { nanoid } from 'nanoid'
 
 export const HomePage: React.FC = ({}) => {
 
@@ -18,12 +19,13 @@ export const HomePage: React.FC = ({}) => {
     userName: 'bladee',
     userImg: "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg"
     }) 
+
     const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
         if (target.isIntersecting && hasMore) {
           setPage(prevPage => prevPage +1)
-        }
-      }, []);
+       }
+      }, [hasMore]);
     
       useEffect(() => {
         const option = {
@@ -50,6 +52,7 @@ export const HomePage: React.FC = ({}) => {
             ...prevState,
             [event.target.name]: event.target.value 
         }))
+        console.log(newPost)
     }
 
     const handleTweet = () => {
@@ -63,7 +66,7 @@ export const HomePage: React.FC = ({}) => {
     return (
         <div>
             <Post
-                key={index}
+                key={nanoid()}
                 postData={posts} 
                 id={post.id}
                 userName={post.userName}
@@ -84,7 +87,7 @@ export const HomePage: React.FC = ({}) => {
 
         return (
             <>
-            <div className='ml-20'>
+            <div  className='ml-20'>
                 <h1 className='pl-5 pt-3 pb-3 fixed w-full
                         backdrop-blur-lg font-bold bg-slate-400 
                         bg-opacity-5 font'>Home</h1>
@@ -94,14 +97,15 @@ export const HomePage: React.FC = ({}) => {
                         postTextBody:'',
                         postMedia: '' }}
                     handleTweet={handleTweet}
-                    handleChange={handleChange}/>
+                    handleChange={handleChange}
+                    setNewPost={setNewPost}/>
                     <div>
                     {postsList()}
+                    </div>
                     </div>
                     {loading && <p>Loading...</p>}
                     {error && <p>Error!</p>}
                     <div ref={loader} />
-                </div>
             </div>
             </>
         )
