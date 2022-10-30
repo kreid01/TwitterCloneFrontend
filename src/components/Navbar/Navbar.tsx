@@ -10,33 +10,33 @@ export const Navbar: React.FC = () => {
         <header data-testid= "nav">
             <nav className='fixed w-20 h-screen flex flex-col bg-white shadow-lg'>
                 <NavLink  end to='/'>
-                <SideBarIcon 
-                icon={<FaTwitter size='30'/>}></SideBarIcon>
+                <NavbarIcon 
+                icon={<FaTwitter size='30'/>}></NavbarIcon>
                 </NavLink>
                 <NavLink end to='/'>
-                <SideBarIcon 
-                icon={<FaHouseUser size='30'/>}></SideBarIcon>
+                <NavbarIcon 
+                icon={<FaHouseUser size='30'/>}></NavbarIcon>
                 </NavLink>
-                <SideBarIcon 
-                icon={<FaSearch size='30'/>}></SideBarIcon>
-                <SideBarIcon 
-                icon={<FaBell size='30'/>}></SideBarIcon>
-                <SideBarIcon 
-                icon={<FaEnvelope size='30'/>}></SideBarIcon>
-                <SideBarIcon 
-                icon={<FaBookmark size='30'/>}></SideBarIcon>
-                <SideBarIcon 
-                icon={<FaList size='30'/>}></SideBarIcon>
-                <SideBarIcon 
-                icon={<FaUser size='30'/>}></SideBarIcon>
-                <SideBarIcon 
-                icon={<FaPenNib size='30'/>}></SideBarIcon>
+                <NavbarIcon 
+                icon={<FaSearch size='30'/>}></NavbarIcon>
+                <NavbarIcon 
+                icon={<FaBell size='30'/>}></NavbarIcon>
+                <NavbarIcon 
+                icon={<FaEnvelope size='30'/>}></NavbarIcon>
+                <NavbarIcon 
+                icon={<FaBookmark size='30'/>}></NavbarIcon>
+                <NavbarIcon 
+                icon={<FaList size='30'/>}></NavbarIcon>
+                <NavbarIcon 
+                icon={<FaUser size='30'/>}></NavbarIcon>
+                <NavbarIcon 
+                icon={<FaPenNib size='30'/>}></NavbarIcon>
             </nav>
         </header>
     )
 }
 
-const SideBarIcon = ({ icon }: {icon: IconBaseProps})  => (
+export const NavbarIcon = ({ icon }: {icon: IconBaseProps})  => (
     <div className='sidebar-icon'>
         <>{icon}</>
     </div>

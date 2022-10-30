@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
-import  { Post } from '../components/Post'
-import { CreatePost } from '../utils/CreatePost'
+import  { Post } from '../components/Post/Post'
+import { CreatePost } from '../components/CreatePost/CreatePost'
 import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
 import  updatePostWithLike  from '../services/updatePost'
@@ -47,7 +47,7 @@ export const HomePage: React.FC = ({}) => {
         updatePostWithLike(id)
     }
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement> | React.ChangeEvent<HTMLInputElement> ) => {  
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {  
         setNewPost(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value 
@@ -67,13 +67,12 @@ export const HomePage: React.FC = ({}) => {
         <div>
             <Post
                 key={nanoid()}
-                postData={posts} 
                 id={post.id}
                 userName={post.userName}
                 userAt={post.userAt}
                 userImg={post.userImg}
                 postTextBody={post.postTextBody}
-                postMediaBody={post.postMedia}
+                postMedia={post.postMedia}
                 postDate={post.postDate}
                 commentCount={post.commentCount}
                 likeCount={post.likeCount}

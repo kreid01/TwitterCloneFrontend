@@ -2,12 +2,13 @@
 import React from 'react'
 import { Navbar } from './Navbar'
 
-import { screen, render, cleanup } from '@testing-library/react';
+import { screen, render, cleanup, fireEvent,  } from '@testing-library/react';
 import "@testing-library/jest-dom";
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
+import { BrowserRouter, NavLink} from 'react-router-dom'
 
 import renderer from 'react-test-renderer'
 
+afterEach(cleanup)
 it("matched snapshot", () => {
     const tree = renderer.create(
         <BrowserRouter>
@@ -17,13 +18,19 @@ it("matched snapshot", () => {
       expect(tree).toMatchSnapshot()     
 })
 
-afterEach(cleanup)
-it("is in document", () => {
-    <BrowserRouter>
-            <Navbar/>
-    </BrowserRouter>
-    const nav = screen.getByTestId("nav")
-    expect(nav).toBeInTheDocument()
-})
+it("renders without crashing", () => {
+    render(<BrowserRouter>
+        <Navbar/>
+    </BrowserRouter>)
+ })
 
- 
+
+ it("end to path is correct", () => {
+    render(<BrowserRouter>
+        <NavLink end to ='/'>
+            Home
+       </NavLink>
+    </BrowserRouter>)
+   fireEvent.click(screen.getByText("Home"))
+   expect(window.location.pathname).toBe("/")
+ })

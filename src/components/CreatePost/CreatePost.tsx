@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react' 
-import { FaImage, FaCalendar, FaSmile} from 'react-icons/fa'
+import {FaCalendar, FaSmile, FaImage} from 'react-icons/fa'
 import {IconBaseProps} from 'react-icons'
-import { TweetButton } from '../components/TweetButton/TweetButton'
+import { TweetButton } from '../TweetButton/TweetButton'
+import { FileUpload } from './FileUpload'
 
 interface newPost {
     postTextBody: string
@@ -43,14 +44,6 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
             let url = ''
             reader.onloadend = () => {
                 setPreview(reader.result as string)
-                fetch(reader.result as string)
-                .then(res => res.blob())
-                .then(blob => {
-                  console.log(blob);
-                  url = window.URL.createObjectURL(blob);
-                  console.log(url)
-                  
-                })
                 setNewPost(prevState => ({
                     ...prevState, postMedia: url
                 }))
@@ -80,12 +73,9 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
                     placeholder="Whats Happening?" required/>
                     <img alt='' className='w-80 pt-2 pb-6 max-h-72 rounded-xl' src={preview as string}/>
                     <div className='flex'>
-                        <input 
-                        accept="image/*"
-                        className='hidden'
-                        name='postMedia'
-                        id='postMedia' onChange={(event) => handleFileUpload(event)} type='file'/>
-                        <label htmlFor='postMedia'><NewPostButtons icon={<FaImage />}/></label>
+                        <FileUpload 
+                        label={<NewPostButtons icon={<FaImage />}/>}
+                        handleFileUpload={handleFileUpload}/>
                         <NewPostButtons icon={<FaCalendar/>}/>
                         <NewPostButtons icon={<FaSmile/>}/>
                         <TweetButton
@@ -99,7 +89,7 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
 
 }
 
-const NewPostButtons = ({ icon }: {icon: IconBaseProps})  => (
+export const NewPostButtons = ({ icon }: {icon: IconBaseProps})  => (
     <div className='post-icon'>
         <>{icon}</>
     </div>
