@@ -1,17 +1,17 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react'
 import  { Post } from '../components/Post/Post'
-import { CreatePost } from '../components/CreatePost/CreatePost'
+import { CreatePost } from '../components/NewPost/CreatePost/CreatePost'
 import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
-import  updatePostWithLike  from '../services/updatePost'
 import { nanoid } from 'nanoid'
+import { IPost } from '../consts/Interface'
 
-export const HomePage: React.FC = ({}) => {
+export const HomePage: React.FC = () => {
 
     const loader = useRef(null);
-    const [query, setQuery] = useState('')
     const [page, setPage] = useState(1)
-    const { loading, error, posts, hasMore } = useGetPosts(query, page)
+    const [query, setQuery] = useState('')
+    const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page)
     const [newPost, setNewPost] = useState({
     postTextBody: '',
     postMedia: '',
@@ -37,22 +37,11 @@ export const HomePage: React.FC = ({}) => {
         if (loader.current) observer.observe(loader.current);
       }, [handleObserver]);
 
-    const handleComment = () => {
-    }
-
-    const handleRetweet = () => {   
-    }
-
-    const handleLike = (id :number) => {
-        updatePostWithLike(id)
-    }
-
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {  
         setNewPost(prevState => ({
             ...prevState,
             [event.target.name]: event.target.value 
         }))
-        console.log(newPost)
     }
 
     const handleTweet = () => {
@@ -61,11 +50,12 @@ export const HomePage: React.FC = ({}) => {
 
     const postsList = () => {
         if (typeof (posts) !== 'undefined') {
-        return posts.map((post, index) => {
+        return posts.map(post => {
   
     return (
         <div>
             <Post
+                post={post}
                 key={nanoid()}
                 id={post.id}
                 userName={post.userName}
@@ -76,16 +66,12 @@ export const HomePage: React.FC = ({}) => {
                 postDate={post.postDate}
                 commentCount={post.commentCount}
                 likeCount={post.likeCount}
-                retweetCount={post.retweetCount}
-                handleComment={handleComment}
-                handleRetweet={handleRetweet}
-                handleLike={handleLike}/>
+                retweetCount={post.retweetCount}/>
             </div>      
         )
     })}}
 
         return (
-            <>
             <div  className='ml-20'>
                 <h1 className='pl-5 pt-3 pb-3 fixed w-full
                         backdrop-blur-lg font-bold bg-slate-400 
@@ -98,14 +84,13 @@ export const HomePage: React.FC = ({}) => {
                     handleTweet={handleTweet}
                     handleChange={handleChange}
                     setNewPost={setNewPost}/>
-                    <div>
+                <div>
                     {postsList()}
-                    </div>
-                    </div>
+                </div>
+                </div>
                     {loading && <p>Loading...</p>}
                     {error && <p>Error!</p>}
-                    <div ref={loader} />
+                <div ref={loader} />
             </div>
-            </>
         )
     }

@@ -1,31 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
+import {IPost} from '../consts/Interface'
 
 export const useGetPosts = (query: string, page: number) => {
 
-    type Post = {
-        id:number,
-        userName:string
-        userAt:string
-        userImg:string,
-        postTextBody:string
-        postMedia:string
-        postDate:string
-        commentCount:number
-        likeCount:number
-        retweetCount:number
-    }
+    
      
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const [posts, setPosts] = useState<Post[]>()
+    const [posts, setPosts] = useState<IPost[]>()
     const [hasMore, setHasMore] = useState<boolean>(false)
 
     const sendQuery  = useCallback(async (query: string)  => {
         try {
             await setLoading(true)
             await setError(false)
-            const {data} = await axios.get<Post[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=2`)
+            const {data} = await axios.get<IPost[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=2`)
             await setPosts(prevData => (prevData !== undefined) ? [...prevData, ...data] : [])
             await setHasMore( await data.length > 1)
         } catch (error) {

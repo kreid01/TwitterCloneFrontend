@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matched snapshot 1`] = `
+<img
+  alt=""
+  className="w-80 pt-2 pb-6 max-h-72 rounded-xl"
+  data-testid="previewImg"
+  src=""
+/>
+`;

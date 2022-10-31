@@ -1,5 +1,5 @@
 import React from 'react'
-import { CreatePost } from './CreatePost'
+import { CreatePost } from '../CreatePost'
 
 import { cleanup, render } from '@testing-library/react';
 import "@testing-library/jest-dom";
@@ -8,7 +8,7 @@ import renderer from 'react-test-renderer'
 
 const handleTweet = () => {}
 const setNewPost = () => {}
-const handleFileUploadMockFn = jest.fn()
+const handleChange = () => {}
 
 afterEach(cleanup)
 it("matched snapshot", () => {
@@ -18,7 +18,7 @@ it("matched snapshot", () => {
             postTextBody:'',
             postMedia: '' }}
         handleTweet={handleTweet}
-        handleChange={handleFileUploadMockFn}
+        handleChange={handleChange}
         setNewPost={setNewPost}/>
       ).toJSON()
       expect(tree).toMatchSnapshot()     
@@ -31,6 +31,6 @@ it("renders without crashing", () => {
             postTextBody:'',
             postMedia: '' }}
         handleTweet={handleTweet}
-        handleChange={handleFileUploadMockFn}
+        handleChange={handleChange}
         setNewPost={setNewPost}/>)   
 })

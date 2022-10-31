@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react' 
-import {FaCalendar, FaSmile, FaImage} from 'react-icons/fa'
+import {FaCalendar, FaSmile} from 'react-icons/fa'
 import {IconBaseProps} from 'react-icons'
 import { TweetButton } from '../TweetButton/TweetButton'
-import { FileUpload } from './FileUpload'
+import { FileUpload } from '../FileUpload/FileUpload'
+import { PreviewImg } from '../PreviewImg/PreviewImg'
+import { UserTextInput } from '../UserTextInput/UserTextInput'
 
 interface newPost {
     postTextBody: string
@@ -62,27 +64,17 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
         <div className='bottom-3 px-3 mb-18 flex'>
             <img src='https://cdn-icons-png.flaticon.com/512/149/149071.png' className='w-12 h-12'alt=''/>
             <div>
-            <p>{preview}</p>
-                <form>
-                    <textarea 
-                    onChange={(event) => handleChange(event)}
-                    name='postTextBody'
-                    className="text-lg pl-3 w-72 border-gray-300 h-36 resize-none
-                    text-gray-900 rounded-lg outline-0 block p-2.5 dark:bg-gray-700
-                    dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Whats Happening?" required/>
-                    <img alt='' className='w-80 pt-2 pb-6 max-h-72 rounded-xl' src={preview as string}/>
-                    <div className='flex'>
-                        <FileUpload 
-                        label={<NewPostButtons icon={<FaImage />}/>}
+                <UserTextInput handleChange={handleChange} />
+                <PreviewImg imgSrc={preview as string}/>
+                <div className='flex'>
+                    <FileUpload 
                         handleFileUpload={handleFileUpload}/>
-                        <NewPostButtons icon={<FaCalendar/>}/>
-                        <NewPostButtons icon={<FaSmile/>}/>
-                        <TweetButton
+                    <NewPostButtons icon={<FaCalendar/>}/>
+                    <NewPostButtons icon={<FaSmile/>}/>
+                    <TweetButton
                         label="Tweet"
-                         handleTweet={handleTweet}></TweetButton>
-                    </div>
-                </form>
+                        handleTweet={handleTweet}></TweetButton>
+                </div>
             </div>   
         </div>
     )

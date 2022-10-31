@@ -32,8 +32,9 @@ exports[`matched snapshot 1`] = `
       text-body
     </p>
     <img
-      alt="media"
+      alt=""
       className="w-80 pt-2 max-h-72 rounded-xl"
+      data-testid="media"
       src="test-media"
     />
     <div
@@ -43,6 +44,7 @@ exports[`matched snapshot 1`] = `
         className="post-icon"
       >
         <svg
+          data-testid="commentButton"
           fill="currentColor"
           height="1em"
           onClick={[Function]}
@@ -71,6 +73,7 @@ exports[`matched snapshot 1`] = `
         className="post-icon"
       >
         <svg
+          data-testid="retweetButton"
           fill="currentColor"
           height="1em"
           onClick={[Function]}
@@ -99,6 +102,7 @@ exports[`matched snapshot 1`] = `
         className="post-icon"
       >
         <svg
+          data-testid="likeButton"
           fill="currentColor"
           height="1em"
           onClick={[Function]}

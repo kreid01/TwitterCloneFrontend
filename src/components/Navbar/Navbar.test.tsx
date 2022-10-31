@@ -24,8 +24,7 @@ it("renders without crashing", () => {
     </BrowserRouter>)
  })
 
-
- it("end to path is correct", () => {
+ it("end to path functions", () => {
     render(<BrowserRouter>
         <NavLink end to ='/'>
             Home

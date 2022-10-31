@@ -1,28 +1,34 @@
-import react from 'react'
+import React from 'react'
 import { IconBaseProps } from 'react-icons';
 import { FaComment, FaRetweet, FaHeart } from 'react-icons/fa'
-import { postPost } from '../services/postPost'
+import { IPost } from '../../consts/Interface'
 
 interface Props {
-    handleLike: (id: number) => void
-    handleRetweet: () => void
-    handleComment: (id: number) => void
+    handleLike: (post: IPost, id: number) => void
+    handleRetweet: (post: IPost, id: number) => void
+    handleComment: (post: IPost, id: number) => void
     likeCount: number
     retweetCount: number
     commentCount: number
     id: number
+    post: IPost
 }
+
+
 
 export const PostInteraction: React.FC<Props> = (props: Props) => {
 
     return (
         <>
         <div className='flex'>
-            <PostInteractionIcon icon={<FaComment  onClick={() => props.handleComment}/>}/>
+            <PostInteractionIcon 
+            icon={<FaComment  data-testid='commentButton' onClick={() => props.handleComment(props.post, props.id)}/>}/>
             <p className='mt-3.5 text-xs'>{props.commentCount}</p>
-            <PostInteractionIcon icon={<FaRetweet onClick={() => props.handleRetweet}/>}/>
+            <PostInteractionIcon icon={<FaRetweet data-testid='retweetButton' 
+            onClick={() => props.handleRetweet(props.post, props.id)}/>}/>
             <p className='mt-3.5 text-xs'>{props.retweetCount}</p>
-            <PostInteractionIcon icon={<FaHeart onClick={() => props.handleLike(props.id)}/>}/>
+            <PostInteractionIcon icon={<FaHeart  data-testid='likeButton' 
+             onClick={() => props.handleLike(props.post, props.id)}/>}/>
             <p className='mt-3.5 text-xs'>{props.likeCount}</p>
         </div>
         </>

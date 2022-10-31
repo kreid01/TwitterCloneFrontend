@@ -1,13 +1,13 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import React from 'react'
-import { TweetButton} from './TweetButton'
+import { TweetButton} from '../TweetButton'
 
-import { screen, render, cleanup } from '@testing-library/react';
+import { screen, render, cleanup, fireEvent } from '@testing-library/react';
 import "@testing-library/jest-dom";
 
 import renderer from 'react-test-renderer'
 
-const handleTweet = () => {}
+const handleTweet = jest.fn()
 
 afterEach(cleanup)
 it("render without crashing", () => {
@@ -22,6 +22,14 @@ it("renders button correctly", () => {
     handleTweet={handleTweet} />)
     const element =  screen.getByTestId("tweetButton")
     expect(element).toHaveTextContent('Tweet')
+})
+
+it("calls handleTweeet function when clicked", () => {
+    render(<TweetButton
+        label='Tweet'
+        handleTweet={handleTweet} />) 
+    fireEvent.click(screen.getByTestId("tweetButton"))
+    expect(handleTweet).toHaveBeenCalled()
 })
  
 it("matched snapshot", () => {

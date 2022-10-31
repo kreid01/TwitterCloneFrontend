@@ -1,8 +1,11 @@
 import React from 'react'
 import react from 'react'
-import { PostInteraction } from '../../utils/PostInteraction'
+import { PostInteraction } from '../PostInteractions/PostInteraction'
+import { IPost } from '../../consts/Interface'
+import  {updatePostWithComment, updatePostWithLike, updatePostWithRetweet}  from '../../services/updatePost'
 
 interface Props {
+    post: IPost
     id: number
     userName: string
     userAt: string
@@ -13,13 +16,35 @@ interface Props {
     likeCount: number
     retweetCount: number
     commentCount: number
-    handleComment: () => void
-    handleRetweet: () => void
-    handleLike: (id: number) => void
     ref?: react.MutableRefObject<null>
 }
 
+const handleComment = (post: IPost, id: number) => {
+    updatePostWithComment(post, id)
+}
+
+const handleRetweet = (post: IPost, id: number) => {  
+    updatePostWithRetweet(post, id)
+}
+
+
 export const Post: React.FC<Props> = (props: Props) => {
+
+    const [postForUpdating, setPostForUpdating] = React.useState(
+        {...props.post, 
+        isLiked: false,
+        isRetweeted: false})
+
+    const handleLike = (post: IPost, id :number) => {
+        setPostForUpdating(prevState => (
+        {...prevState,
+            [prevState.likeCount] : prevState.likeCount + 1}
+        ))
+        console.log(postForUpdating.likeCount)
+        updatePostWithLike(post, id)
+    }
+    
+
 
     return (
         <div className='flex mt-5 mb-5' data-testid='post'>
@@ -30,13 +55,14 @@ export const Post: React.FC<Props> = (props: Props) => {
                 <p>{props.postTextBody}</p>
                 <img 
                 className='w-80 pt-2 max-h-72 rounded-xl'
-                src={props.postMedia} alt='media'/>
-                 <PostInteraction 
+                src={props.postMedia} alt='' data-testid='media'/>
+                 <PostInteraction
+                 post={postForUpdating} 
                  id={props.id}
-                 handleComment={props.handleComment}
-                 handleLike={props.handleLike}
-                 handleRetweet={props.handleRetweet}
-                 likeCount={props.likeCount}
+                 handleComment={handleComment}
+                 handleLike={handleLike}
+                 handleRetweet={handleRetweet}
+                 likeCount={postForUpdating.likeCount}
                  retweetCount={props.retweetCount}
                  commentCount={props.commentCount}/> 
             </div>          

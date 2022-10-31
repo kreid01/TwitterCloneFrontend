@@ -1,12 +1,13 @@
 import React from 'react';
 import { Navbar } from './components/Navbar/Navbar'
 import {Routes, Route} from 'react-router-dom'
-import {HomePage } from './pages/HomePage'
+import { HomePage } from './pages/HomePage'
 
-const App: React.FC = () => {
+
+export const App: React.FC = () => {
   return (
     <div className="container">
-      <Navbar data-testid="nav"/>
+      <Navbar/>
       <Routes>
         <Route path='/'
         element={<HomePage />}>
@@ -15,5 +16,3 @@ const App: React.FC = () => {
     </div>
   );
 }
-
-export default App;
