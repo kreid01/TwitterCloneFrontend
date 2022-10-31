@@ -8,5 +8,7 @@ export const testPost = {
     postDate:'testDate',
     commentCount:1,
     likeCount:1,
-    retweetCount:1
+    retweetCount:1,
+    isRetweeted:false,
+    isLiked: false
 }

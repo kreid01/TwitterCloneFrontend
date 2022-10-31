@@ -16,4 +16,13 @@
                 hover:bg-gray-400 rounded-3xl hover:rounded-xl
                 transition-all duration-300; 
     }
-}
+    .heart-icon {
+       @apply post-icon hover:bg-red-300
+    }
+    .retweet-icon {
+        @apply post-icon hover:bg-blue-300
+     }
+     .comment-icon {
+        @apply post-icon hover:bg-green-300
+     }
+} 

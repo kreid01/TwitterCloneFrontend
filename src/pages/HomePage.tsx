@@ -5,6 +5,7 @@ import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
 import { nanoid } from 'nanoid'
 import { IPost } from '../consts/Interface'
+import { updatePostWithLike, updatePostWithRetweet } from 'services/updatePost'
 
 export const HomePage: React.FC = () => {
 
@@ -18,7 +19,7 @@ export const HomePage: React.FC = () => {
     userAt: 'BLAD33',
     userName: 'bladee',
     userImg: "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg"
-    }) 
+    })   
 
     const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
@@ -27,7 +28,7 @@ export const HomePage: React.FC = () => {
        }
       }, [hasMore]);
     
-      useEffect(() => {
+       useEffect(() => {
         const option = {
           root: null,
           rootMargin: "20px",
@@ -44,20 +45,45 @@ export const HomePage: React.FC = () => {
         }))
     }
 
+    const handleLike = (post: IPost, id: number, index: number) => {
+        const newArr = [...posts as Array<IPost>]
+        newArr[index].likeCount = (newArr[index].isLiked)  ? 
+         newArr[index].likeCount - 1 : newArr[index].likeCount + 1
+        newArr[index].isLiked = !newArr[index].isLiked
+        setPosts(newArr)
+        updatePostWithLike(post, id)
+    }
+
+    
+    const handleRetweet = (post: IPost, id: number, index: number) => {  
+        const newArr = [...posts as Array<IPost>]
+        newArr[index].retweetCount = (newArr[index].isRetweeted)  ? 
+         newArr[index].retweetCount - 1 : newArr[index].retweetCount + 1
+        newArr[index].isRetweeted = !newArr[index].isRetweeted
+        setPosts(newArr)
+        updatePostWithRetweet(post, id)
+    }
+
+
     const handleTweet = () => {
         postPost(newPost)
     }
 
     const postsList = () => {
         if (typeof (posts) !== 'undefined') {
-        return posts.map(post => {
+        return posts.map((post, index) => {
   
     return (
         <div>
             <Post
+                isLiked={post.isLiked}
+                isRetweeted={post.isRetweeted}
+                handleLike={handleLike}
+                handleRetweet={handleRetweet}
                 post={post}
                 key={nanoid()}
                 id={post.id}
+                index={index}
                 userName={post.userName}
                 userAt={post.userAt}
                 userImg={post.userImg}

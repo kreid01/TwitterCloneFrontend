@@ -17,6 +17,8 @@ it("comment button handles click", () => {
      likeCount={1}
      retweetCount={1}
      commentCount={1}
+     isLiked={false}
+     isRetweeted={true}
      id={1}
      />)
      fireEvent.click(screen.getByTestId('commentButton'))
@@ -33,6 +35,8 @@ it("like button handles click", () => {
      retweetCount={1}
      commentCount={1}
      id={1}
+     isLiked={false}
+     isRetweeted={true}
      />)
      fireEvent.click(screen.getByTestId('likeButton'))
      expect(handleClickMockFn).toBeCalled()
@@ -48,6 +52,8 @@ it("retweet button handles click", () => {
      retweetCount={1}
      commentCount={1}
      id={1}
+     isLiked={true}
+     isRetweeted={true}
      />)
      fireEvent.click(screen.getByTestId('retweetButton'))
      expect(handleClickMockFn).toBeCalled()

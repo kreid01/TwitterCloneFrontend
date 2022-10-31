@@ -9,4 +9,6 @@ export type IPost = {
     commentCount:number
     likeCount:number
     retweetCount:number
+    isLiked?:boolean
+    isRetweeted?:boolean
 }

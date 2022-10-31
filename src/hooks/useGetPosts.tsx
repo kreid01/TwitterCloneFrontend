@@ -3,9 +3,7 @@ import axios from 'axios'
 import {IPost} from '../consts/Interface'
 
 export const useGetPosts = (query: string, page: number) => {
-
-    
-     
+   
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [posts, setPosts] = useState<IPost[]>()

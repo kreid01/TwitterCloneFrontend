@@ -16,35 +16,19 @@ interface Props {
     likeCount: number
     retweetCount: number
     commentCount: number
+    isLiked? : boolean
+    isRetweeted? : boolean
+    index: number
     ref?: react.MutableRefObject<null>
+    handleLike: (post: IPost, id: number, index: number) => void
+    handleRetweet: (post: IPost, id: number, index: number) => void
 }
 
 const handleComment = (post: IPost, id: number) => {
     updatePostWithComment(post, id)
 }
 
-const handleRetweet = (post: IPost, id: number) => {  
-    updatePostWithRetweet(post, id)
-}
-
-
 export const Post: React.FC<Props> = (props: Props) => {
-
-    const [postForUpdating, setPostForUpdating] = React.useState(
-        {...props.post, 
-        isLiked: false,
-        isRetweeted: false})
-
-    const handleLike = (post: IPost, id :number) => {
-        setPostForUpdating(prevState => (
-        {...prevState,
-            [prevState.likeCount] : prevState.likeCount + 1}
-        ))
-        console.log(postForUpdating.likeCount)
-        updatePostWithLike(post, id)
-    }
-    
-
 
     return (
         <div className='flex mt-5 mb-5' data-testid='post'>
@@ -57,14 +41,17 @@ export const Post: React.FC<Props> = (props: Props) => {
                 className='w-80 pt-2 max-h-72 rounded-xl'
                 src={props.postMedia} alt='' data-testid='media'/>
                  <PostInteraction
-                 post={postForUpdating} 
+                 index={props.index}
+                 post={props.post} 
                  id={props.id}
                  handleComment={handleComment}
-                 handleLike={handleLike}
-                 handleRetweet={handleRetweet}
-                 likeCount={postForUpdating.likeCount}
+                 handleLike={props.handleLike}
+                 handleRetweet={props.handleRetweet}
+                 likeCount={props.likeCount}
                  retweetCount={props.retweetCount}
-                 commentCount={props.commentCount}/> 
+                 commentCount={props.commentCount}
+                 isLiked={props.isLiked as boolean}
+                 isRetweeted={props.isRetweeted as boolean}/> 
             </div>          
         </div>
     )
