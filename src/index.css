@@ -25,4 +25,9 @@
      .comment-icon {
         @apply post-icon hover:bg-green-300
      }
+     .button-primary { 
+       @apply font-bold text-white ml-auto 
+      bg-blue-500 hover:bg-blue-400 p-2 pl-4
+       pr-4 rounded-2xl
+     }
 } 

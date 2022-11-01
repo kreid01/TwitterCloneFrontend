@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { IPost } from '../consts/Interface'
+import { IPost, INewComment } from '../consts/Interface'
 
 export const updatePostWithLike = async (post: IPost, id: number) => {
     const json = {
@@ -30,14 +30,16 @@ export const updatePostWithRetweet = async (post: IPost, id: number) => {
     }
 }
 
-export const updatePostWithComment = async (post: IPost, id: number) => {
+export const updatePostWithComment = async (post: IPost, newComment: INewComment ) => {
     const json = {
             "likeCount":  post.likeCount,
             "commentCount": post.commentCount,
-            "retweetCount": post.retweetCount
+            "retweetCount": post.retweetCount,
+            "comments": [newComment]
     }
+    console.log(json)
     try {
-        const res = await axios.put(`https://localhost:7227/posts/${id}`, json)
+        const res = await axios.put(`https://localhost:7227/posts/${post.id}`, json)
         console.log("posted", res.data)
     } catch (err) {
     console.log(err)

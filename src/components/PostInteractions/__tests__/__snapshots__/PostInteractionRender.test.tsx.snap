@@ -5,7 +5,7 @@ exports[`matched snapshot 1`] = `
   className="flex"
 >
   <div
-    className="post-icon"
+    className="comment-icon"
   >
     <svg
       data-testid="commentButton"
@@ -34,7 +34,7 @@ exports[`matched snapshot 1`] = `
     1
   </p>
   <div
-    className="post-icon"
+    className="retweet-icon"
   >
     <svg
       data-testid="retweetButton"
@@ -45,7 +45,7 @@ exports[`matched snapshot 1`] = `
       strokeWidth="0"
       style={
         Object {
-          "color": undefined,
+          "color": "none",
         }
       }
       viewBox="0 0 640 512"
@@ -63,7 +63,7 @@ exports[`matched snapshot 1`] = `
     1
   </p>
   <div
-    className="post-icon"
+    className="heart-icon"
   >
     <svg
       data-testid="likeButton"
@@ -74,7 +74,7 @@ exports[`matched snapshot 1`] = `
       strokeWidth="0"
       style={
         Object {
-          "color": undefined,
+          "color": "none",
         }
       }
       viewBox="0 0 512 512"

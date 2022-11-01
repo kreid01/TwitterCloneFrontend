@@ -4,43 +4,37 @@ import { FaComment, FaRetweet, FaHeart } from 'react-icons/fa'
 import { IPost } from '../../consts/Interface'
 
 interface Props {
-    handleLike: (post: IPost, id: number, index: number) => void
-    handleRetweet: (post: IPost, id: number, index: number) => void
-    handleComment: (post: IPost, id: number) => void
-    likeCount: number
-    retweetCount: number
-    commentCount: number
-    id: number
+    handleLike: (post: IPost, index: number) => void
+    handleRetweet: (post: IPost,  index: number) => void
+    handleComment: (post: IPost, index: number) => void
     index: number
     post: IPost
-    isRetweeted: boolean
-    isLiked: boolean
 }
 
-export const PostInteraction: React.FC<Props> = (props: Props) => {
+export const PostInteraction: React.FC<Props> = ({post, handleLike, handleComment, handleRetweet, index}) => {
+    
 
     return (
         <>
         <div className='flex'>
             <PostInteractionIcon
-            
             className='comment-icon' 
-            icon={<FaComment  data-testid='commentButton' onClick={() => props.handleComment(props.post, props.id)}/>}/>
-            <p className='mt-3.5 text-xs'>{props.commentCount}</p>
+            icon={<FaComment  data-testid='commentButton' onClick={() => handleComment(post, index)}/>}/>
+            <p className='mt-3.5 text-xs'>{post.commentCount}</p>
             <PostInteractionIcon 
             className='retweet-icon' 
             icon={<FaRetweet 
-            style={{color: (props.isRetweeted) ? 'blue' : 'none'  }}     
+            style={{color: (post.isRetweeted) ? 'blue' : 'none'  }}     
             data-testid='retweetButton' 
-            onClick={() => props.handleRetweet(props.post, props.id, props.index)}/>}/>
-            <p className='mt-3.5 text-xs'>{props.retweetCount}</p>
+            onClick={() => handleRetweet(post, index)}/>}/>
+            <p className='mt-3.5 text-xs'>{post.retweetCount}</p>
             <PostInteractionIcon
             className='heart-icon' 
             icon={<FaHeart 
-            style={{color: (props.isLiked) ? 'red' : 'none'  }}         
+            style={{color: (post.isLiked) ? 'red' : 'none'  }}         
             data-testid='likeButton' 
-             onClick={() => props.handleLike(props.post, props.id, props.index)}/>}/>
-            <p className='mt-3.5 text-xs'>{props.likeCount}</p>
+             onClick={() => handleLike(post, index)}/>}/>
+            <p className='mt-3.5 text-xs'>{post.likeCount}</p>
         </div>
         </>
     )

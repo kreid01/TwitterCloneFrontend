@@ -12,3 +12,11 @@ export type IPost = {
     isLiked?:boolean
     isRetweeted?:boolean
 }
+
+export type INewComment = {
+        commentBody: string;
+        commentMedia: string;
+        userAt: string;
+        userName: string;
+        userImg: string;
+}

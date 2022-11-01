@@ -1,16 +1,20 @@
-import React, { useState, useCallback, useEffect, useRef } from 'react'
+import React, { useState, useCallback, useRef, useEffect } from 'react'
 import  { Post } from '../components/Post/Post'
 import { CreatePost } from '../components/NewPost/CreatePost/CreatePost'
 import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
 import { nanoid } from 'nanoid'
 import { IPost } from '../consts/Interface'
-import { updatePostWithLike, updatePostWithRetweet } from 'services/updatePost'
+import { updatePostWithLike, updatePostWithRetweet} from 'services/updatePost'
+import { SpecificPost } from '../components/SpecificPost'
 
 export const HomePage: React.FC = () => {
 
+    const [page, setPage] = useState(0)
     const loader = useRef(null);
-    const [page, setPage] = useState(1)
+    const [isCommenting, setIsCommenting] = useState(false)
+    const [specificPost, setSpecificPost] = useState<IPost>()
+    const [isOnSpecificPost, setIsOnSpecificPost] = useState(false)
     const [query, setQuery] = useState('')
     const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page)
     const [newPost, setNewPost] = useState({
@@ -20,6 +24,31 @@ export const HomePage: React.FC = () => {
     userName: 'bladee',
     userImg: "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg"
     })   
+
+    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {  
+        setNewPost(prevState => ({
+            ...prevState,
+            [event.target.name]: event.target.value 
+        }))
+    }
+
+    const handleLike = (post: IPost, index: number) => {
+        const newArr = [...posts as Array<IPost>]
+        newArr[index].likeCount = (newArr[index].isLiked)  ? 
+         newArr[index].likeCount - 1 : newArr[index].likeCount + 1
+        newArr[index].isLiked = !newArr[index].isLiked
+        setPosts(newArr)
+        updatePostWithLike(post, post.id)
+    }
+    
+    const handleRetweet = (post: IPost, index: number) => {  
+        const newArr = [...posts as Array<IPost>]
+        newArr[index].retweetCount = (newArr[index].isRetweeted)  ? 
+         newArr[index].retweetCount - 1 : newArr[index].retweetCount + 1
+        newArr[index].isRetweeted = !newArr[index].isRetweeted
+        setPosts(newArr)
+        updatePostWithRetweet(post, post.id)
+    }
 
     const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {
         const target = entries[0];
@@ -38,32 +67,18 @@ export const HomePage: React.FC = () => {
         if (loader.current) observer.observe(loader.current);
       }, [handleObserver]);
 
-    const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {  
-        setNewPost(prevState => ({
-            ...prevState,
-            [event.target.name]: event.target.value 
-        }))
+    const setToCurrentPost = (post: IPost) => {
+        setSpecificPost(post)
+        setIsOnSpecificPost(true)
     }
 
-    const handleLike = (post: IPost, id: number, index: number) => {
-        const newArr = [...posts as Array<IPost>]
-        newArr[index].likeCount = (newArr[index].isLiked)  ? 
-         newArr[index].likeCount - 1 : newArr[index].likeCount + 1
-        newArr[index].isLiked = !newArr[index].isLiked
-        setPosts(newArr)
-        updatePostWithLike(post, id)
+    const closeComment = () => {
+        setIsCommenting(false)
     }
 
-    
-    const handleRetweet = (post: IPost, id: number, index: number) => {  
-        const newArr = [...posts as Array<IPost>]
-        newArr[index].retweetCount = (newArr[index].isRetweeted)  ? 
-         newArr[index].retweetCount - 1 : newArr[index].retweetCount + 1
-        newArr[index].isRetweeted = !newArr[index].isRetweeted
-        setPosts(newArr)
-        updatePostWithRetweet(post, id)
+    const handleComment = () => {
+        setIsCommenting(true)
     }
-
 
     const handleTweet = () => {
         postPost(newPost)
@@ -71,33 +86,28 @@ export const HomePage: React.FC = () => {
 
     const postsList = () => {
         if (typeof (posts) !== 'undefined') {
+            console.log(posts)
         return posts.map((post, index) => {
   
     return (
         <div>
             <Post
-                isLiked={post.isLiked}
-                isRetweeted={post.isRetweeted}
                 handleLike={handleLike}
                 handleRetweet={handleRetweet}
+                handleComment={handleComment}
+                setToCurrentPost={setToCurrentPost}
                 post={post}
                 key={nanoid()}
-                id={post.id}
-                index={index}
-                userName={post.userName}
-                userAt={post.userAt}
-                userImg={post.userImg}
-                postTextBody={post.postTextBody}
-                postMedia={post.postMedia}
-                postDate={post.postDate}
-                commentCount={post.commentCount}
-                likeCount={post.likeCount}
-                retweetCount={post.retweetCount}/>
+                index={index}/>
             </div>      
         )
     })}}
 
         return (
+             isOnSpecificPost ? <SpecificPost
+             closeComment={closeComment}
+             isCommenting={isCommenting}
+             post={specificPost as IPost} /> :
             <div  className='ml-20'>
                 <h1 className='pl-5 pt-3 pb-3 fixed w-full
                         backdrop-blur-lg font-bold bg-slate-400 
@@ -114,9 +124,9 @@ export const HomePage: React.FC = () => {
                     {postsList()}
                 </div>
                 </div>
-                    {loading && <p>Loading...</p>}
+                    {loading && hasMore && <p>Loading...</p>}
                     {error && <p>Error!</p>}
                 <div ref={loader} />
             </div>
-        )
+            )
     }

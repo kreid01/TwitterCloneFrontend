@@ -9,13 +9,14 @@ export const useGetPosts = (query: string, page: number) => {
     const [posts, setPosts] = useState<IPost[]>()
     const [hasMore, setHasMore] = useState<boolean>(false)
 
-    const sendQuery  = useCallback(async (query: string)  => {
+      const sendQuery  = useCallback(async (query: string)  => {
         try {
             await setLoading(true)
             await setError(false)
-            const {data} = await axios.get<IPost[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=2`)
+            const {data} = await axios.get<IPost[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=5`)
+            await setHasMore(data.length > 0)
             await setPosts(prevData => (prevData !== undefined) ? [...prevData, ...data] : [])
-            await setHasMore( await data.length > 1)
+         
         } catch (error) {
             if (axios.isAxiosError(error)) {
               console.log('error message: ', error.message);

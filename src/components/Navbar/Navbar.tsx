@@ -27,8 +27,10 @@ export const Navbar: React.FC = () => {
                 icon={<FaBookmark size='30'/>}></NavbarIcon>
                 <NavbarIcon 
                 icon={<FaList size='30'/>}></NavbarIcon>
+                <NavLink  end to='/profile'>
                 <NavbarIcon 
                 icon={<FaUser size='30'/>}></NavbarIcon>
+                </NavLink>
                 <NavbarIcon 
                 icon={<FaPenNib size='30'/>}></NavbarIcon>
             </nav>

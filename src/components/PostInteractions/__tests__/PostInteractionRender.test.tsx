@@ -10,27 +10,21 @@ const handleClickMockFn = jest.fn()
 afterEach(cleanup)
 it("render without crashing", () => {
     render(<PostInteraction
+    index={1}
     post={testPost}
      handleComment={handleClickMockFn} 
      handleLike={handleClickMockFn}
      handleRetweet={handleClickMockFn}
-     likeCount={1}
-     retweetCount={1}
-     commentCount={1}
-     id={1}
      />)
 })
 
 it("matched snapshot", () => {
     const tree = renderer.create(<PostInteraction
         post={testPost}
+        index={1}
          handleComment={handleClickMockFn} 
          handleLike={handleClickMockFn}
          handleRetweet={handleClickMockFn}
-         likeCount={1}
-         retweetCount={1}
-         commentCount={1}
-         id={1}
          />).toJSON()
     expect(tree).toMatchSnapshot()
 })

@@ -1,30 +1,28 @@
 import React, { useState, useEffect } from 'react' 
 import {FaCalendar, FaSmile} from 'react-icons/fa'
 import {IconBaseProps} from 'react-icons'
-import { TweetButton } from '../TweetButton/TweetButton'
-import { FileUpload } from '../FileUpload/FileUpload'
-import { PreviewImg } from '../PreviewImg/PreviewImg'
-import { UserTextInput } from '../UserTextInput/UserTextInput'
+import { FileUpload } from './NewPost/FileUpload/FileUpload'
+import { PreviewImg } from './NewPost/PreviewImg/PreviewImg'
+import { UserTextInput } from './NewPost/UserTextInput/UserTextInput'
 
-interface newPost {
-    postTextBody: string
-    postMedia: string
+interface newComment {
+    commentBody: string
+    commentMedia: string
 }
 
 interface Props {
-    newPost: newPost
-    setNewPost: React.Dispatch<React.SetStateAction<{
-        postTextBody: string;
-        postMedia: string;
+    newComment: newComment
+    handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+    setNewComment: React.Dispatch<React.SetStateAction<{
+        commentBody: string;
+        commentMedia: string;
         userAt: string;
         userName: string;
         userImg: string;
     }>>
-    handleChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
-    handleTweet: () => void
 }
 
-export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewPost }, props: Props) => {
+export const CreateComment: React.FC<Props> = ({ handleChange, setNewComment }, props: Props) => {
  
     const [image, setImage] = useState<File | null>()
     const [preview, setPreview] = useState<string | null>()
@@ -47,7 +45,7 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
             reader.onloadend = () => {
                 setPreview(reader.result as string)
                 url = reader.result as string
-                setNewPost(prevState => ({
+                setNewComment(prevState => ({
                     ...prevState, postMedia: url
                 }))
             }
@@ -65,8 +63,8 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
         <div className='bottom-3 px-3 mb-18 flex'>
             <img src='https://cdn-icons-png.flaticon.com/512/149/149071.png' className='w-12 h-12'alt=''/>
             <div>
-                <UserTextInput
-                name={'postTextBody'}
+                <UserTextInput 
+                name={'commentBody'}
                 handleChange={handleChange} />
                 <PreviewImg imgSrc={preview as string}/>
                 <div className='flex'>
@@ -74,9 +72,6 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
                         handleFileUpload={handleFileUpload}/>
                     <NewPostButtons icon={<FaCalendar/>}/>
                     <NewPostButtons icon={<FaSmile/>}/>
-                    <TweetButton
-                        label="Tweet"
-                        handleTweet={handleTweet}></TweetButton>
                 </div>
             </div>   
         </div>
