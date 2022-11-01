@@ -2,7 +2,7 @@ import { PostInteraction } from "../PostInteraction";
 import "@testing-library/jest-dom";
 
 import { cleanup, render} from '@testing-library/react';
-import { testPost } from '../../../consts/TestPost'
+import { testPost } from '../../../consts/TestMocks'
 import renderer from 'react-test-renderer'
 
 const handleClickMockFn = jest.fn()

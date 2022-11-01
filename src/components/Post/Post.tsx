@@ -5,7 +5,7 @@ import {Link} from 'react-router-dom'
 
 interface Props {
     post: IPost
-    index: number
+    index?: number
     handleLike: (post: IPost, index: number) => void
     handleRetweet: (post: IPost,  index: number) => void
     handleComment: (post: IPost) => void
@@ -14,21 +14,18 @@ interface Props {
 
 export const Post: React.FC<Props> = ({ post, handleLike, handleComment, handleRetweet, setToCurrentPost, index }) => {
 
-    console.log(post.comments)
-
     return (
-        <div className='flex mt-5 mb-5' data-testid='post'>
+        <div  onClick={() => setToCurrentPost(post)} className='flex mt-5 mb-5' data-testid='post'>
             <img className='w-12 h-12 rounded-full' src={post.userImg} alt=''/>
             <div className='flex-col pl-4'>  
                     <p className=''><Link to={`/${post.userAt}`}><strong>{post.userName}</strong></Link>
                     <span className='text-gray-500'>@{post.userAt}·{post.postDate}</span></p>
                 <p>{post.postTextBody}</p>
-                <img 
-                 onClick={() => setToCurrentPost(post)} 
+                <img  
                 className='w-80 pt-2 max-h-72 rounded-xl'
                 src={post.postMedia} alt='' data-testid='media'/>
                  <PostInteraction
-                 index={index}
+                 index={index as number}
                  post={post} 
                  handleComment={handleComment}
                  handleLike={handleLike}

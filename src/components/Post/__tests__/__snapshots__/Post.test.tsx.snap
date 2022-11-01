@@ -4,11 +4,12 @@ exports[`matched snapshot 1`] = `
 <div
   className="flex mt-5 mb-5"
   data-testid="post"
+  onClick={[Function]}
 >
   <img
     alt=""
     className="w-12 h-12 rounded-full"
-    src="test-img"
+    src="testImg"
   />
   <div
     className="flex-col pl-4"
@@ -16,20 +17,25 @@ exports[`matched snapshot 1`] = `
     <p
       className=""
     >
-      <strong>
-        test-name
-      </strong>
+      <a
+        href="/testAt"
+        onClick={[Function]}
+      >
+        <strong>
+          test-name
+        </strong>
+      </a>
       <span
         className="text-gray-500"
       >
         @
-        test-at
+        testAt
         ·
-        test-da
+        testDate
       </span>
     </p>
     <p>
-      text-body
+      testBody
     </p>
     <img
       alt=""
@@ -41,7 +47,7 @@ exports[`matched snapshot 1`] = `
       className="flex"
     >
       <div
-        className="post-icon"
+        className="comment-icon"
       >
         <svg
           data-testid="commentButton"
@@ -70,7 +76,7 @@ exports[`matched snapshot 1`] = `
         1
       </p>
       <div
-        className="post-icon"
+        className="retweet-icon"
       >
         <svg
           data-testid="retweetButton"
@@ -81,7 +87,7 @@ exports[`matched snapshot 1`] = `
           strokeWidth="0"
           style={
             Object {
-              "color": undefined,
+              "color": "none",
             }
           }
           viewBox="0 0 640 512"
@@ -99,7 +105,7 @@ exports[`matched snapshot 1`] = `
         1
       </p>
       <div
-        className="post-icon"
+        className="heart-icon"
       >
         <svg
           data-testid="likeButton"
@@ -110,7 +116,7 @@ exports[`matched snapshot 1`] = `
           strokeWidth="0"
           style={
             Object {
-              "color": undefined,
+              "color": "none",
             }
           }
           viewBox="0 0 512 512"

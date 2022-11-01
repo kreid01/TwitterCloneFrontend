@@ -32,32 +32,30 @@ export const updatePostWithRetweet = async (post: IPost, id: number) => {
 
 export const updatePostWithComment = async (post: IPost, newComment: INewComment ) => {
     
-    const commentJson = []
-    
-   if(post.comments !== null) post.comments.map(comment => {
-         commentJson.push(
-        {
-            "userAt": comment.UserAt,
-            "userName": comment.UserName,
-            "userImg": comment.UserImg,
-            "commentBody": comment.CommentBody
-        })
-    })
+    const json = {
+        "likeCount":  post.likeCount,
+        "commentCount": post.commentCount +1,
+        "retweetCount": post.retweetCount
+        }
 
-    commentJson.push({
+    const newCommentJson = {
+        "postId": post.id,
         "userAt": newComment.userAt,
         "userName": newComment.userName,
         "userImg": newComment.userImg,
-        "commentBody": newComment.commentBody
-    })
+        "commentBody": newComment.commentBody,
+        "commentMedia": newComment.commentMedia
+      }
 
-    const json = {
-            "commentCount": post.commentCount+1,
-            "comments": commentJson
-    }
-    console.log(json)
     try {
-        const res = await axios.put(`https://localhost:7227/posts/comments/${post.id}`, json)
+        const res = await axios.put(`https://localhost:7227/posts/${post.id}`, json)
+        console.log("posted", res.data)
+    } catch (err) {
+    console.log(err)
+    }
+
+    try {
+        const res = await axios.post(`https://localhost:7227/comments`, newCommentJson)
         console.log("posted", res.data)
     } catch (err) {
     console.log(err)

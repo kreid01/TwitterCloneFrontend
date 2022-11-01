@@ -11,15 +11,16 @@ export type IPost = {
     retweetCount:number
     isLiked?:boolean
     isRetweeted?:boolean
-    comments: Array<Comment>
+    comments?: Array<Comment>
 }
 
-export type Comment = {
-    UserAt: string
-    UserName: string
-    UserImg: string 
-    CommentBody: string
-    CommentMedia?: string
+export type IComment = {
+    userAt: string
+    userName: string
+    userImg: string 
+    commentBody: string
+    commentMedia?: string
+    commentDate: string
 }
 
 export type INewComment = {

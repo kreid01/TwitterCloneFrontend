@@ -1,4 +1,4 @@
-import { Tweets } from 'features/Profile/Tweets';
+import { Tweets } from 'features/Tweets';
 import { ProfilePageHead, User } from 'features/ProfilePageHead';
 import React from 'react';
 import { useParams } from 'react-router-dom'

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react' 
 import {FaCalendar, FaSmile} from 'react-icons/fa'
 import {IconBaseProps} from 'react-icons'
-import { FileUpload } from './NewPost/FileUpload/FileUpload'
-import { PreviewImg } from './NewPost/PreviewImg/PreviewImg'
-import { UserTextInput } from './NewPost/UserTextInput/UserTextInput'
+import { FileUpload } from '../../NewPost/FileUpload/FileUpload'
+import { PreviewImg } from '../../NewPost/PreviewImg/PreviewImg'
+import { UserTextInput } from '../../NewPost/UserTextInput/UserTextInput'
 
 type newComment = {
     commentBody: string

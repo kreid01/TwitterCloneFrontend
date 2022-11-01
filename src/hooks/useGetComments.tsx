@@ -1,19 +1,21 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
-export const useGetPosts = (query: string, page: number) => {
+import { IComment } from 'consts/Interface'
+
+export const useGetComments = (postId: number) => {
    
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
     const [comments, setComments] = useState<IComment[]>()
     const [hasMore, setHasMore] = useState<boolean>(false)
 
-      const sendQuery  = useCallback(async (query: string)  => {
+      const sendQuery  = useCallback(async (postId: number)  => {
         try {
             await setLoading(true)
             await setError(false)
-            const {data} = await axios.get<IComment[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=5`)
+            const {data} = await axios.get(`https://localhost:7227/comments/posts/${postId}`)
             await setHasMore(data.length > 0)
-            await setComments(prevData => (prevData !== undefined) ? [...prevData, ...data] : [])
+            await setComments(await data.result)
         } catch (error) {
             if (axios.isAxiosError(error)) {
               console.log('error message: ', error.message);
@@ -23,10 +25,10 @@ export const useGetPosts = (query: string, page: number) => {
               return 'An unexpected error occurred';
             }
         }
-    }, [query, page])
+    }, [postId])
 
     useEffect(() => {
-        sendQuery(query)
-    }, [query, sendQuery, page])
-    return { loading, error, posts, hasMore, setPosts}
+        sendQuery(postId)
+    }, [sendQuery, postId])
+    return { loading, error, comments, hasMore}
 }   

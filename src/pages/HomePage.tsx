@@ -5,16 +5,16 @@ import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
 import { nanoid } from 'nanoid'
 import { IPost } from '../consts/Interface'
-import { updatePostWithComment, updatePostWithLike, updatePostWithRetweet} from 'services/updatePost'
-import { SpecificPost } from '../components/SpecificPost'
+import {  updatePostWithLike, updatePostWithRetweet} from 'services/updatePost'
+import { CurrentPost } from '../components/Comment/CurrentPost/CurrentPost'
 
 export const HomePage: React.FC = () => {
 
     const [page, setPage] = useState(0)
     const loader = useRef(null);
     const [isCommenting, setIsCommenting] = useState(false)
-    const [specificPost, setSpecificPost] = useState<IPost>()
-    const [isOnSpecificPost, setIsOnSpecificPost] = useState(false)
+    const [currentPost, setCurrentPost] = useState<IPost>()
+    const [isOnCurrentPost, setIsOnCurrentPost] = useState(false)
     const [query, setQuery] = useState('')
     const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page)
     const [newPost, setNewPost] = useState({
@@ -68,19 +68,19 @@ export const HomePage: React.FC = () => {
       }, [handleObserver]);
 
     const setToCurrentPost = (post: IPost) => {
-        setSpecificPost(post)
-        setIsOnSpecificPost(true)
+        setCurrentPost(post)
+        setIsOnCurrentPost(true)
     }
 
     const closeComment = () => {
         setIsCommenting(false)
-        setIsOnSpecificPost(false)
+        setIsOnCurrentPost(false)
     }
 
     const handleComment = (post: IPost) => {
         setIsCommenting(true)
-        setIsOnSpecificPost(true)
-        setSpecificPost(post)
+        setIsOnCurrentPost(true)
+        setCurrentPost(post)
     }
 
     const handleTweet = () => {
@@ -106,10 +106,15 @@ export const HomePage: React.FC = () => {
     })}}
 
         return (
-             isOnSpecificPost ? <SpecificPost
+             isOnCurrentPost ? 
+             <CurrentPost
+             setToCurrentPost={setToCurrentPost}
+             handleLike={handleLike}
+            handleRetweet={handleRetweet}
+            handleComment={handleComment}
              closeComment={closeComment}
              isCommenting={isCommenting}
-             post={specificPost as IPost} /> :
+             post={currentPost as IPost} /> :
             <div  className='ml-20'>
                 <h1 className='pl-5 pt-3 pb-3 fixed w-full
                         backdrop-blur-lg font-bold bg-slate-400 

@@ -1,20 +1,28 @@
 import React, {useState} from 'react'
-import { Link } from 'react-router-dom'
-import {CreateComment} from './CreateComment'
+import { Post } from 'components/Post/Post'
+import {CreateComment} from '../CreateComment/CreateComment'
 import { FaArrowLeft } from 'react-icons/fa'
-import { CommentButton } from './CommentButton'
+import { CommentButton } from '../CommentButton/CommentButton'
 
 import { IPost, INewComment } from 'consts/Interface'
 import { updatePostWithComment } from 'services/updatePost'
+import { useGetComments } from 'hooks/useGetComments'
+import { Comment } from '../Comment/Comment'
 
 interface Props {
     post: IPost
     closeComment: () => void
     isCommenting: boolean
+    handleLike: (post: IPost, index: number) => void
+    handleRetweet: (post: IPost,  index: number) => void
+    handleComment: (post: IPost) => void
+    setToCurrentPost: ( post: IPost ) => void
+
 }
 
-export const SpecificPost: React.FC<Props> = ({ post, closeComment, isCommenting}) => {
+export const CurrentPost: React.FC<Props> = ({ post, closeComment, isCommenting, handleComment, handleLike, handleRetweet, setToCurrentPost }) => {
 
+    const { comments, loading, error, hasMore} = useGetComments(post.id)
     const [newComment, setNewComment] = useState({
         commentBody: '',
         commentMedia: '',
@@ -22,6 +30,15 @@ export const SpecificPost: React.FC<Props> = ({ post, closeComment, isCommenting
         userName: 'bladee',
         userImg: "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg",
     })
+
+    const postsComments = () => {
+        if (typeof (comments) !== 'undefined' && comments) {
+        return comments.map(comment =>  {
+            return (
+                <Comment comment={comment} />
+            )
+         })}
+    }
 
     const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {  
         setNewComment(prevState => ({
@@ -39,29 +56,28 @@ export const SpecificPost: React.FC<Props> = ({ post, closeComment, isCommenting
             <header className='pl-4 pt-4 pb-1 w-full
             backdrop-blur-lg bg-slate-400 
             bg-opacity-5 flex'>
-                <button onClick={closeComment} className='mr-4 mb-4'><FaArrowLeft/></button>
+                <button data-testid='returnButton' onClick={closeComment} className='mr-4 mb-4'><FaArrowLeft/></button>
                 <CommentButton 
+                label='Reply'
                 post={post}
                 newComment={newComment}
                 handleReply={handleReply}/>
             </header>
             <div className='flex mt-8 mb-4'>
-                <img className='w-12 h-12 rounded-full' src={post.userImg} alt=''/>
-                <div className='flex-col pl-4'>  
-                        <p className=''><Link to={`/${post.userAt}`}><strong>{post.userName}</strong></Link>
-                        <span className='text-gray-500'>@{post.userAt}·{post.postDate.substring(0,7)}</span></p>
-                    <p>{post.postTextBody}</p>
-                    <img 
-                    className='w-80 pt-2 max-h-72 rounded-xl'
-                    src={post.postMedia} alt='' data-testid='media'/>
-                </div>
+                <Post
+                setToCurrentPost={setToCurrentPost}
+                post={post}
+                 handleLike={handleLike}
+                 handleRetweet={handleRetweet}
+                handleComment={handleComment}/>
             </div>
             { isCommenting &&
             <CreateComment
             handleChange={handleChange}
             setNewComment={setNewComment}
             newComment={newComment} />}
-            <p>{(post.comments !== null) ? post.comments[0].CommentBody : null}</p>
+            {postsComments()}
         </div>
+
     )
 }

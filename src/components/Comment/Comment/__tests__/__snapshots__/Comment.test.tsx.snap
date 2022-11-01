@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matched snapshot 1`] = `
+<div
+  className="flex mt-8 mb-4 b border-b-slate-400"
+>
+  <img
+    alt=""
+    className="w-12 h-12 rounded-full"
+    src="testImg"
+  />
+  <div
+    className="flex-col pl-4"
+  >
+    <p
+      className=""
+    >
+      <a
+        href="/testAt"
+        onClick={[Function]}
+      >
+        <strong>
+          test-name
+        </strong>
+      </a>
+      <span
+        className="text-gray-500"
+      >
+        @
+        testAt
+        ·
+        test-da
+      </span>
+    </p>
+    <p>
+      testBody
+    </p>
+    <img
+      alt=""
+      className="w-80 pt-2 max-h-72 rounded-xl"
+      data-testid="media"
+      src="test-media"
+    />
+  </div>
+</div>
+`;
