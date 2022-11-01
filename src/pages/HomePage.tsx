@@ -5,7 +5,7 @@ import { postPost } from '../services/postPost'
 import { useGetPosts} from '../hooks/useGetPosts'
 import { nanoid } from 'nanoid'
 import { IPost } from '../consts/Interface'
-import { updatePostWithLike, updatePostWithRetweet} from 'services/updatePost'
+import { updatePostWithComment, updatePostWithLike, updatePostWithRetweet} from 'services/updatePost'
 import { SpecificPost } from '../components/SpecificPost'
 
 export const HomePage: React.FC = () => {
@@ -74,10 +74,13 @@ export const HomePage: React.FC = () => {
 
     const closeComment = () => {
         setIsCommenting(false)
+        setIsOnSpecificPost(false)
     }
 
-    const handleComment = () => {
+    const handleComment = (post: IPost) => {
         setIsCommenting(true)
+        setIsOnSpecificPost(true)
+        setSpecificPost(post)
     }
 
     const handleTweet = () => {
@@ -86,7 +89,6 @@ export const HomePage: React.FC = () => {
 
     const postsList = () => {
         if (typeof (posts) !== 'undefined') {
-            console.log(posts)
         return posts.map((post, index) => {
   
     return (
@@ -99,7 +101,7 @@ export const HomePage: React.FC = () => {
                 post={post}
                 key={nanoid()}
                 index={index}/>
-            </div>      
+        </div>      
         )
     })}}
 

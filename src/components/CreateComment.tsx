@@ -5,7 +5,7 @@ import { FileUpload } from './NewPost/FileUpload/FileUpload'
 import { PreviewImg } from './NewPost/PreviewImg/PreviewImg'
 import { UserTextInput } from './NewPost/UserTextInput/UserTextInput'
 
-interface newComment {
+type newComment = {
     commentBody: string
     commentMedia: string
 }
@@ -22,7 +22,7 @@ interface Props {
     }>>
 }
 
-export const CreateComment: React.FC<Props> = ({ handleChange, setNewComment }, props: Props) => {
+export const CreateComment: React.FC<Props> = ({ handleChange, setNewComment }) => {
  
     const [image, setImage] = useState<File | null>()
     const [preview, setPreview] = useState<string | null>()

@@ -13,7 +13,7 @@ interface Props {
     isCommenting: boolean
 }
 
-export const SpecificPost: React.FC<Props> = ({ post, closeComment}) => {
+export const SpecificPost: React.FC<Props> = ({ post, closeComment, isCommenting}) => {
 
     const [newComment, setNewComment] = useState({
         commentBody: '',
@@ -56,10 +56,12 @@ export const SpecificPost: React.FC<Props> = ({ post, closeComment}) => {
                     src={post.postMedia} alt='' data-testid='media'/>
                 </div>
             </div>
+            { isCommenting &&
             <CreateComment
             handleChange={handleChange}
             setNewComment={setNewComment}
-            newComment={newComment} />
+            newComment={newComment} />}
+            <p>{(post.comments !== null) ? post.comments[0].CommentBody : null}</p>
         </div>
     )
 }

@@ -1,21 +1,19 @@
 import { useState, useEffect, useCallback } from 'react'
 import axios from 'axios'
-import {IPost} from '../consts/Interface'
-
 export const useGetPosts = (query: string, page: number) => {
    
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(false)
-    const [posts, setPosts] = useState<IPost[]>()
+    const [comments, setComments] = useState<IComment[]>()
     const [hasMore, setHasMore] = useState<boolean>(false)
 
       const sendQuery  = useCallback(async (query: string)  => {
         try {
             await setLoading(true)
             await setError(false)
-            const {data} = await axios.get<IPost[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=5`)
+            const {data} = await axios.get<IComment[]>(`https://localhost:7227/posts?PageNumber=${page}&PageSize=5`)
             await setHasMore(data.length > 0)
-            await setPosts(prevData => (prevData !== undefined) ? [...prevData, ...data] : [])
+            await setComments(prevData => (prevData !== undefined) ? [...prevData, ...data] : [])
         } catch (error) {
             if (axios.isAxiosError(error)) {
               console.log('error message: ', error.message);

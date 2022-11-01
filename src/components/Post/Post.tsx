@@ -8,11 +8,13 @@ interface Props {
     index: number
     handleLike: (post: IPost, index: number) => void
     handleRetweet: (post: IPost,  index: number) => void
-    handleComment: (post: IPost, index: number) => void
+    handleComment: (post: IPost) => void
     setToCurrentPost: ( post: IPost ) => void
 }
 
 export const Post: React.FC<Props> = ({ post, handleLike, handleComment, handleRetweet, setToCurrentPost, index }) => {
+
+    console.log(post.comments)
 
     return (
         <div className='flex mt-5 mb-5' data-testid='post'>

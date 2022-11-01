@@ -6,7 +6,7 @@ import { IPost } from '../../consts/Interface'
 interface Props {
     handleLike: (post: IPost, index: number) => void
     handleRetweet: (post: IPost,  index: number) => void
-    handleComment: (post: IPost, index: number) => void
+    handleComment: (post: IPost) => void
     index: number
     post: IPost
 }
@@ -19,7 +19,7 @@ export const PostInteraction: React.FC<Props> = ({post, handleLike, handleCommen
         <div className='flex'>
             <PostInteractionIcon
             className='comment-icon' 
-            icon={<FaComment  data-testid='commentButton' onClick={() => handleComment(post, index)}/>}/>
+            icon={<FaComment  data-testid='commentButton' onClick={() => handleComment(post)}/>}/>
             <p className='mt-3.5 text-xs'>{post.commentCount}</p>
             <PostInteractionIcon 
             className='retweet-icon' 

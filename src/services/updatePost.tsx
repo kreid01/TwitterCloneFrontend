@@ -31,15 +31,33 @@ export const updatePostWithRetweet = async (post: IPost, id: number) => {
 }
 
 export const updatePostWithComment = async (post: IPost, newComment: INewComment ) => {
+    
+    const commentJson = []
+    
+   if(post.comments !== null) post.comments.map(comment => {
+         commentJson.push(
+        {
+            "userAt": comment.UserAt,
+            "userName": comment.UserName,
+            "userImg": comment.UserImg,
+            "commentBody": comment.CommentBody
+        })
+    })
+
+    commentJson.push({
+        "userAt": newComment.userAt,
+        "userName": newComment.userName,
+        "userImg": newComment.userImg,
+        "commentBody": newComment.commentBody
+    })
+
     const json = {
-            "likeCount":  post.likeCount,
-            "commentCount": post.commentCount,
-            "retweetCount": post.retweetCount,
-            "comments": [newComment]
+            "commentCount": post.commentCount+1,
+            "comments": commentJson
     }
     console.log(json)
     try {
-        const res = await axios.put(`https://localhost:7227/posts/${post.id}`, json)
+        const res = await axios.put(`https://localhost:7227/posts/comments/${post.id}`, json)
         console.log("posted", res.data)
     } catch (err) {
     console.log(err)
