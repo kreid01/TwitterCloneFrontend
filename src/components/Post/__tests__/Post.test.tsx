@@ -16,6 +16,7 @@ it("render without crashing", () => {
     <BrowserRouter>
       <Post
         posts={testPosts}
+        isUsersPost={false}
         setPosts={mockFn}
         post={testPost}
         setToCurrentPost={mockFn}
@@ -33,6 +34,7 @@ it("post username renders", () => {
   render(
     <BrowserRouter>
       <Post
+        isUsersPost={false}
         posts={testPosts}
         setPosts={mockFn}
         setToCurrentPost={mockFn}
@@ -54,6 +56,7 @@ it("post image renders", () => {
     <BrowserRouter>
       <Post
         posts={testPosts}
+        isUsersPost={false}
         setPosts={mockFn}
         setToCurrentPost={mockFn}
         post={testPost}
@@ -74,6 +77,7 @@ it("matched snapshot", () => {
     .create(
       <BrowserRouter>
         <Post
+          isUsersPost={false}
           posts={testPosts}
           setPosts={mockFn}
           setToCurrentPost={mockFn}

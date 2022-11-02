@@ -1,11 +1,9 @@
 import React from "react";
 import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
-import { postPost } from "services/postPost";
-import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
 
-import { INewPost, IPost } from "../consts/Interface";
+import { IPost } from "../consts/Interface";
 
 interface Props {
   handleLike: (
@@ -31,6 +29,7 @@ interface Props {
   loading: boolean;
   error: boolean;
   loader: React.MutableRefObject<null>;
+  userId?: number;
 }
 
 export const PostsList: React.FC<Props> = ({
@@ -49,13 +48,17 @@ export const PostsList: React.FC<Props> = ({
   loading,
   error,
   loader,
+  userId,
 }) => {
   const postsList = () => {
     if (typeof posts !== "undefined") {
       return posts.map((post, index) => {
+        let isUsersPost = false;
+        if (post.posterId === userId) isUsersPost = true;
         return (
           <div>
             <Post
+              isUsersPost={isUsersPost}
               handleLike={handleLike}
               handleRetweet={handleRetweet}
               handleComment={handleComment}
@@ -75,6 +78,7 @@ export const PostsList: React.FC<Props> = ({
   return isOnCurrentPost ? (
     <>
       <CurrentPost
+        isUsersPost={false}
         currentIndex={currentIndex as number}
         setToCurrentPost={setToCurrentPost}
         posts={posts}
@@ -89,7 +93,7 @@ export const PostsList: React.FC<Props> = ({
     </>
   ) : (
     <>
-      <div className="container-fluid pl-5">
+      <div className="container-fluid">
         <div>{postsList()}</div>
       </div>
       {loading && hasMore && <p>Loading...</p>}

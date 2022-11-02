@@ -1,8 +1,8 @@
-import { Tweets } from "features/Tweets";
 import { ProfilePageHead, User } from "features/ProfilePageHead";
-import React, { useEffect, useCallback, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
 import { PostsList } from "./PostsList";
+import { useInfiniteScroll } from "hooks/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
 import { useGetUserPosts } from "hooks/useGetUsersPosts";
@@ -40,54 +40,41 @@ export const ProfilePage: React.FC<Props> = ({
   currentPost,
 }) => {
   const { id } = useParams();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const { user } = useGetUser(id as string);
   const { posts, error, loading, hasMore, setPosts } = useGetUserPosts(
     user?.postsIds as number[]
   );
-
-  const loader = useRef(null);
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && hasMore) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    },
-    [hasMore]
-  );
+  const { infPage, loader } = useInfiniteScroll(page, hasMore);
 
   useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: "20px",
-      threshold: 0,
-    };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-  }, [handleObserver]);
+    setPage(infPage);
+  }, [infPage]);
 
   if (user) {
     return (
       <>
-        <ProfilePageHead user={user as User} />
-        <PostsList
-          loader={loader}
-          loading={loading}
-          error={error}
-          hasMore={hasMore}
-          setPosts={setPosts}
-          posts={posts as IPost[]}
-          isOnCurrentPost={isOnCurrentPost}
-          currentIndex={currentIndex as number}
-          setToCurrentPost={setToCurrentPost}
-          handleLike={handleLike}
-          handleRetweet={handleRetweet}
-          handleComment={handleComment}
-          closeComment={closeComment}
-          isCommenting={isCommenting}
-          currentPost={currentPost as IPost}
-        />
+        {!isOnCurrentPost && <ProfilePageHead user={user as User} />}
+        <div className="ml-20">
+          <PostsList
+            userId={1}
+            loader={loader}
+            loading={loading}
+            error={error}
+            hasMore={hasMore}
+            setPosts={setPosts}
+            posts={posts as IPost[]}
+            isOnCurrentPost={isOnCurrentPost}
+            currentIndex={currentIndex as number}
+            setToCurrentPost={setToCurrentPost}
+            handleLike={handleLike}
+            handleRetweet={handleRetweet}
+            handleComment={handleComment}
+            closeComment={closeComment}
+            isCommenting={isCommenting}
+            currentPost={currentPost as IPost}
+          />
+        </div>
       </>
     );
   } else {

@@ -6,6 +6,7 @@ interface newPost {
   userName: string;
   userAt: string;
   userImg: string;
+  posterId: number;
 }
 
 export const postPost = async (post: newPost) => {
@@ -15,8 +16,8 @@ export const postPost = async (post: newPost) => {
     userName: `${post.userName}`,
     userImg: `${post.userImg}`,
     postMedia: `${post.postMedia}`,
+    posterId: `${post.posterId}`,
   };
-
   try {
     const res = await axios.post("https://localhost:7227/posts", newPost);
     console.log("posted", res.data);

@@ -19,6 +19,7 @@ interface Props {
   index: number;
   post: IPost;
   posts: IPost[];
+  isUsersPost: boolean;
 }
 
 export const PostInteraction: React.FC<Props> = ({
@@ -27,11 +28,10 @@ export const PostInteraction: React.FC<Props> = ({
   handleComment,
   handleRetweet,
   setPosts,
+  isUsersPost,
   posts,
   index,
 }) => {
-  console.log(post);
-
   return (
     <>
       <div className="flex">
@@ -44,29 +44,33 @@ export const PostInteraction: React.FC<Props> = ({
             />
           }
         />
-        <p className="mt-3.5 text-xs">{post.commentCount}</p>
-        <PostInteractionIcon
-          className="retweet-icon"
-          icon={
-            <FaRetweet
-              style={{ color: post.isRetweeted ? "blue" : "none" }}
-              data-testid="retweetButton"
-              onClick={() => handleRetweet(posts, index, setPosts)}
+        {!isUsersPost && (
+          <>
+            <p className="mt-3.5 text-xs">{post.commentCount}</p>
+            <PostInteractionIcon
+              className="retweet-icon"
+              icon={
+                <FaRetweet
+                  style={{ color: post.isRetweeted ? "blue" : "none" }}
+                  data-testid="retweetButton"
+                  onClick={() => handleRetweet(posts, index, setPosts)}
+                />
+              }
             />
-          }
-        />
-        <p className="mt-3.5 text-xs">{post.retweetCount}</p>
-        <PostInteractionIcon
-          className="heart-icon"
-          icon={
-            <FaHeart
-              style={{ color: post.isLiked ? "red" : "none" }}
-              data-testid="likeButton"
-              onClick={() => handleLike(posts, index, setPosts)}
+            <p className="mt-3.5 text-xs">{post.retweetCount}</p>
+            <PostInteractionIcon
+              className="heart-icon"
+              icon={
+                <FaHeart
+                  style={{ color: post.isLiked ? "red" : "none" }}
+                  data-testid="likeButton"
+                  onClick={() => handleLike(posts, index, setPosts)}
+                />
+              }
             />
-          }
-        />
-        <p className="mt-3.5 text-xs">{post.likeCount}</p>
+            <p className="mt-3.5 text-xs">{post.likeCount}</p>
+          </>
+        )}
       </div>
     </>
   );

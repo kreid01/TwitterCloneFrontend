@@ -15,6 +15,7 @@ it("render without crashing", () => {
   render(
     <BrowserRouter>
       <CurrentPost
+        isUsersPost={false}
         posts={testPosts}
         setPosts={mockFn}
         currentIndex={1}
@@ -36,6 +37,7 @@ it("matched snapshot", () => {
     .create(
       <BrowserRouter>
         <CurrentPost
+          isUsersPost={false}
           posts={testPosts}
           setPosts={mockFn}
           currentIndex={1}
@@ -58,6 +60,7 @@ it("return button when clicked functions", () => {
   render(
     <BrowserRouter>
       <CurrentPost
+        isUsersPost={true}
         setPosts={mockFn}
         posts={testPosts}
         currentIndex={1}

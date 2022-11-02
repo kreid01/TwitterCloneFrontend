@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { PostInteraction } from "../../PostInteractions/PostInteraction";
 
 import { IComment } from "../../../consts/Interface";
 
@@ -10,7 +9,7 @@ interface Props {
 
 export const Comment: React.FC<Props> = ({ comment }) => {
   return (
-    <div className="flex mt-8 mb-4 b border-b-slate-400">
+    <div className="flex mt-8 mb-4 ml-4 border-b-slate-400">
       <img className="w-12 h-12 rounded-full" src={comment.userImg} alt="" />
       <div className="flex-col pl-4">
         <p className="">

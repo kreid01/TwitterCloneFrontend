@@ -1,36 +1,19 @@
-import React from 'react'
-import { CreatePost } from '../CreatePost'
+import React from "react";
+import { CreatePost } from "../CreatePost";
 
-import { cleanup, render } from '@testing-library/react';
+import { cleanup, render } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import renderer from 'react-test-renderer'
+import renderer from "react-test-renderer";
 
-const handleTweet = () => {}
-const setNewPost = () => {}
-const handleChange = () => {}
+const mockFn = jest.fn();
 
-afterEach(cleanup)
+afterEach(cleanup);
 it("matched snapshot", () => {
-    const tree = renderer.create(
-        <CreatePost
-        newPost={{
-            postTextBody:'',
-            postMedia: '' }}
-        handleTweet={handleTweet}
-        handleChange={handleChange}
-        setNewPost={setNewPost}/>
-      ).toJSON()
-      expect(tree).toMatchSnapshot()     
-})
+  const tree = renderer.create(<CreatePost setPosts={mockFn} />).toJSON();
+  expect(tree).toMatchSnapshot();
+});
 
 it("renders without crashing", () => {
-    render(
-        <CreatePost
-        newPost={{
-            postTextBody:'',
-            postMedia: '' }}
-        handleTweet={handleTweet}
-        handleChange={handleChange}
-        setNewPost={setNewPost}/>)   
-})
+  render(<CreatePost setPosts={mockFn} />);
+});

@@ -1,9 +1,9 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { useGetPosts } from "../hooks/useGetPosts";
-import { IPost, INewPost } from "../consts/Interface";
+import { IPost } from "../consts/Interface";
 import { PostsList } from "./PostsList";
 import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
-import { postPost } from "../services/postPost";
+import { useInfiniteScroll } from "hooks/useInfiniteScroll";
 
 interface Props {
   handleLike: (
@@ -36,73 +36,30 @@ export const HomePage: React.FC<Props> = ({
   currentIndex,
   currentPost,
 }) => {
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page);
-  const [newPost, setNewPost] = useState({
-    postTextBody: "",
-    postMedia: "",
-    userAt: "BLAD33",
-    userName: "bladee",
-    userImg:
-      "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg",
-  });
-
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewPost((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  const handleTweet = () => {
-    postPost(newPost);
-  };
-
-  const loader = useRef(null);
-  const handleObserver = useCallback(
-    (entries: IntersectionObserverEntry[]) => {
-      const target = entries[0];
-      if (target.isIntersecting && hasMore) {
-        setPage((prevPage) => prevPage + 1);
-      }
-    },
-    [hasMore]
-  );
-
+  const { infPage, loader } = useInfiniteScroll(page, hasMore);
   useEffect(() => {
-    const option = {
-      root: null,
-      rootMargin: "20px",
-      threshold: 0,
-    };
-    const observer = new IntersectionObserver(handleObserver, option);
-    if (loader.current) observer.observe(loader.current);
-  }, [handleObserver]);
+    setPage(infPage);
+  }, [infPage]);
 
-  return !isOnCurrentPost ? (
+  return (
     <div className="ml-20">
-      <h1
-        className="pl-5 pt-3 pb-3 fixed w-full
+      {!isOnCurrentPost && (
+        <>
+          <h1
+            className="pl-5 pt-3 pb-3 fixed w-full
                       backdrop-blur-lg font-bold bg-slate-400 
                       bg-opacity-5 font"
-      >
-        Home
-      </h1>
-      <div className="pt-16">
-        <CreatePost
-          newPost={{
-            postTextBody: "",
-            postMedia: "",
-          }}
-          handleTweet={handleTweet}
-          handleChange={handleChange}
-          setNewPost={setNewPost}
-        />
-      </div>
-    </div>
-  ) : (
-    <div>
+          >
+            Home
+          </h1>
+          <div className="pt-16">
+            <CreatePost setPosts={setPosts} />
+          </div>
+        </>
+      )}
       <PostsList
         loader={loader}
         loading={loading}

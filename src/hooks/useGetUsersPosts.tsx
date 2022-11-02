@@ -15,7 +15,7 @@ export const useGetUserPosts = (postIds: Array<number>) => {
         await setLoading(true);
         await setError(false);
         const { data } = await axios.get<IPost[]>(
-          `https://localhost:7227/posts/1`
+          `https://localhost:7227/posts/users/1`
         );
         await setHasMore(data.length > 0);
         await setPosts((prevData) =>
