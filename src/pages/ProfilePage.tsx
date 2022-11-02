@@ -39,11 +39,13 @@ export const ProfilePage: React.FC<Props> = ({
   currentIndex,
   currentPost,
 }) => {
+  const [query, setQuery] = useState("");
   const { id } = useParams();
   const [page, setPage] = useState(0);
   const { user } = useGetUser(id as string);
   const { posts, error, loading, hasMore, setPosts } = useGetUserPosts(
-    user?.postsIds as number[]
+    user?.userId as number,
+    query
   );
   const { infPage, loader } = useInfiniteScroll(page, hasMore);
 

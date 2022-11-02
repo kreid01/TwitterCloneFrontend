@@ -13,6 +13,8 @@ export type IPost = {
   isRetweeted?: boolean;
   comments?: Array<Comment>;
   posterId?: number;
+  likedBy?: number[];
+  retweetedBy?: number[];
 };
 
 export type IComment = {

@@ -10,6 +10,7 @@ export type User = {
   userEmail: string;
   userJoinDate: string;
   postsIds: Array<number>;
+  userId: number;
 };
 
 interface Props {
@@ -49,10 +50,18 @@ export const ProfilePageHead: React.FC<Props> = ({ user }) => {
         </div>
         <div className="mt-8 pl-5">
           <nav className="flex justify-around">
-            <button className="profile-link">Tweets</button>
-            <button>Tweets & Replies</button>
-            <button>Media</button>
-            <button>Likes</button>
+            <button value="tweets" className="profile-link">
+              Tweets
+            </button>
+            <button className="profile-link" value="replies">
+              Tweets & Replies
+            </button>
+            <button className="profile-link" value="media">
+              Media
+            </button>
+            <button className="profile-link" value="likes">
+              Likes
+            </button>
           </nav>
         </div>
       </div>

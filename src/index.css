@@ -3,31 +3,33 @@
 @tailwind utilities;
 
 @layer components {
-
-    .sidebar-icon {
-        @apply relative flex items-center justify-center
+  .sidebar-icon {
+    @apply relative flex items-center justify-center
                 h-12 w-12 ml-auto mt-2 mb-2 mr-5 bg-gray-100
                 hover:bg-gray-400 rounded-3xl hover:rounded-xl
                 transition-all duration-300;
-    }
-    .post-icon {
-        @apply relative flex items-center justify-center
+  }
+  .post-icon {
+    @apply relative flex items-center justify-center
                 h-7 w-7 ml-5 mt-2 mb-2 mr-5 bg-gray-100
                 hover:bg-gray-400 rounded-3xl hover:rounded-xl
-                transition-all duration-300; 
-    }
-    .heart-icon {
-       @apply post-icon hover:bg-red-300
-    }
-    .retweet-icon {
-        @apply post-icon hover:bg-blue-300
-     }
-     .comment-icon {
-        @apply post-icon hover:bg-green-300
-     }
-     .button-primary { 
-       @apply font-bold text-white ml-auto 
+                transition-all duration-300;
+  }
+  .heart-icon {
+    @apply post-icon hover:bg-red-300;
+  }
+  .retweet-icon {
+    @apply post-icon hover:bg-blue-300;
+  }
+  .comment-icon {
+    @apply post-icon hover:bg-green-300;
+  }
+  .button-primary {
+    @apply font-bold text-white ml-auto 
       bg-blue-500 hover:bg-blue-400 p-2 pl-4
-       pr-4 rounded-2xl
-     }
-} 
+       pr-4 rounded-2xl;
+  }
+  .profile-link {
+    @apply hover:bg-slate-200 px-8 py-4 font-bold;
+  }
+}

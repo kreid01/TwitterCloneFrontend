@@ -96,7 +96,7 @@ export const PostsList: React.FC<Props> = ({
       <div className="container-fluid">
         <div>{postsList()}</div>
       </div>
-      {loading && hasMore && <p>Loading...</p>}
+      {loading && hasMore && <p className="pl-4 pt-4">Loading...</p>}
       {error && <p>Error!</p>}
       <div ref={loader} />
     </>

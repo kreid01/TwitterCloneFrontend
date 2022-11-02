@@ -3,19 +3,19 @@ import { useState, useCallback, useEffect } from "react";
 
 import { IPost } from "consts/Interface";
 
-export const useGetUserPosts = (postIds: Array<number>) => {
+export const useGetUserPosts = (userId: number, query: string) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const [posts, setPosts] = useState<IPost[]>();
   const [hasMore, setHasMore] = useState(false);
 
-  const sendPosts = useCallback(
-    async (postIds: Array<number>) => {
+  const sendQuery = useCallback(
+    async (userId: number, query: string) => {
       try {
         await setLoading(true);
         await setError(false);
         const { data } = await axios.get<IPost[]>(
-          `https://localhost:7227/posts/users/1`
+          `https://localhost:7227/posts/users/${1}`
         );
         await setHasMore(data.length > 0);
         await setPosts((prevData) =>
@@ -31,12 +31,12 @@ export const useGetUserPosts = (postIds: Array<number>) => {
         }
       }
     },
-    [postIds]
+    [userId, query]
   );
 
   useEffect(() => {
-    sendPosts(postIds);
-  }, [postIds]);
+    sendQuery(userId, query);
+  }, [userId, query]);
 
   return { posts, loading, error, hasMore, setPosts };
 };

@@ -24,7 +24,7 @@ export const App: React.FC = () => {
       : newArr[index].likeCount + 1;
     newArr[index].isLiked = !newArr[index].isLiked;
     setter(newArr);
-    updatePostWithLike(posts[index], posts[index].id);
+    updatePostWithLike(posts[index], 1);
   };
 
   const handleRetweet = (
@@ -38,7 +38,7 @@ export const App: React.FC = () => {
       : newArr[index].retweetCount + 1;
     newArr[index].isRetweeted = !newArr[index].isRetweeted;
     setter(newArr);
-    updatePostWithRetweet(posts[index], posts[index].id);
+    updatePostWithRetweet(posts[index], 1);
   };
 
   const handleComment = (post: IPost) => {
