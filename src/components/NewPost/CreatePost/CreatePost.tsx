@@ -24,7 +24,7 @@ interface Props {
     handleTweet: () => void
 }
 
-export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewPost }, props: Props) => {
+export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewPost }) => {
  
     const [image, setImage] = useState<File | null>()
     const [preview, setPreview] = useState<string | null>()
@@ -66,11 +66,12 @@ export const CreatePost: React.FC<Props> = ({ handleChange, handleTweet, setNewP
             <img src='https://cdn-icons-png.flaticon.com/512/149/149071.png' className='w-12 h-12'alt=''/>
             <div>
                 <UserTextInput
-                name={'postTextBody'}
+                name='postTextBody'
                 handleChange={handleChange} />
                 <PreviewImg imgSrc={preview as string}/>
                 <div className='flex'>
                     <FileUpload 
+                        name='postMedia'
                         handleFileUpload={handleFileUpload}/>
                     <NewPostButtons icon={<FaCalendar/>}/>
                     <NewPostButtons icon={<FaSmile/>}/>

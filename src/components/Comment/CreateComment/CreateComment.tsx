@@ -46,9 +46,9 @@ export const CreateComment: React.FC<Props> = ({ handleChange, setNewComment }) 
                 setPreview(reader.result as string)
                 url = reader.result as string
                 setNewComment(prevState => ({
-                    ...prevState, postMedia: url
+                    ...prevState, commentMedia: url
                 }))
-            }
+                    }
             reader.readAsDataURL(image)
         } else {
             setPreview(null)
@@ -64,11 +64,12 @@ export const CreateComment: React.FC<Props> = ({ handleChange, setNewComment }) 
             <img src='https://cdn-icons-png.flaticon.com/512/149/149071.png' className='w-12 h-12'alt=''/>
             <div>
                 <UserTextInput 
-                name={'commentBody'}
+                name='commentBody'
                 handleChange={handleChange} />
                 <PreviewImg imgSrc={preview as string}/>
                 <div className='flex'>
                     <FileUpload 
+                        name='commentMedia'
                         handleFileUpload={handleFileUpload}/>
                     <NewPostButtons icon={<FaCalendar/>}/>
                     <NewPostButtons icon={<FaSmile/>}/>

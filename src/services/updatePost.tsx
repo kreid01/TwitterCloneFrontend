@@ -47,6 +47,7 @@ export const updatePostWithComment = async (post: IPost, newComment: INewComment
         "commentMedia": newComment.commentMedia
       }
 
+    console.log(newCommentJson)
     try {
         const res = await axios.put(`https://localhost:7227/posts/${post.id}`, json)
         console.log("posted", res.data)
