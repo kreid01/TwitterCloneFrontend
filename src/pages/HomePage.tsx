@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useGetPosts } from "../hooks/useGetPosts";
 import { IPost } from "../consts/Interface";
-import { PostsList } from "./PostsList";
+import { PostsList } from "../components/Comment/PostsList/PostsList";
 import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
 import { useInfiniteScroll } from "hooks/useInfiniteScroll";
 
@@ -18,7 +18,9 @@ interface Props {
   ) => void;
   handleComment: (post: IPost) => void;
   setToCurrentPost: (post: IPost, index: number) => void;
-  closeComment: () => void;
+  closeComment: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
+  ) => void;
   isCommenting: boolean;
   isOnCurrentPost: boolean;
   currentPost: IPost;

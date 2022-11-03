@@ -21,6 +21,9 @@ interface Props {
   handleComment: (post: IPost) => void;
   setToCurrentPost: (post: IPost, index: number) => void;
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
+  closeComment: (
+    event: React.MouseEvent<HTMLAnchorElement, MouseEvent>
+  ) => void;
 }
 
 export const Post: React.FC<Props> = ({
@@ -30,6 +33,7 @@ export const Post: React.FC<Props> = ({
   handleRetweet,
   setToCurrentPost,
   setPosts,
+  closeComment,
   posts,
   isUsersPost,
   index,
@@ -44,7 +48,10 @@ export const Post: React.FC<Props> = ({
         <img className="w-12 h-12 rounded-full" src={post.userImg} alt="" />
         <div className="flex-col pl-4">
           <p className="">
-            <Link to={`/${post.userAt}`}>
+            <Link
+              onClick={(event) => closeComment(event)}
+              to={`/${post.userAt}`}
+            >
               <strong>{post.userName}</strong>
             </Link>
             <span className="text-gray-500">

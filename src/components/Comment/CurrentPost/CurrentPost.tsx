@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Post } from "components/Post/Post";
 import { CreateComment } from "../CreateComment/CreateComment";
 import { FaArrowLeft } from "react-icons/fa";
-import { CommentButton } from "../CommentButton/CommentButton";
 
-import { IPost, INewComment, IComment } from "consts/Interface";
-import { updatePostWithComment } from "services/updatePost";
+import { IPost } from "consts/Interface";
 import { useGetComments } from "hooks/useGetComments";
 import { Comment } from "../Comment/Comment";
-import userEvent from "@testing-library/user-event";
 
 interface Props {
   post: IPost;
-  closeComment: () => void;
+  closeComment: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
+  ) => void;
   isCommenting: boolean;
   handleLike: (
     posts: IPost[],
@@ -48,15 +47,6 @@ export const CurrentPost: React.FC<Props> = ({
   const { comments, loading, error, hasMore, setComments } = useGetComments(
     post.id
   );
-  const [newComment, setNewComment] = useState({
-    commentDate: "",
-    commentBody: "",
-    commentMedia: "",
-    userAt: "BLAD33",
-    userName: "bladee",
-    userImg:
-      "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg",
-  });
 
   const postsComments = () => {
     if (typeof comments !== "undefined" && comments) {
@@ -64,38 +54,6 @@ export const CurrentPost: React.FC<Props> = ({
         return <Comment comment={comment} />;
       });
     }
-  };
-
-  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setNewComment((prevState) => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-  };
-
-  const resetNewComment = () => {
-    setNewComment({
-      commentDate: "",
-      commentBody: "",
-      commentMedia: "",
-      userAt: "BLAD33",
-      userName: "bladee",
-      userImg:
-        "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg",
-    });
-  };
-
-  const updateCommentCount = (index: number) => {
-    const newArr = [...(posts as Array<IPost>)];
-    newArr[index].commentCount = newArr[index].commentCount + 1;
-    setPosts(newArr);
-  };
-
-  const handleReply = (post: IPost, newPost: INewComment) => {
-    setComments((prevArr) => [...(prevArr as Array<IComment>), newComment]);
-    resetNewComment();
-    updateCommentCount(currentIndex);
-    updatePostWithComment(post, newPost);
   };
 
   return (
@@ -107,22 +65,15 @@ export const CurrentPost: React.FC<Props> = ({
       >
         <button
           data-testid="returnButton"
-          onClick={closeComment}
+          onClick={(event) => closeComment(event)}
           className="mr-4 mb-4"
         >
           <FaArrowLeft />
         </button>
-        {isCommenting && (
-          <CommentButton
-            label="Reply"
-            post={post}
-            newComment={newComment}
-            handleReply={handleReply}
-          />
-        )}
       </header>
       <div className="flex ml-4 mb-4">
         <Post
+          closeComment={closeComment}
           isUsersPost={isUsersPost}
           index={currentIndex}
           setToCurrentPost={setToCurrentPost}
@@ -136,9 +87,11 @@ export const CurrentPost: React.FC<Props> = ({
       </div>
       {isCommenting && (
         <CreateComment
-          handleChange={handleChange}
-          setNewComment={setNewComment}
-          newComment={newComment}
+          setPosts={setPosts}
+          setComments={setComments}
+          currentIndex={currentIndex}
+          posts={posts}
+          post={post}
         />
       )}
       {postsComments()}

@@ -3,7 +3,7 @@ import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
 
-import { IPost } from "../consts/Interface";
+import { IPost } from "../../../consts/Interface";
 
 interface Props {
   handleLike: (
@@ -18,7 +18,9 @@ interface Props {
   ) => void;
   handleComment: (post: IPost) => void;
   setToCurrentPost: (post: IPost, index: number) => void;
-  closeComment: () => void;
+  closeComment: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
+  ) => void;
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
   isCommenting: boolean;
   isOnCurrentPost: boolean;
@@ -58,6 +60,7 @@ export const PostsList: React.FC<Props> = ({
         return (
           <div>
             <Post
+              closeComment={closeComment}
               isUsersPost={isUsersPost}
               handleLike={handleLike}
               handleRetweet={handleRetweet}

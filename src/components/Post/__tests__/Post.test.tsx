@@ -15,6 +15,7 @@ it("render without crashing", () => {
   render(
     <BrowserRouter>
       <Post
+        closeComment={mockFn}
         posts={testPosts}
         isUsersPost={false}
         setPosts={mockFn}
@@ -34,6 +35,7 @@ it("post username renders", () => {
   render(
     <BrowserRouter>
       <Post
+        closeComment={mockFn}
         isUsersPost={false}
         posts={testPosts}
         setPosts={mockFn}
@@ -55,6 +57,7 @@ it("post image renders", () => {
   render(
     <BrowserRouter>
       <Post
+        closeComment={mockFn}
         posts={testPosts}
         isUsersPost={false}
         setPosts={mockFn}
@@ -77,6 +80,7 @@ it("matched snapshot", () => {
     .create(
       <BrowserRouter>
         <Post
+          closeComment={mockFn}
           isUsersPost={false}
           posts={testPosts}
           setPosts={mockFn}

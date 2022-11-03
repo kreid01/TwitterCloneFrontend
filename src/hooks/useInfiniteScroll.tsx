@@ -8,6 +8,7 @@ export const useInfiniteScroll = (page: number, hasMore: boolean) => {
       const target = entries[0];
       if (target.isIntersecting && hasMore) {
         setPage((prevPage) => prevPage + 1);
+        console.log(page);
       }
     },
     [hasMore]

@@ -1,7 +1,7 @@
 import { ProfilePageHead, User } from "features/ProfilePageHead";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
-import { PostsList } from "./PostsList";
+import { PostsList } from "../components/Comment/PostsList/PostsList";
 import { useInfiniteScroll } from "hooks/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
@@ -21,7 +21,9 @@ interface Props {
   ) => void;
   handleComment: (post: IPost) => void;
   setToCurrentPost: (post: IPost, index: number) => void;
-  closeComment: () => void;
+  closeComment: (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
+  ) => void;
   isCommenting: boolean;
   isOnCurrentPost: boolean;
   currentPost: IPost;
@@ -39,15 +41,25 @@ export const ProfilePage: React.FC<Props> = ({
   currentIndex,
   currentPost,
 }) => {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState("tweets");
   const { id } = useParams();
+  const [isReset, setIsReset] = useState(false);
   const [page, setPage] = useState(0);
   const { user } = useGetUser(id as string);
   const { posts, error, loading, hasMore, setPosts } = useGetUserPosts(
     user?.userId as number,
-    query
+    query,
+    page,
+    setIsReset,
+    isReset
   );
   const { infPage, loader } = useInfiniteScroll(page, hasMore);
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setIsReset(true);
+    setQuery(event.target.value);
+    setPage(0);
+  };
 
   useEffect(() => {
     setPage(infPage);
@@ -56,7 +68,9 @@ export const ProfilePage: React.FC<Props> = ({
   if (user) {
     return (
       <>
-        {!isOnCurrentPost && <ProfilePageHead user={user as User} />}
+        {!isOnCurrentPost && (
+          <ProfilePageHead user={user as User} handleChange={handleChange} />
+        )}
         <div className="ml-20">
           <PostsList
             userId={1}

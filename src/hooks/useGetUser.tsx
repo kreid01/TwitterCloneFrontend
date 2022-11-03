@@ -17,6 +17,7 @@ export const useGetUser = (id: string) => {
           `https://localhost:7227/users/${id}`
         );
         setUser(await data);
+        console.log(data);
       } catch (err) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);

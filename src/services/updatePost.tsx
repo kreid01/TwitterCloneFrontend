@@ -1,41 +1,16 @@
 import axios from "axios";
 import { IPost, INewComment } from "../consts/Interface";
 
-export const updatePostWithLike = async (post: IPost, userId: number) => {
-  const likedBy = userId;
-  const retweetedBy = 0;
-
+export const updatePost = async (post: IPost) => {
   const json = {
     likeCount: post.likeCount,
     retweetCount: post.retweetCount,
     commentCount: post.commentCount,
     id: post.id,
-    retweetedBy: [likedBy],
-    likedBy: [retweetedBy],
-  };
-  console.log(json);
-  try {
-    const res = await axios.put(
-      `https://localhost:7227/posts/${post.id}`,
-      json
-    );
-    console.log("posted", res.data);
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-export const updatePostWithRetweet = async (post: IPost, userId: number) => {
-  const retweetedBy = [...(post.retweetedBy as Array<number>), userId];
-
-  const json = {
-    id: post.id,
-    likeCount: post.likeCount,
-    commentCount: post.commentCount,
-    retweetCount: post.retweetCount,
-    retweetedBy: retweetedBy,
+    retweetedBy: post.retweetedBy,
     likedBy: post.likedBy,
   };
+  console.log(json);
   try {
     const res = await axios.put(
       `https://localhost:7227/posts/${post.id}`,

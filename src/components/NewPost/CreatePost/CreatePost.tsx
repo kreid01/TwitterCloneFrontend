@@ -33,7 +33,9 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFile(event.target.files as FileList);
   };
-  const { preview, fileFromReader } = useFileReader(file as FileList);
+  const { preview, fileFromReader, setPreview } = useFileReader(
+    file as FileList
+  );
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setNewPost((prevState) => ({
       ...prevState,
@@ -49,7 +51,7 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
     postPost(newPost);
     setPosts((prevArr) => [...(prevArr as Array<IPost>), newPost]);
     resetNewPost();
-    setFile(null);
+    setPreview(null);
   };
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { HomePage } from "./pages/HomePage";
 import { ProfilePage } from "./pages/ProfilePage";
 
 import { IPost } from "consts/Interface";
-import { updatePostWithLike, updatePostWithRetweet } from "services/updatePost";
+import { updatePost } from "services/updatePost";
 
 export const App: React.FC = () => {
   const [isCommenting, setIsCommenting] = useState(false);
@@ -19,12 +19,28 @@ export const App: React.FC = () => {
     setter: (setterArr: IPost[]) => void
   ) => {
     const newArr = [...(posts as Array<IPost>)];
+    const updatedLikedByArr = updatePostLikedBy(newArr, index);
+    const updatedLikedCountArr = updatePostsLikeCount(updatedLikedByArr, index);
+    setter(updatedLikedCountArr);
+    updatePost(posts[index]);
+  };
+
+  const updatePostLikedBy = (newArr: IPost[], index: number) => {
+    if (newArr[index].likedBy?.includes(1)) {
+      let indexOfUser = newArr[index].likedBy?.indexOf(1);
+      newArr[index].likedBy?.splice(indexOfUser as number, 1);
+    } else {
+      newArr[index].likedBy = [...(newArr[index].likedBy as Array<number>), 1];
+    }
+    return newArr;
+  };
+
+  const updatePostsLikeCount = (newArr: IPost[], index: number) => {
     newArr[index].likeCount = newArr[index].isLiked
       ? newArr[index].likeCount - 1
       : newArr[index].likeCount + 1;
     newArr[index].isLiked = !newArr[index].isLiked;
-    setter(newArr);
-    updatePostWithLike(posts[index], 1);
+    return newArr;
   };
 
   const handleRetweet = (
@@ -33,12 +49,34 @@ export const App: React.FC = () => {
     setter: (setterArr: IPost[]) => void
   ) => {
     const newArr = [...(posts as Array<IPost>)];
-    newArr[index].retweetCount = newArr[index].isRetweeted
+    const updatedRetweetedByArr = updatePostRetwteetedBy(newArr, index);
+    const updatedRetweetCountArr = updatePostsRetweetCount(
+      updatedRetweetedByArr,
+      index
+    );
+    setter(updatedRetweetCountArr);
+    updatePost(posts[index]);
+  };
+
+  const updatePostRetwteetedBy = (newArr: IPost[], index: number) => {
+    if (newArr[index].retweetedBy?.includes(1)) {
+      let indexOfUser = newArr[index].retweetedBy?.indexOf(1);
+      newArr[index].retweetedBy?.splice(indexOfUser as number, 1);
+    } else {
+      newArr[index].retweetedBy = [
+        ...(newArr[index].retweetedBy as Array<number>),
+        1,
+      ];
+    }
+    return newArr;
+  };
+
+  const updatePostsRetweetCount = (newArr: IPost[], index: number) => {
+    newArr[index].retweetCount = newArr[index].isLiked
       ? newArr[index].retweetCount - 1
       : newArr[index].retweetCount + 1;
     newArr[index].isRetweeted = !newArr[index].isRetweeted;
-    setter(newArr);
-    updatePostWithRetweet(posts[index], 1);
+    return newArr;
   };
 
   const handleComment = (post: IPost) => {
@@ -53,9 +91,12 @@ export const App: React.FC = () => {
     setIsOnCurrentPost(true);
   };
 
-  const closeComment = () => {
+  const closeComment = (
+    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
+  ) => {
     setIsCommenting(false);
     setIsOnCurrentPost(false);
+    event.stopPropagation();
   };
 
   return (

@@ -29,5 +29,5 @@ export const useFileReader = (file: FileList) => {
       setPreview(null);
     }
   }, [image]);
-  return { preview, fileFromReader };
+  return { preview, fileFromReader, setPreview };
 };
