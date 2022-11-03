@@ -15,7 +15,6 @@ it("render without crashing", () => {
   render(
     <BrowserRouter>
       <Post
-        closeComment={mockFn}
         posts={testPosts}
         isUsersPost={false}
         setPosts={mockFn}
@@ -23,9 +22,6 @@ it("render without crashing", () => {
         setToCurrentPost={mockFn}
         key={1}
         index={1}
-        handleLike={mockFn}
-        handleRetweet={mockFn}
-        handleComment={mockFn}
       />
     </BrowserRouter>
   );
@@ -35,15 +31,11 @@ it("post username renders", () => {
   render(
     <BrowserRouter>
       <Post
-        closeComment={mockFn}
         isUsersPost={false}
         posts={testPosts}
         setPosts={mockFn}
         setToCurrentPost={mockFn}
         post={testPost}
-        handleLike={mockFn}
-        handleRetweet={mockFn}
-        handleComment={mockFn}
         index={1}
         key={1}
       />
@@ -57,15 +49,11 @@ it("post image renders", () => {
   render(
     <BrowserRouter>
       <Post
-        closeComment={mockFn}
         posts={testPosts}
         isUsersPost={false}
         setPosts={mockFn}
         setToCurrentPost={mockFn}
         post={testPost}
-        handleLike={mockFn}
-        handleRetweet={mockFn}
-        handleComment={mockFn}
         index={1}
         key={1}
       />
@@ -80,15 +68,11 @@ it("matched snapshot", () => {
     .create(
       <BrowserRouter>
         <Post
-          closeComment={mockFn}
           isUsersPost={false}
           posts={testPosts}
           setPosts={mockFn}
           setToCurrentPost={mockFn}
           post={testPost}
-          handleLike={mockFn}
-          handleRetweet={mockFn}
-          handleComment={mockFn}
           index={1}
           key={1}
         />

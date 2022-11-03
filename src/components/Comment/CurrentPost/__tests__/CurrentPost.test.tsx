@@ -21,12 +21,7 @@ it("render without crashing", () => {
         currentIndex={1}
         post={testPost}
         setToCurrentPost={mockFn}
-        isCommenting={true}
         key={1}
-        handleLike={mockFn}
-        handleRetweet={mockFn}
-        handleComment={mockFn}
-        closeComment={mockFn}
       />
     </BrowserRouter>
   );
@@ -43,12 +38,7 @@ it("matched snapshot", () => {
           currentIndex={1}
           post={testPost}
           setToCurrentPost={mockFn}
-          isCommenting={true}
           key={1}
-          handleLike={mockFn}
-          handleRetweet={mockFn}
-          handleComment={mockFn}
-          closeComment={mockFn}
         />
       </BrowserRouter>
     )
@@ -66,12 +56,7 @@ it("return button when clicked functions", () => {
         currentIndex={1}
         post={testPost}
         setToCurrentPost={mockFn}
-        isCommenting={true}
         key={1}
-        handleLike={mockFn}
-        handleRetweet={mockFn}
-        handleComment={mockFn}
-        closeComment={mockFn}
       />
     </BrowserRouter>
   );

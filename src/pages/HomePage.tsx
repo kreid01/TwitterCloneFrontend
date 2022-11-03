@@ -1,47 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { useGetPosts } from "../hooks/useGetPosts";
 import { IPost } from "../consts/Interface";
-import { PostsList } from "../components/Comment/PostsList/PostsList";
+import { PostsList } from "../components/PostsList/PostsList";
 import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
 import { useInfiniteScroll } from "hooks/useInfiniteScroll";
+import { useCommentContext } from "context/CommentContext";
 
-interface Props {
-  handleLike: (
-    posts: IPost[],
-    index: number,
-    setter: (setterArr: IPost[]) => void
-  ) => void;
-  handleRetweet: (
-    posts: IPost[],
-    index: number,
-    setter: (setterArr: IPost[]) => void
-  ) => void;
-  handleComment: (post: IPost) => void;
-  setToCurrentPost: (post: IPost, index: number) => void;
-  closeComment: (
-    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
-  ) => void;
-  isCommenting: boolean;
-  isOnCurrentPost: boolean;
-  currentPost: IPost;
-  currentIndex: number;
-}
-
-export const HomePage: React.FC<Props> = ({
-  handleComment,
-  handleLike,
-  handleRetweet,
-  setToCurrentPost,
-  closeComment,
-  isCommenting,
-  isOnCurrentPost,
-  currentIndex,
-  currentPost,
-}) => {
+export const HomePage: React.FC = ({}) => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page);
   const { infPage, loader } = useInfiniteScroll(page, hasMore);
+  const isOnCurrentPost = useCommentContext();
+
   useEffect(() => {
     setPage(infPage);
   }, [infPage]);
@@ -69,15 +40,6 @@ export const HomePage: React.FC<Props> = ({
         hasMore={hasMore}
         setPosts={setPosts}
         posts={posts as IPost[]}
-        isOnCurrentPost={isOnCurrentPost}
-        currentIndex={currentIndex as number}
-        setToCurrentPost={setToCurrentPost}
-        handleLike={handleLike}
-        handleRetweet={handleRetweet}
-        handleComment={handleComment}
-        closeComment={closeComment}
-        isCommenting={isCommenting}
-        currentPost={currentPost as IPost}
       />
     </div>
   );

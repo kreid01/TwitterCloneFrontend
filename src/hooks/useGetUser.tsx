@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
 
-import { User } from "features/ProfilePageHead";
+import { User } from "components/features/ProfilePageHead";
 
 export const useGetUser = (id: string) => {
   const [error, setError] = useState(false);
@@ -17,7 +17,6 @@ export const useGetUser = (id: string) => {
           `https://localhost:7227/users/${id}`
         );
         setUser(await data);
-        console.log(data);
       } catch (err) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);

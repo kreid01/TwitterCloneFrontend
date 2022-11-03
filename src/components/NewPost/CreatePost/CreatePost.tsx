@@ -62,7 +62,7 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
   }, [fileFromReader]);
 
   return (
-    <div className="bottom-3 px-3 mb-18 flex">
+    <div className="bottom-3 px-3 mb-6 flex">
       <img
         src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
         className="w-12 h-12"
@@ -80,7 +80,11 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
           <FileUpload name="postMedia" handleFileUpload={handleFileUpload} />
           <NewPostButtons icon={<FaCalendar />} />
           <NewPostButtons icon={<FaSmile />} />
-          <TweetButton label="Tweet" handleTweet={handleTweet}></TweetButton>
+          <TweetButton
+            label="Tweet"
+            handleTweet={handleTweet}
+            isDisabled={newPost.postTextBody.length === 0 ? true : false}
+          ></TweetButton>
         </div>
       </div>
     </div>

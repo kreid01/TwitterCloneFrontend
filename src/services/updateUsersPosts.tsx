@@ -1,9 +1,15 @@
 import axios from "axios";
 import { IPost } from "consts/Interface";
 
-interface Props {
-  userAt: string;
-  Post: IPost;
-}
+export const updateUsersPosts = async (userId: string, post: IPost) => {
+  const json = {
+    postIds: [post.id],
+  };
 
-export const updateUsersLikedsPosts = () => {};
+  try {
+    const res = await axios.put(`https://localhost:7227/users/1`, json);
+    console.log("posted", res.data);
+  } catch (err) {
+    console.log(err);
+  }
+};

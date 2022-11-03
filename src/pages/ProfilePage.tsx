@@ -1,46 +1,15 @@
-import { ProfilePageHead, User } from "features/ProfilePageHead";
+import { ProfilePageHead, User } from "components/features/ProfilePageHead";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
-import { PostsList } from "../components/Comment/PostsList/PostsList";
+import { PostsList } from "../components/PostsList/PostsList";
 import { useInfiniteScroll } from "hooks/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
 import { useGetUserPosts } from "hooks/useGetUsersPosts";
 import { useGetUser } from "hooks/useGetUser";
+import { useCommentContext } from "context/CommentContext";
 
-interface Props {
-  handleLike: (
-    posts: IPost[],
-    index: number,
-    setter: (setterArr: IPost[]) => void
-  ) => void;
-  handleRetweet: (
-    posts: IPost[],
-    index: number,
-    setter: (setterArr: IPost[]) => void
-  ) => void;
-  handleComment: (post: IPost) => void;
-  setToCurrentPost: (post: IPost, index: number) => void;
-  closeComment: (
-    event: React.MouseEvent<HTMLAnchorElement | HTMLButtonElement, MouseEvent>
-  ) => void;
-  isCommenting: boolean;
-  isOnCurrentPost: boolean;
-  currentPost: IPost;
-  currentIndex: number;
-}
-
-export const ProfilePage: React.FC<Props> = ({
-  handleComment,
-  handleLike,
-  handleRetweet,
-  setToCurrentPost,
-  closeComment,
-  isCommenting,
-  isOnCurrentPost,
-  currentIndex,
-  currentPost,
-}) => {
+export const ProfilePage: React.FC = ({}) => {
   const [query, setQuery] = useState("tweets");
   const { id } = useParams();
   const [isReset, setIsReset] = useState(false);
@@ -54,6 +23,7 @@ export const ProfilePage: React.FC<Props> = ({
     isReset
   );
   const { infPage, loader } = useInfiniteScroll(page, hasMore);
+  const isOnCurrentPost = useCommentContext();
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsReset(true);
@@ -80,15 +50,6 @@ export const ProfilePage: React.FC<Props> = ({
             hasMore={hasMore}
             setPosts={setPosts}
             posts={posts as IPost[]}
-            isOnCurrentPost={isOnCurrentPost}
-            currentIndex={currentIndex as number}
-            setToCurrentPost={setToCurrentPost}
-            handleLike={handleLike}
-            handleRetweet={handleRetweet}
-            handleComment={handleComment}
-            closeComment={closeComment}
-            isCommenting={isCommenting}
-            currentPost={currentPost as IPost}
           />
         </div>
       </>

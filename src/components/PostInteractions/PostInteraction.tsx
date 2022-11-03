@@ -2,19 +2,11 @@ import React from "react";
 import { IconBaseProps } from "react-icons";
 import { FaComment, FaRetweet, FaHeart } from "react-icons/fa";
 import { IPost } from "../../consts/Interface";
+import { handleLike } from "../utils/handleLike";
+import { handleRetweet } from "../utils/handleRetweet";
+import { useUpdateCommentContext } from "../../context/CommentContext";
 
 interface Props {
-  handleLike: (
-    posts: IPost[],
-    index: number,
-    setter: (setterArr: IPost[]) => void
-  ) => void;
-  handleRetweet: (
-    posts: IPost[],
-    index: number,
-    setter: (setterArr: IPost[]) => void
-  ) => void;
-  handleComment: (post: IPost) => void;
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
   index: number;
   post: IPost;
@@ -24,24 +16,21 @@ interface Props {
 
 export const PostInteraction: React.FC<Props> = ({
   post,
-  handleLike,
-  handleComment,
-  handleRetweet,
   setPosts,
   isUsersPost,
   posts,
   index,
 }) => {
+  const toggleComment = useUpdateCommentContext();
+
   return (
     <>
       <div className="flex">
         <PostInteractionIcon
           className="comment-icon"
           icon={
-            <FaComment
-              data-testid="commentButton"
-              onClick={() => handleComment(post)}
-            />
+            //@ts-ignore
+            <FaComment onClick={toggleComment} data-testid="commentButton" />
           }
         />
         {!isUsersPost && (

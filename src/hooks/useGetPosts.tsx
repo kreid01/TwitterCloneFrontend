@@ -14,10 +14,9 @@ export const useGetPosts = (query: string, page: number) => {
         await setLoading(true);
         await setError(false);
         const { data } = await axios.get<IPost[]>(
-          `https://localhost:7227/posts?PageNumber=${page}&PageSize=3`
+          `https://localhost:7227/posts?PageNumber=${page}&PageSize=6`
         );
         await setHasMore(data.length > 0);
-        console.log(hasMore);
         await setPosts((prevData) =>
           prevData !== undefined ? [...prevData, ...data] : []
         );
