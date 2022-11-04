@@ -3,6 +3,7 @@ import { PostInteraction } from "../PostInteractions/PostInteraction";
 import { IPost } from "../../consts/Interface";
 import { Link } from "react-router-dom";
 import { useUpdateIsCommenting } from "context/IsCommentingContext";
+import axios from "axios";
 
 interface Props {
   post: IPost;

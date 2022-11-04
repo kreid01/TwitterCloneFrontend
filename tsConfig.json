@@ -1,27 +1,27 @@
 {
-    "compilerOptions": {
-      "target": "es6",
-      "lib": ["dom", "dom.iterable", "esnext"],
-      "allowJs": true,
-      "skipLibCheck": true,
-      "esModuleInterop": true,
-      "allowSyntheticDefaultImports": true,
-      "strict": true,
-      "forceConsistentCasingInFileNames": true,
-      "module": "esnext",
-      
-      "moduleResolution": "node",
-      "plugins": [{ "name": "typescript-tslint-plugin" }],
-      "resolveJsonModule": true,
-      "isolatedModules": true,
-      "noEmit": true,
-      "jsx": "preserve",
-      "pretty": true,
-      "baseUrl": "src",
-      "types": ["jest"],
-      "typeRoots": ["./src/types","./node_modules/@types"],
-      "suppressImplicitAnyIndexErrors": true
-    },
-    "include": ["src", "node_modules/@types/jest"],
-    "exclude": ["node_modules"]
-  }
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "esnext",
+
+    "moduleResolution": "node",
+    "plugins": [{ "name": "typescript-tslint-plugin" }],
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "pretty": true,
+    "baseUrl": "src",
+    "types": ["jest", "node"],
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "suppressImplicitAnyIndexErrors": true
+  },
+  "include": ["src", "node_modules/@types/jest"],
+  "exclude": ["node_modules"]
+}

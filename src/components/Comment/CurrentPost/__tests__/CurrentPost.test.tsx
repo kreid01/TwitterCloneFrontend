@@ -11,7 +11,7 @@ import { BrowserRouter } from "react-router-dom";
 const mockFn = jest.fn;
 
 afterEach(cleanup);
-it("render without crashing", () => {
+it("render without crashing", async () => {
   render(
     <BrowserRouter>
       <CurrentPost
@@ -26,7 +26,7 @@ it("render without crashing", () => {
   );
 });
 
-it("matched snapshot", () => {
+it("matched snapshot", async () => {
   const tree = renderer
     .create(
       <BrowserRouter>
@@ -59,5 +59,5 @@ it("return button when clicked functions", () => {
   );
   const returnButton = screen.getByTestId("returnButton");
   fireEvent.click(returnButton);
-  expect(mockFn).lastCalledWith();
+  expect(mockFn).toBeCalled();
 });

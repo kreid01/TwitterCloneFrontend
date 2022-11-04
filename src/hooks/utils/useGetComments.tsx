@@ -4,7 +4,7 @@ import { IComment } from "consts/Interface";
 
 export const useGetComments = (postId: number) => {
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState<string>();
   const [comments, setComments] = useState<IComment[]>();
   const [hasMore, setHasMore] = useState<boolean>(false);
 
@@ -12,7 +12,7 @@ export const useGetComments = (postId: number) => {
     async (postId: number) => {
       try {
         await setLoading(true);
-        await setError(false);
+        await setError("");
         const { data } = await axios.get(
           `https://localhost:7227/comments/posts/${postId}`
         );
@@ -20,11 +20,9 @@ export const useGetComments = (postId: number) => {
         await setComments(await data.result);
       } catch (error) {
         if (axios.isAxiosError(error)) {
-          console.log("error message: ", error.message);
-          return error.message;
+          setError(`error message: ${error.message}`);
         } else {
-          console.log("unexpected error: ", error);
-          return "An unexpected error occurred";
+          setError(`error message: ${error}`);
         }
       }
     },

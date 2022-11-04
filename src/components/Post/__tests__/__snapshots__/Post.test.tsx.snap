@@ -2,47 +2,55 @@
 
 exports[`matched snapshot 1`] = `
 <div
-  className="flex mt-5 mb-5"
-  data-testid="post"
-  onClick={[Function]}
+  className=" hover:bg-neutral-100 border-b-2 px-4 pt-4"
 >
-  <img
-    alt=""
-    className="w-12 h-12 rounded-full"
-    src="testImg"
-  />
   <div
-    className="flex-col pl-4"
+    className="flex"
+    data-testid="post"
+    onClick={[Function]}
   >
-    <p
-      className=""
-    >
-      <a
-        href="/testAt"
-        onClick={[Function]}
-      >
-        <strong>
-          test-name
-        </strong>
-      </a>
-      <span
-        className="text-gray-500"
-      >
-        @
-        testAt
-        ·
-        testDate
-      </span>
-    </p>
-    <p>
-      testBody
-    </p>
     <img
       alt=""
-      className="w-80 pt-2 max-h-72 rounded-xl"
-      data-testid="media"
-      src="test-media"
+      className="w-12 h-12 rounded-full"
+      src="testImg"
     />
+    <div
+      className="flex-col pl-4"
+    >
+      <p
+        className=""
+      >
+        <a
+          href="/testAt"
+          onClick={[Function]}
+        >
+          <strong>
+            test-name
+          </strong>
+        </a>
+        <span
+          className="text-gray-500"
+        >
+          @
+          testAt
+          ·
+          testDat
+        </span>
+      </p>
+      <p>
+        testBody
+      </p>
+      <img
+        alt=""
+        className="w-80 pt-2 max-h-72 rounded-xl"
+        data-testid="media"
+        src="test-media"
+      />
+    </div>
+  </div>
+  <div
+    className="ml-10"
+  >
     <div
       className="flex"
     >

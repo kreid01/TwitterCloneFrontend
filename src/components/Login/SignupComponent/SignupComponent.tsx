@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { postUser } from "../../services/users/postUser";
+import { postUser } from "../../../services/users/postUser";
 
 interface Props {
   openLoginPage: (option: string) => void;

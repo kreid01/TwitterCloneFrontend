@@ -6,6 +6,8 @@ exports[`matched snapshot 1`] = `
  bg-blue-500 hover:bg-blue-400 p-2 pl-4
  pr-4 rounded-2xl"
   data-testid="tweetButton"
+  disabled={true}
+  id="tweetButton"
   onClick={[MockFunction]}
 >
   Tweet

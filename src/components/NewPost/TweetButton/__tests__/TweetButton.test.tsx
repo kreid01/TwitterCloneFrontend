@@ -18,7 +18,7 @@ it("render without crashing", () => {
 
 it("renders button correctly", () => {
   render(
-    <TweetButton isDisabled={true} label="Tweet" handleTweet={handleTweet} />
+    <TweetButton isDisabled={false} label="Tweet" handleTweet={handleTweet} />
   );
   const element = screen.getByTestId("tweetButton");
   expect(element).toHaveTextContent("Tweet");
@@ -26,7 +26,7 @@ it("renders button correctly", () => {
 
 it("calls handleTweeet function when clicked", () => {
   render(
-    <TweetButton isDisabled={true} label="Tweet" handleTweet={handleTweet} />
+    <TweetButton isDisabled={false} label="Tweet" handleTweet={handleTweet} />
   );
   fireEvent.click(screen.getByTestId("tweetButton"));
   expect(handleTweet).toHaveBeenCalled();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginUser } from "../../hooks/users/useLoginUser";
+import { useLoginUser } from "../../../hooks/users/useLoginUser";
 
 interface Props {
   openLoginPage: (option: string) => void;
