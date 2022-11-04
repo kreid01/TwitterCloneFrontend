@@ -33,6 +33,9 @@ export const ProfilePageHead: React.FC<Props> = ({ user, handleChange }) => {
           <h2 className="font-bold">{user.userName}</h2>
           <p className="text-sm text-gray-400"> Tweets</p>
         </div>
+        <div>
+          <button className="ml-52 button-primary">Sign out</button>
+        </div>
       </header>
       <div className="pt-12">
         <img src={user.userCoverImg} alt="" className="h-44 w-full z-1" />

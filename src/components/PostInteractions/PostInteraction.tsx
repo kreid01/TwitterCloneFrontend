@@ -8,6 +8,7 @@ import React from "react";
 import { IconBaseProps } from "react-icons";
 import { FaComment, FaRetweet, FaHeart } from "react-icons/fa";
 import { IPost } from "../../consts/Interface";
+import { useGetUser } from "context/UserContext";
 
 interface Props {
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
@@ -26,6 +27,7 @@ export const PostInteraction: React.FC<Props> = ({
   posts,
   index,
 }) => {
+  const user = useGetUser();
   return (
     <>
       <div className="flex">
@@ -47,7 +49,14 @@ export const PostInteraction: React.FC<Props> = ({
                 <FaRetweet
                   style={{ color: post.isRetweeted ? "blue" : "none" }}
                   data-testid="retweetButton"
-                  onClick={() => handleRetweet(posts, index, setPosts)}
+                  onClick={() =>
+                    handleRetweet(
+                      posts,
+                      index,
+                      setPosts,
+                      user?.userId as number
+                    )
+                  }
                 />
               }
             />
@@ -58,7 +67,9 @@ export const PostInteraction: React.FC<Props> = ({
                 <FaHeart
                   style={{ color: post.isLiked ? "red" : "none" }}
                   data-testid="likeButton"
-                  onClick={() => handleLike(posts, index, setPosts)}
+                  onClick={() =>
+                    handleLike(posts, index, setPosts, user?.userId as number)
+                  }
                 />
               }
             />

@@ -4,10 +4,11 @@ import { IconBaseProps } from "react-icons";
 import { FileUpload } from "../../NewPost/FileUpload/FileUpload";
 import { PreviewImg } from "../../NewPost/PreviewImg/PreviewImg";
 import { UserTextInput } from "../../NewPost/UserTextInput/UserTextInput";
-import { useFileReader } from "hooks/useFileReader";
+import { useFileReader } from "hooks/utils/useFileReader";
 import { CommentButton } from "../CommentButton/CommentButton";
-import { updatePostWithComment } from "services/updatePost";
+import { updatePostWithComment } from "services/posts/updatePost";
 import { INewComment, IComment, IPost } from "../../../consts/Interface";
+import { useGetUser } from "context/UserContext";
 
 interface Props {
   setComments: React.Dispatch<React.SetStateAction<IComment[] | undefined>>;
@@ -31,14 +32,14 @@ export const CreateComment: React.FC<Props> = ({
   const { preview, fileFromReader, setPreview } = useFileReader(
     file as FileList
   );
+  const user = useGetUser();
   const newCommentInitialState = {
     commentDate: "",
     commentBody: "",
     commentMedia: "",
-    userAt: "BLAD33",
-    userName: "bladee",
-    userImg:
-      "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg",
+    userAt: user?.userAt,
+    userName: user?.userName,
+    userImg: user?.userImg,
   };
 
   const [newComment, setNewComment] = useState(newCommentInitialState);
@@ -78,11 +79,7 @@ export const CreateComment: React.FC<Props> = ({
 
   return (
     <div className="bottom-3 px-3 mb-18 flex">
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-        className="w-12 h-12"
-        alt=""
-      />
+      <img src={user?.userImg} className="w-12 h-12" alt="" />
       <div>
         <div className="flex">
           <UserTextInput

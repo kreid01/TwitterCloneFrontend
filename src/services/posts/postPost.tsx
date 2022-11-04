@@ -3,10 +3,10 @@ import axios from "axios";
 interface newPost {
   postTextBody: string;
   postMedia: string;
-  userName: string;
-  userAt: string;
-  userImg: string;
-  posterId: number;
+  userName: string | undefined;
+  userAt: string | undefined;
+  userImg: string | undefined;
+  posterId: number | undefined;
 }
 
 export const postPost = async (post: newPost) => {

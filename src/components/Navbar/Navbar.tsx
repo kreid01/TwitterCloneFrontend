@@ -12,16 +12,13 @@ import {
   FaPenNib,
 } from "react-icons/fa";
 import { IconBaseProps } from "react-icons";
-import { useUpdateIsCommenting } from "context/IsCommentingContext";
+import { useGetUser } from "context/UserContext";
 
 export const Navbar: React.FC = () => {
-  const toggleComment = useUpdateIsCommenting();
+  const user = useGetUser();
 
   return (
-    <header
-      data-testid="nav"
-      onClick={toggleComment !== null ? () => toggleComment() : undefined}
-    >
+    <header data-testid="nav">
       <nav className="fixed w-20 h-screen flex flex-col bg-white shadow-lg">
         <NavLink end to="/">
           <NavbarIcon icon={<FaTwitter size="30" />}></NavbarIcon>
@@ -34,7 +31,7 @@ export const Navbar: React.FC = () => {
         <NavbarIcon icon={<FaEnvelope size="30" />}></NavbarIcon>
         <NavbarIcon icon={<FaBookmark size="30" />}></NavbarIcon>
         <NavbarIcon icon={<FaList size="30" />}></NavbarIcon>
-        <NavLink end to="/BLAD33">
+        <NavLink end to={`/${user?.userAt}`}>
           <NavbarIcon icon={<FaUser size="30" />}></NavbarIcon>
         </NavLink>
         <NavLink end to="/login">

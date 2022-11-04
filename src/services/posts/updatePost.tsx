@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IPost, INewComment } from "../consts/Interface";
+import { IPost, INewComment } from "../../consts/Interface";
 
 export const updatePost = async (post: IPost) => {
   const json = {

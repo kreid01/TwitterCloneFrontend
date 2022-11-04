@@ -1,12 +1,12 @@
-import { ProfilePageHead, User } from "components/features/ProfilePageHead";
+import { ProfilePageHead, User } from "features/ProfilePageHead";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
-import { PostsList } from "../components/Comment/PostsList/PostsList";
-import { useInfiniteScroll } from "hooks/useInfiniteScroll";
+import { PostsList } from "../components/PostsList/PostsList";
+import { useInfiniteScroll } from "hooks/utils/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
-import { useGetUserPosts } from "hooks/useGetUsersPosts";
-import { useGetUser } from "hooks/useGetUser";
+import { useGetUserPosts } from "hooks/posts/useGetUsersPosts";
+import { useGetUser } from "hooks/users/useGetUser";
 import { useIsCommenting } from "context/IsCommentingContext";
 
 export const ProfilePage: React.FC = ({}) => {
@@ -42,7 +42,6 @@ export const ProfilePage: React.FC = ({}) => {
         )}
         <div className="ml-20">
           <PostsList
-            userId={1}
             loader={loader}
             loading={loading}
             error={error}

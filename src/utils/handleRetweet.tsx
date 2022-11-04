@@ -1,13 +1,14 @@
 import { IPost } from "consts/Interface";
-import { updatePost } from "services/updatePost";
+import { updatePost } from "services/posts/updatePost";
 
 export const handleRetweet = (
   posts: IPost[],
   index: number,
-  setter: (setterArr: IPost[]) => void
+  setter: (setterArr: IPost[]) => void,
+  userId: number
 ) => {
   const newArr = [...(posts as Array<IPost>)];
-  const updatedRetweetedByArr = updatePostRetwteetedBy(newArr, index);
+  const updatedRetweetedByArr = updatePostRetwteetedBy(newArr, index, userId);
   const updatedRetweetCountArr = updatePostsRetweetCount(
     updatedRetweetedByArr,
     index
@@ -16,15 +17,24 @@ export const handleRetweet = (
   updatePost(posts[index]);
 };
 
-const updatePostRetwteetedBy = (newArr: IPost[], index: number) => {
-  if (newArr[index].retweetedBy?.includes(1)) {
-    let indexOfUser = newArr[index].retweetedBy?.indexOf(1);
-    newArr[index].retweetedBy?.splice(indexOfUser as number, 1);
-  } else {
+const updatePostRetwteetedBy = (
+  newArr: IPost[],
+  index: number,
+  userId: number
+) => {
+  if (
+    newArr[index].retweetedBy !== null &&
+    newArr[index].retweetedBy?.includes(userId)
+  ) {
+    let indexOfUser = newArr[index].retweetedBy?.indexOf(userId);
+    newArr[index].retweetedBy?.splice(indexOfUser as number, userId);
+  } else if (newArr[index].retweetedBy !== null) {
     newArr[index].retweetedBy = [
       ...(newArr[index].retweetedBy as Array<number>),
       1,
     ];
+  } else {
+    newArr[index].retweetedBy = [userId];
   }
   return newArr;
 };

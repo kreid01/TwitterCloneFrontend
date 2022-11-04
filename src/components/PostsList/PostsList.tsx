@@ -3,11 +3,12 @@ import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
 
-import { IPost } from "../../../consts/Interface";
+import { IPost } from "../../consts/Interface";
 import {
   useIsCommenting,
   useUpdateIsCommenting,
 } from "context/IsCommentingContext";
+import { useGetUser } from "context/UserContext";
 
 interface Props {
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
@@ -16,7 +17,6 @@ interface Props {
   loading: boolean;
   error: boolean;
   loader: React.MutableRefObject<null>;
-  userId?: number;
 }
 
 export const PostsList: React.FC<Props> = ({
@@ -26,13 +26,13 @@ export const PostsList: React.FC<Props> = ({
   loading,
   error,
   loader,
-  userId,
 }) => {
+  const user = useGetUser();
   const postsList = () => {
     if (typeof posts !== "undefined") {
       return posts.map((post, index) => {
         let isUsersPost = false;
-        if (post.posterId === userId) isUsersPost = true;
+        if (post.posterId === user?.userId) isUsersPost = true;
         return (
           <div>
             <Post

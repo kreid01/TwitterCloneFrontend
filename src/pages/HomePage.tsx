@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useGetPosts } from "../hooks/useGetPosts";
+import { useGetPosts } from "../hooks/posts/useGetPosts";
 import { IPost } from "../consts/Interface";
-import { PostsList } from "../components/Comment/PostsList/PostsList";
+import { PostsList } from "../components/PostsList/PostsList";
 import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
-import { useInfiniteScroll } from "hooks/useInfiniteScroll";
+import { useInfiniteScroll } from "hooks/utils/useInfiniteScroll";
 import { useIsCommenting } from "context/IsCommentingContext";
+import { useGetUser } from "context/UserContext";
 
 export const HomePage: React.FC = ({}) => {
   const [page, setPage] = useState(1);
@@ -17,6 +18,7 @@ export const HomePage: React.FC = ({}) => {
   }, [scrollPage]);
 
   const isCommenting = useIsCommenting();
+  const user = useGetUser();
 
   return (
     <div className="ml-20">
@@ -29,9 +31,11 @@ export const HomePage: React.FC = ({}) => {
           >
             Home
           </h1>
-          <div className="pt-16">
-            <CreatePost setPosts={setPosts} />
-          </div>
+          {user && (
+            <div className="pt-16">
+              <CreatePost setPosts={setPosts} />
+            </div>
+          )}
         </>
       )}
       <PostsList

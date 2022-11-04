@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaCross, FaTwitter } from "react-icons/fa";
+import { FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { Login } from "../components/Login/Login";
 import { LoginComponent } from "components/Login/LoginComponent";
@@ -11,7 +11,6 @@ export const LogInPage = () => {
   const openLogInPage = (option: string) => {
     setIsOnLoginPage(true);
     setLoginOption(option);
-    console.log(option);
   };
   return (
     <>
@@ -19,16 +18,14 @@ export const LogInPage = () => {
         <Login openLoginPage={openLogInPage} />
       ) : (
         <>
-          <header className="top-0">
-            <Link to="/">
-              <FaCross />
-            </Link>
-            <FaTwitter />
+          <header className="mt-3 w-screen top-0 flex justify-center">
+            <Link to="/"></Link>
+            <FaTwitter size="35" className="text-blue-400" />
           </header>
           {loginOption === "login" ? (
-            <LoginComponent />
+            <LoginComponent openLoginPage={openLogInPage} />
           ) : loginOption === "signup" ? (
-            <SignupComponent />
+            <SignupComponent openLoginPage={openLogInPage} />
           ) : undefined}
         </>
       )}

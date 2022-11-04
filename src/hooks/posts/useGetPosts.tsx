@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import { IPost } from "../consts/Interface";
+import { IPost } from "../../consts/Interface";
 
 export const useGetPosts = (query: string, page: number) => {
   const [loading, setLoading] = useState(true);

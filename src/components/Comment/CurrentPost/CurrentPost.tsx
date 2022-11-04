@@ -3,7 +3,7 @@ import { Post } from "components/Post/Post";
 import { CreateComment } from "../CreateComment/CreateComment";
 import { FaArrowLeft } from "react-icons/fa";
 import { IPost } from "../../../consts/Interface";
-import { useGetComments } from "hooks/useGetComments";
+import { useGetComments } from "hooks/utils/useGetComments";
 import { Comment } from "../Comment/Comment";
 import {
   useIsCommenting,

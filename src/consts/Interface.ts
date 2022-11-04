@@ -1,8 +1,8 @@
 export type IPost = {
   id: number;
-  userName: string;
-  userAt: string;
-  userImg: string;
+  userName: string | undefined;
+  userAt: string | undefined;
+  userImg: string | undefined;
   postTextBody: string;
   postMedia: string;
   postDate: string;
@@ -18,9 +18,9 @@ export type IPost = {
 };
 
 export type IComment = {
-  userAt: string;
-  userName: string;
-  userImg: string;
+  userAt: string | undefined;
+  userName: string | undefined;
+  userImg: string | undefined;
   commentBody: string;
   commentMedia?: string;
   commentDate: string;
@@ -29,15 +29,34 @@ export type IComment = {
 export type INewComment = {
   commentBody: string;
   commentMedia: string;
-  userAt: string;
-  userName: string;
-  userImg: string;
+  userAt: string | undefined;
+  userName: string | undefined;
+  userImg: string | undefined;
 };
 
 export type INewPost = {
   postTextBody: string;
   postMedia: string;
-  userAt: string;
+  userAt: string | undefined;
+  userName: string | undefined;
+  userImg: string | undefined;
+};
+
+export type IUser = {
+  userId: number;
   userName: string;
+  userAt: string;
+  userImg: string;
+  useCoverImg: string;
+  userEmail: string;
+  joinData: string;
+  followers: Array<IFollows>;
+  following: Array<IFollows>;
+};
+
+export type IFollows = {
+  userId: number;
+  userName: string;
+  userAt: string;
   userImg: string;
 };

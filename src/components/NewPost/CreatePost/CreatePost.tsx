@@ -5,23 +5,24 @@ import { TweetButton } from "../TweetButton/TweetButton";
 import { FileUpload } from "../FileUpload/FileUpload";
 import { PreviewImg } from "../PreviewImg/PreviewImg";
 import { UserTextInput } from "../UserTextInput/UserTextInput";
-import { useFileReader } from "../../../hooks/useFileReader";
+import { useFileReader } from "../../../hooks/utils/useFileReader";
 import { IPost } from "../../../consts/Interface";
-import { postPost } from "../../../services/postPost";
+import { postPost } from "../../../services/posts/postPost";
+import { useGetUser } from "context/UserContext";
 
 interface Props {
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
 }
 
 export const CreatePost: React.FC<Props> = ({ setPosts }) => {
+  const user = useGetUser();
   const newPostInitialState = {
     postTextBody: "",
     postMedia: "",
-    posterId: 1,
-    userAt: "BLAD33",
-    userName: "bladee",
-    userImg:
-      "https://i1.sndcdn.com/artworks-z7ABLFRxBZUd1j0w-ANNyqw-t500x500.jpg",
+    posterId: user?.userId,
+    userAt: user?.userAt,
+    userName: user?.userName,
+    userImg: user?.userImg,
     commentCount: 0,
     retweetCount: 0,
     likeCount: 0,
