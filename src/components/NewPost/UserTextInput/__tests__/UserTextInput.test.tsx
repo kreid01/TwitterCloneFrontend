@@ -22,7 +22,7 @@ it("text are handleChange functions", () => {
   render(
     <UserTextInput
       name="test"
-      value="test"
+      value="tewst"
       placeholder="Whats Happening?"
       handleChange={handleChangeMockfn}
     />

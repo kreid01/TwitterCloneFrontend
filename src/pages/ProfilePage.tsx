@@ -1,4 +1,4 @@
-import { ProfilePageHead, User } from "features/ProfilePageHead";
+import { ProfilePageHead, User } from "features/ProfileCover";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
 import { PostsList } from "../components/PostsList/PostsList";

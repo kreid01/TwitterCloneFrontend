@@ -64,11 +64,7 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
 
   return (
     <div className="bottom-3 px-3 mb-6 flex">
-      <img
-        src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
-        className="w-12 h-12"
-        alt=""
-      />
+      <img src={user?.userImg} className="w-12 h-12" alt="" />
       <div>
         <UserTextInput
           value={newPost.postTextBody}

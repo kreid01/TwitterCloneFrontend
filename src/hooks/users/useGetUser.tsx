@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
 
-import { User } from "features/ProfilePageHead";
+import { User } from "features/ProfileCover";
 
 export const useGetUser = (id: string) => {
   const [error, setError] = useState(false);

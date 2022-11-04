@@ -30,7 +30,7 @@
        pr-4 rounded-2xl;
   }
   .profile-link {
-    @apply hover:bg-slate-100 px-6 py-4 font-bold text-gray-500 peer-checked:text-black
+    @apply hover:bg-slate-100 px-4 py-4 font-bold text-gray-500 peer-checked:text-black
     peer-checked:border-b-4 peer-checked:border-b-blue-400;
   }
   .login-button {

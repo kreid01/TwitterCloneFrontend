@@ -15,7 +15,6 @@ export const SignupComponent: React.FC<Props> = ({ openLoginPage }) => {
 
   const completeSignup = () => {
     postUser(signInData);
-    openLoginPage("login");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,7 +22,6 @@ export const SignupComponent: React.FC<Props> = ({ openLoginPage }) => {
       ...prevData,
       [event.target.name]: event.target.value,
     }));
-    console.log(signInData);
   };
 
   return (

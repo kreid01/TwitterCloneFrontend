@@ -49,10 +49,10 @@ export type IUser = {
   userImg: string;
   useCoverImg: string;
   userEmail: string;
-  joinData: string;
+  joinDate: string;
   followers: Array<IFollows>;
   following: Array<IFollows>;
-};
+} | null;
 
 export type IFollows = {
   userId: number;

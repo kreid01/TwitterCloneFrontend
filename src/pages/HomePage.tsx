@@ -31,10 +31,12 @@ export const HomePage: React.FC = ({}) => {
           >
             Home
           </h1>
-          {user && (
+          {user ? (
             <div className="pt-16">
               <CreatePost setPosts={setPosts} />
             </div>
+          ) : (
+            <div className="pt-16"></div>
           )}
         </>
       )}

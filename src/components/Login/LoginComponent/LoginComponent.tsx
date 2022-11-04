@@ -19,7 +19,8 @@ export const LoginComponent: React.FC<Props> = ({ openLoginPage }) => {
 
   useEffect(() => {
     if (successful) {
-      navigate("/profile");
+      console.log("s");
+      navigate("/");
     }
   }, [successful]);
 

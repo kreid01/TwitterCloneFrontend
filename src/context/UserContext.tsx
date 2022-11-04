@@ -19,12 +19,12 @@ export const UserContextProvider = ({
 }) => {
   const [user, setUser] = useState<IUser | null>(null);
 
-  const updateUser = (user: IUser) => {
+  const updateUser = (user: IUser | null) => {
     setUser(user);
   };
 
   return (
-    <UserContext.Provider value={user as IUser}>
+    <UserContext.Provider value={user}>
       <UpdateUser.Provider value={updateUser}>{children}</UpdateUser.Provider>
     </UserContext.Provider>
   );
