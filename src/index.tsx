@@ -3,17 +3,16 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import { App } from "./App";
 import { BrowserRouter } from "react-router-dom";
-import { CommentProvider } from "context/CommentContext";
-
+import { CommentContextProvider } from "context/IsCommentingContext";
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <BrowserRouter>
     <React.StrictMode>
-      <CommentProvider>
+      <CommentContextProvider>
         <App />
-      </CommentProvider>
+      </CommentContextProvider>
     </React.StrictMode>
   </BrowserRouter>
 );

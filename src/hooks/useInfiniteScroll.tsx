@@ -1,13 +1,13 @@
 import { useRef, useCallback, useEffect, useState } from "react";
 
 export const useInfiniteScroll = (page: number, hasMore: boolean) => {
-  const [infPage, setPage] = useState(page);
+  const [scrollPage, setScrollPage] = useState(page);
   const loader = useRef(null);
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const target = entries[0];
       if (target.isIntersecting && hasMore) {
-        setPage((prevPage) => prevPage + 1);
+        setScrollPage((prevPage) => prevPage + 1);
       }
     },
     [hasMore]
@@ -23,5 +23,5 @@ export const useInfiniteScroll = (page: number, hasMore: boolean) => {
     if (loader.current) observer.observe(loader.current);
   }, [handleObserver]);
 
-  return { loader, infPage };
+  return { loader, scrollPage };
 };

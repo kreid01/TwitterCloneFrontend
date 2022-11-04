@@ -15,12 +15,11 @@ it("render without crashing", () => {
   render(
     <BrowserRouter>
       <CurrentPost
+        makeCurrentPost={mockFn}
         isUsersPost={false}
         posts={testPosts}
         setPosts={mockFn}
-        currentIndex={1}
         post={testPost}
-        setToCurrentPost={mockFn}
         key={1}
       />
     </BrowserRouter>
@@ -32,12 +31,11 @@ it("matched snapshot", () => {
     .create(
       <BrowserRouter>
         <CurrentPost
+          makeCurrentPost={mockFn}
           isUsersPost={false}
           posts={testPosts}
           setPosts={mockFn}
-          currentIndex={1}
           post={testPost}
-          setToCurrentPost={mockFn}
           key={1}
         />
       </BrowserRouter>
@@ -50,12 +48,11 @@ it("return button when clicked functions", () => {
   render(
     <BrowserRouter>
       <CurrentPost
+        makeCurrentPost={mockFn}
         isUsersPost={true}
         setPosts={mockFn}
         posts={testPosts}
-        currentIndex={1}
         post={testPost}
-        setToCurrentPost={mockFn}
         key={1}
       />
     </BrowserRouter>

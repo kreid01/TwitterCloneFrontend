@@ -1,13 +1,13 @@
 import { ProfilePageHead, User } from "components/features/ProfilePageHead";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
-import { PostsList } from "../components/PostsList/PostsList";
+import { PostsList } from "../components/Comment/PostsList/PostsList";
 import { useInfiniteScroll } from "hooks/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
 import { useGetUserPosts } from "hooks/useGetUsersPosts";
 import { useGetUser } from "hooks/useGetUser";
-import { useCommentContext } from "context/CommentContext";
+import { useIsCommenting } from "context/IsCommentingContext";
 
 export const ProfilePage: React.FC = ({}) => {
   const [query, setQuery] = useState("tweets");
@@ -22,9 +22,8 @@ export const ProfilePage: React.FC = ({}) => {
     setIsReset,
     isReset
   );
-  const { infPage, loader } = useInfiniteScroll(page, hasMore);
-  const isOnCurrentPost = useCommentContext();
-
+  const { scrollPage, loader } = useInfiniteScroll(page, hasMore);
+  const isCommenting = useIsCommenting();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsReset(true);
     setQuery(event.target.value);
@@ -32,13 +31,13 @@ export const ProfilePage: React.FC = ({}) => {
   };
 
   useEffect(() => {
-    setPage(infPage);
-  }, [infPage]);
+    setPage(scrollPage);
+  }, [scrollPage]);
 
   if (user) {
     return (
       <>
-        {!isOnCurrentPost && (
+        {!isCommenting && (
           <ProfilePageHead user={user as User} handleChange={handleChange} />
         )}
         <div className="ml-20">

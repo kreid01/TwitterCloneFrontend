@@ -18,10 +18,9 @@ it("render without crashing", () => {
         posts={testPosts}
         isUsersPost={false}
         setPosts={mockFn}
+        makeCurrentPost={mockFn}
         post={testPost}
-        setToCurrentPost={mockFn}
         key={1}
-        index={1}
       />
     </BrowserRouter>
   );
@@ -34,9 +33,8 @@ it("post username renders", () => {
         isUsersPost={false}
         posts={testPosts}
         setPosts={mockFn}
-        setToCurrentPost={mockFn}
+        makeCurrentPost={mockFn}
         post={testPost}
-        index={1}
         key={1}
       />
     </BrowserRouter>
@@ -52,9 +50,8 @@ it("post image renders", () => {
         posts={testPosts}
         isUsersPost={false}
         setPosts={mockFn}
-        setToCurrentPost={mockFn}
         post={testPost}
-        index={1}
+        makeCurrentPost={mockFn}
         key={1}
       />
     </BrowserRouter>
@@ -68,12 +65,11 @@ it("matched snapshot", () => {
     .create(
       <BrowserRouter>
         <Post
+          makeCurrentPost={mockFn}
           isUsersPost={false}
           posts={testPosts}
           setPosts={mockFn}
-          setToCurrentPost={mockFn}
           post={testPost}
-          index={1}
           key={1}
         />
       </BrowserRouter>

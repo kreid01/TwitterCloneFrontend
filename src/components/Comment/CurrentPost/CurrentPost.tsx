@@ -2,37 +2,31 @@ import React from "react";
 import { Post } from "components/Post/Post";
 import { CreateComment } from "../CreateComment/CreateComment";
 import { FaArrowLeft } from "react-icons/fa";
-
 import { IPost } from "../../../consts/Interface";
 import { useGetComments } from "hooks/useGetComments";
 import { Comment } from "../Comment/Comment";
 import {
-  useCommentContext,
-  useUpdateCommentContext,
-} from "../../../context/CommentContext";
+  useIsCommenting,
+  useUpdateIsCommenting,
+} from "context/IsCommentingContext";
 
 interface Props {
   post: IPost;
-  setToCurrentPost: (post: IPost, index: number) => void;
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
-  currentIndex: number;
+  makeCurrentPost: (post: IPost) => void;
   posts: IPost[];
   isUsersPost: boolean;
 }
 
 export const CurrentPost: React.FC<Props> = ({
-  setToCurrentPost,
   setPosts,
+  makeCurrentPost,
   isUsersPost,
   posts,
   post,
-  currentIndex,
 }) => {
-  const { comments, loading, error, hasMore, setComments } = useGetComments(
-    post.id
-  );
-
-  const toggleComment = useUpdateCommentContext();
+  console.log(post);
+  const { comments, setComments } = useGetComments(post.id);
   const postsComments = () => {
     if (typeof comments !== "undefined" && comments) {
       return comments.map((comment) => {
@@ -40,6 +34,10 @@ export const CurrentPost: React.FC<Props> = ({
       });
     }
   };
+
+  const index = posts.indexOf(post);
+  const toggleComment = useUpdateIsCommenting();
+  const isCommenting = useIsCommenting();
 
   return (
     <div className="mb-5 absolute bg-white h-full z-10 " data-testid="post">
@@ -50,8 +48,7 @@ export const CurrentPost: React.FC<Props> = ({
       >
         <button
           data-testid="returnButton"
-          //@ts-ignore
-          onClick={toggleComment}
+          onClick={toggleComment !== null ? toggleComment : undefined}
           className="mr-4 mb-4"
         >
           <FaArrowLeft />
@@ -59,19 +56,18 @@ export const CurrentPost: React.FC<Props> = ({
       </header>
       <div className="flex mb-4">
         <Post
+          makeCurrentPost={makeCurrentPost as any}
           isUsersPost={isUsersPost}
-          index={currentIndex}
-          setToCurrentPost={() => setToCurrentPost(post, currentIndex)}
           post={post}
           posts={posts}
           setPosts={setPosts}
         />
       </div>
-      {useCommentContext() && (
+      {isCommenting && (
         <CreateComment
+          currentIndex={index}
           setPosts={setPosts}
           setComments={setComments}
-          currentIndex={currentIndex}
           posts={posts}
           post={post}
         />

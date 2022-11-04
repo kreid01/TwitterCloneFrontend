@@ -6,11 +6,13 @@ import { testPost, testPosts } from "../../../consts/TestMocks";
 import renderer from "react-test-renderer";
 
 const handleClickMockFn = jest.fn();
+const mockFn = jest.fn();
 
 afterEach(cleanup);
 it("render without crashing", () => {
   render(
     <PostInteraction
+      makeCurrentPost={mockFn}
       setPosts={handleClickMockFn}
       posts={testPosts}
       isUsersPost={false}
@@ -24,6 +26,7 @@ it("matched snapshot", () => {
   const tree = renderer
     .create(
       <PostInteraction
+        makeCurrentPost={mockFn}
         setPosts={handleClickMockFn}
         posts={testPosts}
         isUsersPost={false}

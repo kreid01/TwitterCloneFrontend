@@ -1,25 +1,26 @@
 import React, { useState, useEffect } from "react";
 import { useGetPosts } from "../hooks/useGetPosts";
 import { IPost } from "../consts/Interface";
-import { PostsList } from "../components/PostsList/PostsList";
+import { PostsList } from "../components/Comment/PostsList/PostsList";
 import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
 import { useInfiniteScroll } from "hooks/useInfiniteScroll";
-import { useCommentContext } from "context/CommentContext";
+import { useIsCommenting } from "context/IsCommentingContext";
 
 export const HomePage: React.FC = ({}) => {
   const [page, setPage] = useState(1);
   const [query, setQuery] = useState("");
   const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page);
-  const { infPage, loader } = useInfiniteScroll(page, hasMore);
-  const isOnCurrentPost = useCommentContext();
+  const { scrollPage, loader } = useInfiniteScroll(page, hasMore);
 
   useEffect(() => {
-    setPage(infPage);
-  }, [infPage]);
+    setPage(scrollPage);
+  }, [scrollPage]);
+
+  const isCommenting = useIsCommenting();
 
   return (
     <div className="ml-20">
-      {!isOnCurrentPost && (
+      {!isCommenting && (
         <>
           <h1
             className="pl-5 pt-3 pb-3 fixed w-full

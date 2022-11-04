@@ -3,8 +3,11 @@ import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
 
-import { IPost } from "../../consts/Interface";
-import { useCommentContext } from "context/CommentContext";
+import { IPost } from "../../../consts/Interface";
+import {
+  useIsCommenting,
+  useUpdateIsCommenting,
+} from "context/IsCommentingContext";
 
 interface Props {
   setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
@@ -34,34 +37,31 @@ export const PostsList: React.FC<Props> = ({
           <div>
             <Post
               isUsersPost={isUsersPost}
-              setToCurrentPost={setToCurrentPost}
               post={post}
               setPosts={setPosts}
               posts={posts}
               key={nanoid()}
-              index={index}
+              makeCurrentPost={makeCurrentPost}
             />
           </div>
         );
       });
     }
   };
-
   const [currentPost, setCurrentPost] = useState<IPost>();
-  const [currentIndex, setCurrentIndex] = useState<number>();
-  const isOnCurrentPost = useCommentContext();
+  const toggleIsCommenting = useUpdateIsCommenting();
+  const isCommenting = useIsCommenting();
 
-  const setToCurrentPost = (post: IPost, index: number) => {
-    setCurrentIndex(index);
+  const makeCurrentPost = (post: IPost) => {
     setCurrentPost(post);
+    if (toggleIsCommenting !== null) toggleIsCommenting();
   };
 
-  return isOnCurrentPost ? (
+  return isCommenting && currentPost !== undefined ? (
     <>
       <CurrentPost
-        setToCurrentPost={setToCurrentPost}
+        makeCurrentPost={makeCurrentPost}
         isUsersPost={false}
-        currentIndex={currentIndex as number}
         posts={posts}
         setPosts={setPosts}
         post={currentPost as IPost}

@@ -5,11 +5,13 @@ import { cleanup, render, fireEvent, screen } from "@testing-library/react";
 import { testPost, testPosts } from "../../../consts/TestMocks";
 
 const handleClickMockFn = jest.fn();
+const mockFn = jest.fn();
 
 afterEach(cleanup);
 it("comment button handles click", () => {
   render(
     <PostInteraction
+      makeCurrentPost={mockFn}
       index={1}
       post={testPost}
       setPosts={handleClickMockFn}
@@ -24,6 +26,7 @@ it("comment button handles click", () => {
 it("like button handles click", () => {
   render(
     <PostInteraction
+      makeCurrentPost={mockFn}
       index={1}
       post={testPost}
       setPosts={handleClickMockFn}
@@ -38,6 +41,7 @@ it("like button handles click", () => {
 it("retweet button handles click", () => {
   render(
     <PostInteraction
+      makeCurrentPost={mockFn}
       index={1}
       post={testPost}
       setPosts={handleClickMockFn}
