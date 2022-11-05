@@ -1,4 +1,7 @@
-import { ProfilePageHead, User } from "features/ProfileCover";
+import {
+  ProfileCover,
+  User,
+} from "components/Profile/ProfileCover/ProfileCover";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
 import { PostsList } from "../components/PostsList/PostsList";
@@ -6,7 +9,7 @@ import { useInfiniteScroll } from "hooks/utils/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
 import { useGetUserPosts } from "hooks/posts/useGetUsersPosts";
-import { useGetUser } from "hooks/users/useGetUser";
+import { useGetUserProfile } from "hooks/users/useGetUserProfile";
 import { useIsCommenting } from "context/IsCommentingContext";
 
 export const ProfilePage: React.FC = ({}) => {
@@ -14,9 +17,9 @@ export const ProfilePage: React.FC = ({}) => {
   const { id } = useParams();
   const [isReset, setIsReset] = useState(false);
   const [page, setPage] = useState(0);
-  const { user } = useGetUser(id as string);
+  const { profile } = useGetUserProfile(id as string);
   const { posts, error, loading, hasMore, setPosts } = useGetUserPosts(
-    user?.userId as number,
+    profile?.userId as number,
     query,
     page,
     setIsReset,
@@ -34,13 +37,13 @@ export const ProfilePage: React.FC = ({}) => {
     setPage(scrollPage);
   }, [scrollPage]);
 
-  if (user) {
+  if (profile) {
     return (
       <>
         {!isCommenting && (
-          <ProfilePageHead user={user as User} handleChange={handleChange} />
+          <ProfileCover user={profile as User} handleChange={handleChange} />
         )}
-        <div className="ml-20">
+        <div>
           <PostsList
             loader={loader}
             loading={loading}
@@ -53,6 +56,6 @@ export const ProfilePage: React.FC = ({}) => {
       </>
     );
   } else {
-    return <p>loading</p>;
+    return <p className="ml-3">loading...</p>;
   }
 };

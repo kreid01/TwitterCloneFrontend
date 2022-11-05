@@ -7,7 +7,7 @@ export const updateUsersPosts = async (userId: string, post: IPost) => {
   };
 
   try {
-    const res = await axios.put(`https://localhost:7227/users/1`, json);
+    const res = await axios.put(`https://localhost:7227/users/${userId}`, json);
     console.log("posted", res.data);
   } catch (err) {
     console.log(err);

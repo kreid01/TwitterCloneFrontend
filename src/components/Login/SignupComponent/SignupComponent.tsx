@@ -15,6 +15,7 @@ export const SignupComponent: React.FC<Props> = ({ openLoginPage }) => {
 
   const completeSignup = () => {
     postUser(signInData);
+    openLoginPage("login");
   };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -26,7 +27,7 @@ export const SignupComponent: React.FC<Props> = ({ openLoginPage }) => {
 
   return (
     <>
-      <div className="mt-52 mx-auto flex w-3/6 flex-col mb-6">
+      <div className="mt-52 mx-auto flex w-7/12 lg:w-4/6 flex-col mb-6">
         <h1 className="my-3 ml-3 font-bold text-xl">Join Twitter Today</h1>
         <div className="w- px-3 mb-2 md:mb-0">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
@@ -77,7 +78,7 @@ export const SignupComponent: React.FC<Props> = ({ openLoginPage }) => {
           </p>
         </div>
       </div>
-      <div className="flex flex-wrap w-3/6 mx-auto mb-6">
+      <div className="flex flex-wrap w-7/12 lg:w-4/6 mx-auto mb-6">
         <div className="w-full px-3">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             Password
@@ -107,6 +108,7 @@ export const SignupComponent: React.FC<Props> = ({ openLoginPage }) => {
             <button
               onClick={() => openLoginPage("login")}
               className="text-blue-500 ml-3"
+              data-testid="signupSubmission"
             >
               Log in
             </button>

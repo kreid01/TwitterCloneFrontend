@@ -34,6 +34,7 @@ export const CreateComment: React.FC<Props> = ({
   );
   const user = useGetUser();
   const newCommentInitialState = {
+    id: 0,
     commentDate: "",
     commentBody: "",
     commentMedia: "",
@@ -79,7 +80,7 @@ export const CreateComment: React.FC<Props> = ({
 
   return (
     <div className="bottom-3 px-3 mb-18 flex">
-      <img src={user?.userImg} className="w-12 h-12" alt="" />
+      <img src={user?.userImg} className="w-12 h-12 rounded-full" alt="" />
       <div>
         <div className="flex">
           <UserTextInput

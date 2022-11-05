@@ -2,6 +2,7 @@ import axios from "axios";
 import { IUser } from "consts/Interface";
 import { useUpdateUser } from "../../context/UserContext";
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type loginDetails = {
   email: string;
@@ -15,7 +16,8 @@ export const useLoginUser = (
 ) => {
   const updateUser = useUpdateUser();
   const [error, setError] = useState<boolean>(false);
-  const [successful, setSuccessful] = useState<boolean>(false);
+  const [unsuccesful, setUnsuccesful] = useState<boolean>();
+  const navigate = useNavigate();
 
   const sendQuery = useCallback(
     async (loginDetails: loginDetails, submit: boolean) => {
@@ -31,8 +33,14 @@ export const useLoginUser = (
               },
             }
           );
-          if (updateUser !== null) updateUser(data);
-          await setSuccessful(true);
+          if (data) {
+            navigate("/home");
+          } else {
+            setUnsuccesful(true);
+          }
+          if (updateUser !== null) {
+            updateUser(await data);
+          }
         } catch (err) {
           if (axios.isAxiosError(error)) {
             console.log("error message: ", error.message);
@@ -53,5 +61,5 @@ export const useLoginUser = (
     sendQuery(loginDetails, submit);
   }, [submit]);
 
-  return { successful, error };
+  return { error, unsuccesful };
 };

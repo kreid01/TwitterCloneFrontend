@@ -16,7 +16,7 @@ interface Props {
   posts: IPost[];
   loading: boolean;
   error: boolean;
-  loader: React.MutableRefObject<null>;
+  loader?: React.MutableRefObject<null>;
 }
 
 export const PostsList: React.FC<Props> = ({
@@ -60,7 +60,7 @@ export const PostsList: React.FC<Props> = ({
   return isCommenting && currentPost !== undefined ? (
     <>
       <CurrentPost
-        makeCurrentPost={makeCurrentPost}
+        makeCurrentPost={makeCurrentPost as () => void}
         isUsersPost={false}
         posts={posts}
         setPosts={setPosts}
@@ -70,7 +70,7 @@ export const PostsList: React.FC<Props> = ({
   ) : (
     <>
       <div className="container-fluid">
-        <div>{postsList()}</div>
+        <div key={nanoid()}>{postsList()}</div>
       </div>
       {loading && hasMore && <p className="pl-4 pt-4">Loading...</p>}
       {error && <p>Error!</p>}

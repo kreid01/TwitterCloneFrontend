@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matched snapshot 1`] = `
+<div
+  className=" h-14 bg-blue-500 fixed bottom-0 w-screen flex justify-center"
+>
+  <a
+    className="login-button"
+    data-testid="loginButton"
+    href="/login"
+    onClick={[Function]}
+  >
+    Log In
+  </a>
+  <button
+    className="signup-button"
+    data-testid="signupButton"
+    onClick={[Function]}
+  >
+    Sign Up
+  </button>
+</div>
+`;

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
 
-import { User } from "features/ProfileCover";
+import { User } from "components/Profile/ProfileCover/ProfileCover";
 
-export const useGetUser = (id: string) => {
+export const useGetUserProfile = (id: string) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User>();
+  const [profile, setProfile] = useState<User>();
 
   const sendUser = useCallback(
     async (id: string) => {
@@ -16,7 +16,7 @@ export const useGetUser = (id: string) => {
         const { data } = await axios.get<User>(
           `https://localhost:7227/users/${id}`
         );
-        setUser(await data);
+        setProfile(await data);
       } catch (err) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);
@@ -34,5 +34,5 @@ export const useGetUser = (id: string) => {
     sendUser(id);
   }, [id]);
 
-  return { user, loading, error };
+  return { profile, loading, error };
 };

@@ -35,7 +35,7 @@
   }
   .login-button {
     @apply rounded-xl text-white font-bold
-     border-white border-2 h-8 self-center px-24 mx-2;
+     border-white border-2 h-8 self-center px-16 mx-2;
   }
   .signup-button {
     @apply login-button text-black bg-white;

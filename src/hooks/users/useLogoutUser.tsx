@@ -7,8 +7,10 @@ export const useLogoutUser = (logout: boolean) => {
 
   useEffect(() => {
     if (logout) {
-      if (logoutUser !== null) logoutUser(null);
-      setLogoutSuccessful(true);
+      if (logoutUser !== null) {
+        logoutUser(null);
+        setLogoutSuccessful(true);
+      }
     }
   }, [logout]);
 

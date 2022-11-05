@@ -48,6 +48,8 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
     setNewPost(newPostInitialState);
   };
 
+  console.log(user);
+
   const handleTweet = () => {
     postPost(newPost);
     setPosts((prevArr) => [...(prevArr as Array<IPost>), newPost]);
@@ -64,7 +66,7 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
 
   return (
     <div className="bottom-3 px-3 mb-6 flex">
-      <img src={user?.userImg} className="w-12 h-12" alt="" />
+      <img src={user?.userImg} className="w-12 h-12 rounded-full" alt="" />
       <div>
         <UserTextInput
           value={newPost.postTextBody}

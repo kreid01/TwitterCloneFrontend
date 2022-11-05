@@ -1,8 +1,4 @@
 import { handleLike } from "utils/handleLike";
-import {
-  useIsCommenting,
-  useUpdateIsCommenting,
-} from "context/IsCommentingContext";
 import { handleRetweet } from "utils/handleRetweet";
 import React from "react";
 import { IconBaseProps } from "react-icons";

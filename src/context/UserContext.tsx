@@ -1,7 +1,8 @@
 import { IUser } from "consts/Interface";
-import React, { useContext, useState, createContext } from "react";
+import React, { useContext, useState, createContext, useEffect } from "react";
 
 const UserContext = createContext<IUser | null>(null);
+
 const UpdateUser = createContext<{ (user: IUser): void } | null>(null);
 
 export const useGetUser = () => {
@@ -17,7 +18,15 @@ export const UserContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, setUser] = useState<IUser | null>(null);
+  const [user, setUser] = useState<IUser | null>(() => {
+    const saved = localStorage.getItem("userInfo");
+    const initialValue = JSON.parse(saved as string);
+    return initialValue || null;
+  });
+
+  useEffect(() => {
+    localStorage.setItem("userInfo", JSON.stringify(user));
+  }, [user]);
 
   const updateUser = (user: IUser | null) => {
     setUser(user);

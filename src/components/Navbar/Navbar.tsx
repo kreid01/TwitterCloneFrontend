@@ -5,34 +5,53 @@ import {
   FaEnvelope,
   FaSearch,
   FaBell,
-  FaBookmark,
-  FaList,
   FaUser,
   FaTwitter,
   FaPenNib,
 } from "react-icons/fa";
 import { IconBaseProps } from "react-icons";
 import { useGetUser } from "context/UserContext";
+import {
+  useIsCommenting,
+  useUpdateIsCommenting,
+} from "context/IsCommentingContext";
 
 export const Navbar: React.FC = () => {
   const user = useGetUser();
+  const goOffCommenting = useUpdateIsCommenting();
+  const isCommenting = useIsCommenting();
+
+  const handleClick = () => {
+    if (isCommenting && goOffCommenting !== null) goOffCommenting();
+  };
+
+  const NavbarIcon = ({ icon }: { icon: IconBaseProps }) => (
+    <div onClick={() => handleClick()} className="sidebar-icon">
+      <>{icon}</>
+    </div>
+  );
 
   return (
     <header data-testid="nav">
-      <nav className="fixed w-20 h-screen flex flex-col bg-white shadow-lg">
+      <nav
+        className="fixed w-2/12 min-h-screen md:w-3/12 lg:w-4/12
+       flex flex-col bg-white shadow-lg"
+      >
         {user ? (
           <>
-            <NavLink end to="/">
-              <NavbarIcon icon={<FaTwitter size="30" />}></NavbarIcon>
+            <NavLink end to="/home">
+              <NavbarIcon
+                icon={<FaTwitter size="30" className="text-blue-400" />}
+              ></NavbarIcon>
             </NavLink>
-            <NavLink end to="/">
+            <NavLink end to="/home">
               <NavbarIcon icon={<FaHouseUser size="30" />}></NavbarIcon>
             </NavLink>
-            <NavbarIcon icon={<FaSearch size="30" />}></NavbarIcon>
+            <NavLink end to="/search">
+              <NavbarIcon icon={<FaSearch size="30" />}></NavbarIcon>
+            </NavLink>
             <NavbarIcon icon={<FaBell size="30" />}></NavbarIcon>
             <NavbarIcon icon={<FaEnvelope size="30" />}></NavbarIcon>
-            <NavbarIcon icon={<FaBookmark size="30" />}></NavbarIcon>
-            <NavbarIcon icon={<FaList size="30" />}></NavbarIcon>
             <NavLink end to={`/${user?.userAt}`}>
               <NavbarIcon icon={<FaUser size="30" />}></NavbarIcon>
             </NavLink>
@@ -46,16 +65,9 @@ export const Navbar: React.FC = () => {
               <NavbarIcon icon={<FaTwitter size="30" />}></NavbarIcon>
             </NavLink>
             <NavbarIcon icon={<FaSearch size="30" />}></NavbarIcon>
-            <NavbarIcon icon={<FaPenNib size="30" />}></NavbarIcon>
           </>
         )}
       </nav>
     </header>
   );
 };
-
-export const NavbarIcon = ({ icon }: { icon: IconBaseProps }) => (
-  <div className="sidebar-icon">
-    <>{icon}</>
-  </div>
-);

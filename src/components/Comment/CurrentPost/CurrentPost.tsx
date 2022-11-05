@@ -25,18 +25,24 @@ export const CurrentPost: React.FC<Props> = ({
   posts,
   post,
 }) => {
-  console.log(post);
   const { comments, setComments } = useGetComments(post.id);
   const postsComments = () => {
     if (typeof comments !== "undefined" && comments) {
-      return comments.map((comment) => {
-        return <Comment comment={comment} />;
+      return comments.map((comment, i) => {
+        return (
+          <Comment
+            comment={comment}
+            index={i}
+            setComments={setComments}
+            comments={comments}
+          />
+        );
       });
     }
   };
 
   const index = posts.indexOf(post);
-  const toggleComment = useUpdateIsCommenting();
+  const toggleComment = useUpdateIsCommenting() as () => void;
   const isCommenting = useIsCommenting();
 
   return (
@@ -48,7 +54,7 @@ export const CurrentPost: React.FC<Props> = ({
       >
         <button
           data-testid="returnButton"
-          onClick={toggleComment !== null ? toggleComment : undefined}
+          onClick={toggleComment}
           className="mr-4 mb-4"
         >
           <FaArrowLeft />

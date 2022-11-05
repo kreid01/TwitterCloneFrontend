@@ -12,6 +12,7 @@ export const ProfilePostFilters: React.FC<Props> = ({ handleChange }) => {
           <input
             value="tweets"
             className="hidden peer"
+            data-testid="profileFilter"
             id="tweets"
             type="radio"
             name="filterMethod"

@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matched snapshot 1`] = `
+Array [
+  <div
+    className="container-fluid"
+  >
+    <div>
+      <div>
+        <div
+          className=" hover:bg-neutral-100 border-b-2 px-4 pt-4"
+        >
+          <div
+            className="flex"
+            data-testid="post"
+            onClick={[Function]}
+          >
+            <img
+              alt=""
+              className="w-12 h-12 rounded-full"
+              src="testImg"
+            />
+            <div
+              className="flex-col pl-4"
+            >
+              <p
+                className=""
+              >
+                <a
+                  href="/testAt"
+                  onClick={[Function]}
+                >
+                  <strong>
+                    test-name
+                  </strong>
+                </a>
+                <span
+                  className="text-gray-500"
+                >
+                  @
+                  testAt
+                  ·
+                  testDat
+                </span>
+              </p>
+              <p>
+                testBody
+              </p>
+              <img
+                alt=""
+                className="w-80 pt-2 max-h-72 rounded-xl"
+                data-testid="media"
+                src="test-media"
+              />
+            </div>
+          </div>
+          <div
+            className="ml-10"
+          >
+            <div
+              className="flex"
+            >
+              <div
+                className="comment-icon"
+              >
+                <svg
+                  data-testid="commentButton"
+                  fill="currentColor"
+                  height="1em"
+                  onClick={[Function]}
+                  stroke="currentColor"
+                  strokeWidth="0"
+                  style={
+                    Object {
+                      "color": undefined,
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div
+          className=" hover:bg-neutral-100 border-b-2 px-4 pt-4"
+        >
+          <div
+            className="flex"
+            data-testid="post"
+            onClick={[Function]}
+          >
+            <img
+              alt=""
+              className="w-12 h-12 rounded-full"
+              src="testImg"
+            />
+            <div
+              className="flex-col pl-4"
+            >
+              <p
+                className=""
+              >
+                <a
+                  href="/testAt"
+                  onClick={[Function]}
+                >
+                  <strong>
+                    test-name
+                  </strong>
+                </a>
+                <span
+                  className="text-gray-500"
+                >
+                  @
+                  testAt
+                  ·
+                  testDat
+                </span>
+              </p>
+              <p>
+                testBody
+              </p>
+              <img
+                alt=""
+                className="w-80 pt-2 max-h-72 rounded-xl"
+                data-testid="media"
+                src="test-media"
+              />
+            </div>
+          </div>
+          <div
+            className="ml-10"
+          >
+            <div
+              className="flex"
+            >
+              <div
+                className="comment-icon"
+              >
+                <svg
+                  data-testid="commentButton"
+                  fill="currentColor"
+                  height="1em"
+                  onClick={[Function]}
+                  stroke="currentColor"
+                  strokeWidth="0"
+                  style={
+                    Object {
+                      "color": undefined,
+                    }
+                  }
+                  viewBox="0 0 512 512"
+                  width="1em"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M256 32C114.6 32 0 125.1 0 240c0 49.6 21.4 95 57 130.7C44.5 421.1 2.7 466 2.2 466.5c-2.2 2.3-2.8 5.7-1.5 8.7S4.8 480 8 480c66.3 0 116-31.8 140.6-51.4 32.7 12.3 69 19.4 107.4 19.4 141.4 0 256-93.1 256-208S397.4 32 256 32z"
+                  />
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>,
+  <p
+    className="pl-4 pt-4"
+  >
+    Loading...
+  </p>,
+  <p>
+    Error!
+  </p>,
+  <div />,
+]
+`;

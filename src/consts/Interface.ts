@@ -18,6 +18,7 @@ export type IPost = {
 };
 
 export type IComment = {
+  id: number;
   userAt: string | undefined;
   userName: string | undefined;
   userImg: string | undefined;
@@ -52,6 +53,7 @@ export type IUser = {
   joinDate: string;
   followers: Array<IFollows>;
   following: Array<IFollows>;
+  isAdmin?: boolean;
 } | null;
 
 export type IFollows = {
