@@ -19,10 +19,10 @@
     @apply post-icon hover:bg-red-300;
   }
   .retweet-icon {
-    @apply post-icon hover:bg-blue-300;
+    @apply post-icon hover:bg-green-300;
   }
   .comment-icon {
-    @apply post-icon hover:bg-green-300;
+    @apply post-icon hover:bg-blue-300;
   }
   .button-primary {
     @apply font-bold text-white ml-auto h-10

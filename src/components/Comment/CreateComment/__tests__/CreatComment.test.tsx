@@ -1,8 +1,8 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import React from "react";
-import { testPost, testComment, testPosts } from "consts/TestMocks";
+import { testPost, testPosts } from "consts/TestMocks";
 
-import { screen, render, cleanup, fireEvent } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
 import renderer from "react-test-renderer";

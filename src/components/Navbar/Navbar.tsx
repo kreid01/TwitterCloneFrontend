@@ -50,12 +50,13 @@ export const Navbar: React.FC = () => {
             <NavLink end to="/search">
               <NavbarIcon icon={<FaSearch size="30" />}></NavbarIcon>
             </NavLink>
-            <NavbarIcon icon={<FaBell size="30" />}></NavbarIcon>
-            <NavbarIcon icon={<FaEnvelope size="30" />}></NavbarIcon>
+            <NavLink end to="/messages">
+              <NavbarIcon icon={<FaEnvelope size="30" />}></NavbarIcon>
+            </NavLink>
             <NavLink end to={`/${user?.userAt}`}>
               <NavbarIcon icon={<FaUser size="30" />}></NavbarIcon>
             </NavLink>
-            <NavLink end to="/login">
+            <NavLink end to="/home">
               <NavbarIcon icon={<FaPenNib size="30" />}></NavbarIcon>
             </NavLink>
           </>

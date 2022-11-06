@@ -7,7 +7,7 @@ interface Props {
 
 export const LoginButtons: React.FC<Props> = ({ openLoginPage }) => {
   return (
-    <div className="h-14 ml-14 bg-blue-500 fixed bottom-0  w-[84vw] md:w-[75vw] lg:w-[70vw] lg:mb-2  lg:ml-1 flex justify-center">
+    <div className="h-14 bg-blue-500 fixed bottom-0  w-[84vw] md:w-[75vw] lg:w-[70vw] lg:mb-2  lg:ml-1 flex justify-center">
       <Link
         to="/login"
         data-testid="loginButton"

@@ -35,4 +35,8 @@ export const testUser = {
   userEmail: "testEmail",
   postsIds: [1, 2],
   joinDate: "testDate",
+  following: [1, 2],
+  followers: [1, 2],
+  email: "",
+  password: "",
 };

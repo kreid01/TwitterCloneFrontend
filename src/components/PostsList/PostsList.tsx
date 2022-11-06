@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
@@ -28,6 +28,37 @@ export const PostsList: React.FC<Props> = ({
   loader,
 }) => {
   const user = useGetUser();
+  const [currentPost, setCurrentPost] = useState<IPost>();
+  const toggleIsCommenting = useUpdateIsCommenting();
+  const isCommenting = useIsCommenting();
+  const [wait, setWait] = useState(false);
+
+  setInterval(() => setWait(true), 500);
+
+  useEffect(() => {
+    if (typeof posts !== "undefined") {
+      posts.map((post, index) => {
+        if (post.likedBy?.includes(user?.userId as number)) {
+          const newArr = [...posts];
+          newArr[index].isLiked = true;
+          setPosts(newArr);
+        }
+      });
+    }
+  }, [wait]);
+
+  useEffect(() => {
+    if (typeof posts !== "undefined") {
+      posts.map((post, index) => {
+        if (post.retweetedBy?.includes(user?.userId as number)) {
+          const newArr = [...posts];
+          newArr[index].isRetweeted = true;
+          setPosts(newArr);
+        }
+      });
+    }
+  }, [wait]);
+
   const postsList = () => {
     if (typeof posts !== "undefined") {
       return posts.map((post, index) => {
@@ -48,9 +79,6 @@ export const PostsList: React.FC<Props> = ({
       });
     }
   };
-  const [currentPost, setCurrentPost] = useState<IPost>();
-  const toggleIsCommenting = useUpdateIsCommenting();
-  const isCommenting = useIsCommenting();
 
   const makeCurrentPost = (post: IPost) => {
     setCurrentPost(post);

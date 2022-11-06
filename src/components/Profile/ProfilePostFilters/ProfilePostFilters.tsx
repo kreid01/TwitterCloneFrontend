@@ -6,7 +6,7 @@ interface Props {
 
 export const ProfilePostFilters: React.FC<Props> = ({ handleChange }) => {
   return (
-    <div className="mt-8 pl-5 mb-5">
+    <div className="mt-8 pl-5 mb-5 ">
       <div className="flex justify-around">
         <li className="list-none">
           <input

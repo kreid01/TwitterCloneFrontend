@@ -48,8 +48,6 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
     setNewPost(newPostInitialState);
   };
 
-  console.log(user);
-
   const handleTweet = () => {
     postPost(newPost);
     setPosts((prevArr) => [...(prevArr as Array<IPost>), newPost]);

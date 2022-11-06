@@ -7,6 +7,8 @@ import { LogInPage } from "./pages/LogInPage";
 import { useGetUser } from "context/UserContext";
 import { SearchPage } from "./pages/SearchPage";
 import { LoginButtons } from "components/Login/LoginButtons/LoginButtons";
+import { MessagePage } from "pages/MessagePage";
+import { IUser } from "consts/Interface";
 
 export const App: React.FC = () => {
   const user = useGetUser();
@@ -16,6 +18,7 @@ export const App: React.FC = () => {
     setIsOnLoginPage(true);
     setLoginOption(option);
   };
+  const [messanger, setMessanger] = useState<IUser>();
 
   return (
     <div className="container">
@@ -23,7 +26,10 @@ export const App: React.FC = () => {
       <div className="ml-[16vw] md:ml-[25vw] lg:ml-[33vw]  w-full mmd:w-[53vw] lg:w-[40vw] shadow-inner">
         <Routes>
           <Route path="/search" element={<SearchPage />}></Route>
-          <Route path=":id" element={<ProfilePage />}></Route>
+          <Route
+            path=":id"
+            element={<ProfilePage setMessanger={setMessanger} />}
+          ></Route>
           <Route
             path="login"
             element={
@@ -37,7 +43,14 @@ export const App: React.FC = () => {
           {user && (
             <>
               <Route path="/home" element={<HomePage />}></Route>
-              <Route path=":id" element={<ProfilePage />}></Route>
+              <Route
+                path=":id"
+                element={<ProfilePage setMessanger={setMessanger} />}
+              ></Route>
+              <Route
+                path="/messages"
+                element={<MessagePage messanger={messanger as IUser} />}
+              ></Route>
             </>
           )}
         </Routes>

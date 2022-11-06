@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { PostInteraction } from "../PostInteractions/PostInteraction";
 import { IPost } from "../../consts/Interface";
 import { Link } from "react-router-dom";
@@ -30,6 +30,8 @@ export const Post: React.FC<Props> = ({
     toggleComment();
   };
 
+  const [flag, setFlag] = useState(false);
+
   const handleDelete = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -40,12 +42,24 @@ export const Post: React.FC<Props> = ({
     deletePost(post.id);
   };
 
+  const checkIfLiked = useCallback(() => {
+    if (post.likedBy?.includes(user?.userId as number) && flag) {
+      const newArr = [...posts];
+      newArr[index].isLiked = true;
+      setPosts(newArr);
+    }
+  }, [flag]);
+
+  useEffect(() => {
+    checkIfLiked();
+  }, [user]);
+
   return (
-    <div className=" hover:bg-neutral-100 border-b-2 px-4 pt-4 w-full md:w-[45vw] lg:w-[35vw]">
+    <div className=" hover:bg-neutral-100 border-b-[1px] px-4 pt-4 w-full md:w-[53vw] lg:w-[40vw]">
       <div
         onClick={() => makeCurrentPost(post)}
         className="flex"
-        data-testid="post"
+        data-testid="po)t"
       >
         <img className="w-12 h-12 rounded-full" src={post.userImg} alt="" />
         <div className="flex-col pl-4 w-max">
@@ -60,7 +74,7 @@ export const Post: React.FC<Props> = ({
                   onClick={(event) => handleDelete(event)}
                   className="ml-12"
                 >
-                  <FaTrash className="ml-auto color text-black" />
+                  <FaTrash className="color text-black" />
                 </button>
               )}
             </span>

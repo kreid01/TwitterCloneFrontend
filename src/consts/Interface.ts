@@ -48,17 +48,11 @@ export type IUser = {
   userName: string;
   userAt: string;
   userImg: string;
-  useCoverImg: string;
+  userCoverImg: string;
   userEmail: string;
   joinDate: string;
-  followers: Array<IFollows>;
-  following: Array<IFollows>;
+  followers: Array<number>;
+  following: Array<number>;
   isAdmin?: boolean;
+  userPassword?: string;
 } | null;
-
-export type IFollows = {
-  userId: number;
-  userName: string;
-  userAt: string;
-  userImg: string;
-};

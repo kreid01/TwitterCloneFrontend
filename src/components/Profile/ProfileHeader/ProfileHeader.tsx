@@ -1,17 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { useGetUser } from "context/UserContext";
 import { SignoutButton } from "../SignoutButton/SignoutButton";
-
-import { User } from "../ProfileCover/ProfileCover";
+import { updateFollows } from "services/users/updateFollows";
+import { IUser } from "consts/Interface";
+import { useGetLoggedInUser } from "../../../hooks/users/useGetLoggedInUser";
 
 interface Props {
-  user: User;
+  user: IUser;
+  setMessanger: React.Dispatch<React.SetStateAction<IUser | undefined>>;
 }
 
-export const ProfileHeader: React.FC<Props> = ({ user }) => {
+export const ProfileHeader: React.FC<Props> = ({ user, setMessanger }) => {
   const currentUser = useGetUser();
+  const [submit, setSubmit] = useState(false);
+  const [isFollowing, setIsFollowing] = useState(
+    currentUser?.followers != null &&
+      currentUser.followers.includes(user?.userId as number)
+      ? true
+      : false
+  );
+
+  const toggleFollow = () => {
+    setIsFollowing((prevState) => !prevState);
+    updateFollows(currentUser, user);
+    setSubmit(true);
+  };
+
+  const loginInData = {
+    email: currentUser?.userEmail,
+    password: currentUser?.userPassword,
+  };
+
+  type loginDetailT = {
+    email: string;
+    password: string;
+  };
+
+  const {} = useGetLoggedInUser(loginInData as loginDetailT, submit, setSubmit);
 
   return (
     <header
@@ -26,7 +53,25 @@ export const ProfileHeader: React.FC<Props> = ({ user }) => {
         <h2 className="font-bold">{user?.userName}</h2>
         <p className="text-sm text-gray-400"> Tweets</p>
       </div>
-      {currentUser?.userId === user.userId && <SignoutButton />}
+      {currentUser?.userId === user?.userId ? (
+        <SignoutButton />
+      ) : (
+        <>
+          <Link
+            onClick={() => setMessanger(user)}
+            className="ml-auto button-primary mr-0"
+            to="/messages"
+          >
+            Message
+          </Link>
+          <button
+            onClick={toggleFollow}
+            className="button-primary ml-2 mr-2 md:mr-0"
+          >
+            {isFollowing ? "Unfollow" : "Follow"}
+          </button>
+        </>
+      )}
     </header>
   );
 };

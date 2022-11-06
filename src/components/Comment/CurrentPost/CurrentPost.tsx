@@ -9,6 +9,7 @@ import {
   useIsCommenting,
   useUpdateIsCommenting,
 } from "context/IsCommentingContext";
+import { useGetUser } from "../../../context/UserContext";
 
 interface Props {
   post: IPost;
@@ -41,6 +42,7 @@ export const CurrentPost: React.FC<Props> = ({
     }
   };
 
+  const user = useGetUser();
   const index = posts.indexOf(post);
   const toggleComment = useUpdateIsCommenting() as () => void;
   const isCommenting = useIsCommenting();

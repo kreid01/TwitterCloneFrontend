@@ -1,19 +1,18 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
-
-import { User } from "components/Profile/ProfileCover/ProfileCover";
+import { IUser } from "consts/Interface";
 
 export const useGetUserProfile = (id: string) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<User>();
+  const [profile, setProfile] = useState<IUser>();
 
   const sendUser = useCallback(
     async (id: string) => {
       try {
         await setLoading(true);
         await setError(false);
-        const { data } = await axios.get<User>(
+        const { data } = await axios.get<IUser>(
           `https://localhost:7227/users/${id}`
         );
         setProfile(await data);

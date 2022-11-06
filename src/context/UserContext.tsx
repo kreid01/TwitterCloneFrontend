@@ -1,4 +1,5 @@
 import { IUser } from "consts/Interface";
+
 import React, { useContext, useState, createContext, useEffect } from "react";
 
 const UserContext = createContext<IUser | null>(null);
@@ -33,7 +34,7 @@ export const UserContextProvider = ({
   };
 
   return (
-    <UserContext.Provider value={user}>
+    <UserContext.Provider value={user as IUser}>
       <UpdateUser.Provider value={updateUser}>{children}</UpdateUser.Provider>
     </UserContext.Provider>
   );
