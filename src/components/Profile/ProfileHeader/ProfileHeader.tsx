@@ -9,10 +9,10 @@ import { useGetLoggedInUser } from "../../../hooks/users/useGetLoggedInUser";
 
 interface Props {
   user: IUser;
-  setMessanger: React.Dispatch<React.SetStateAction<IUser | undefined>>;
+  createChat: (user: IUser) => void;
 }
 
-export const ProfileHeader: React.FC<Props> = ({ user, setMessanger }) => {
+export const ProfileHeader: React.FC<Props> = ({ user, createChat }) => {
   const currentUser = useGetUser();
   const [submit, setSubmit] = useState(false);
   const [isFollowing, setIsFollowing] = useState(
@@ -58,7 +58,7 @@ export const ProfileHeader: React.FC<Props> = ({ user, setMessanger }) => {
       ) : (
         <>
           <Link
-            onClick={() => setMessanger(user)}
+            onClick={() => createChat(user)}
             className="ml-auto button-primary mr-0"
             to="/messages"
           >

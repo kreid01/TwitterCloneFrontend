@@ -13,14 +13,14 @@ interface Props {
   handleChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   toggleIsOnFollowers: () => void;
   isOnFollowers: boolean;
-  setMessanger: React.Dispatch<React.SetStateAction<IUser | undefined>>;
+  createChat: (user: IUser) => void;
 }
 
 export const ProfileCover: React.FC<Props> = ({
   user,
   handleChange,
   toggleIsOnFollowers,
-  setMessanger,
+  createChat,
   isOnFollowers,
 }) => {
   const [isEdittingProfile, setIsEditingProfile] = useState(false);
@@ -38,16 +38,6 @@ export const ProfileCover: React.FC<Props> = ({
     file as FileList
   );
 
-  const loginInData = {
-    email: user?.userEmail,
-    password: user?.userPassword,
-  };
-
-  type loginDetailT = {
-    email: string;
-    password: string;
-  };
-
   const [submit, setSubmit] = useState(false);
 
   const submitChanges = () => {
@@ -63,8 +53,8 @@ export const ProfileCover: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-[84vw] md:w-[49vw] lg:w-[40vw]">
-      <ProfileHeader setMessanger={setMessanger} user={user as IUser} />
+    <div className="w-[84vw] md:w-[49vw] lg:w-[40vw] lg:ml-[5px]">
+      <ProfileHeader createChat={createChat} user={user as IUser} />
       <div className="pt-14">
         <img src={user?.userCoverImg} alt="" className="h-44 w-full z-1" />
         {isEdittingProfile && (

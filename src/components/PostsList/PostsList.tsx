@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
@@ -31,21 +31,7 @@ export const PostsList: React.FC<Props> = ({
   const [currentPost, setCurrentPost] = useState<IPost>();
   const toggleIsCommenting = useUpdateIsCommenting();
   const isCommenting = useIsCommenting();
-  const [wait, setWait] = useState(false);
-
-  setInterval(() => setWait(true), 500);
-
-  useEffect(() => {
-    if (typeof posts !== "undefined") {
-      posts.map((post, index) => {
-        if (post.likedBy?.includes(user?.userId as number)) {
-          const newArr = [...posts];
-          newArr[index].isLiked = true;
-          setPosts(newArr);
-        }
-      });
-    }
-  }, [wait]);
+  const [render, setRender] = useState(false);
 
   useEffect(() => {
     if (typeof posts !== "undefined") {
@@ -57,7 +43,25 @@ export const PostsList: React.FC<Props> = ({
         }
       });
     }
-  }, [wait]);
+  }, [render]);
+
+  useEffect(() => {
+    if (typeof posts !== "undefined" && posts) {
+      posts.map((post, index) => {
+        if (post.likedBy?.includes(user?.userId as number)) {
+          const newArr = [...posts];
+          newArr[index].isLiked = true;
+          setPosts(newArr);
+        }
+      });
+    }
+  }, [render]);
+
+  useEffect(() => {
+    setInterval(() => {
+      setRender((prevState) => !prevState);
+    }, 100);
+  }, []);
 
   const postsList = () => {
     if (typeof posts !== "undefined") {

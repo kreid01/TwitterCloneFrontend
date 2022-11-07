@@ -20,12 +20,25 @@ export const HomePage: React.FC = ({}) => {
   const isCommenting = useIsCommenting();
   const user = useGetUser();
 
+  useEffect(() => {
+    if (typeof posts !== "undefined" && posts) {
+      posts.map((post, index) => {
+        if (post.likedBy?.includes(user?.userId as number)) {
+          console.log(post);
+          const newArr = [...posts];
+          newArr[index].isLiked = true;
+          setPosts(newArr);
+        }
+      });
+    }
+  }, [loading]);
+
   return (
     <div className="">
       {!isCommenting && (
         <>
           <h1
-            className="pl-5 pt-3 pb-3 fixed w-full md:w-[53vw] lg:w-[40vw]
+            className="pl-5 pt-3 pb-3 lg:ml-[5px] fixed w-full md:w-[53vw] lg:w-[40vw]
                       backdrop-blur-lg font-bold bg-slate-400 
                       bg-opacity-5 font"
           >

@@ -9,16 +9,22 @@ import { SearchPage } from "./pages/SearchPage";
 import { LoginButtons } from "components/Login/LoginButtons/LoginButtons";
 import { MessagePage } from "pages/MessagePage";
 import { IUser } from "consts/Interface";
+import { postChat } from "services/messages/postChat";
 
 export const App: React.FC = () => {
-  const user = useGetUser();
+  const currentUser = useGetUser();
   const [isOnLoginpage, setIsOnLoginPage] = useState(false);
   const [loginOption, setLoginOption] = useState<string>();
   const openLogInPage = (option: string) => {
     setIsOnLoginPage(true);
     setLoginOption(option);
   };
-  const [messanger, setMessanger] = useState<IUser>();
+  const [messanger, setMessanger] = useState<IUser | null>();
+
+  const createChat = (user: IUser) => {
+    setMessanger(user);
+    postChat(currentUser, user);
+  };
 
   return (
     <div className="container">
@@ -28,7 +34,7 @@ export const App: React.FC = () => {
           <Route path="/search" element={<SearchPage />}></Route>
           <Route
             path=":id"
-            element={<ProfilePage setMessanger={setMessanger} />}
+            element={<ProfilePage createChat={createChat} />}
           ></Route>
           <Route
             path="login"
@@ -40,21 +46,26 @@ export const App: React.FC = () => {
               />
             }
           ></Route>
-          {user && (
+          {currentUser && (
             <>
               <Route path="/home" element={<HomePage />}></Route>
               <Route
                 path=":id"
-                element={<ProfilePage setMessanger={setMessanger} />}
+                element={<ProfilePage createChat={createChat} />}
               ></Route>
               <Route
                 path="/messages"
-                element={<MessagePage messanger={messanger as IUser} />}
+                element={
+                  <MessagePage
+                    setMessanger={setMessanger}
+                    messanger={messanger as IUser}
+                  />
+                }
               ></Route>
             </>
           )}
         </Routes>
-        {!user && !isOnLoginpage && (
+        {!currentUser && !isOnLoginpage && (
           <LoginButtons openLoginPage={openLogInPage} />
         )}
       </div>

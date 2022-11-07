@@ -12,10 +12,10 @@ import { ProfileFollowers } from "components/Profile/ProfileFollowers";
 import { IUser } from "consts/Interface";
 
 interface Props {
-  setMessanger: React.Dispatch<React.SetStateAction<IUser | undefined>>;
+  createChat: (user: IUser) => void;
 }
 
-export const ProfilePage: React.FC<Props> = ({ setMessanger }) => {
+export const ProfilePage: React.FC<Props> = ({ createChat }) => {
   const [query, setQuery] = useState("tweets");
   const { id } = useParams();
   const [isReset, setIsReset] = useState(false);
@@ -49,7 +49,7 @@ export const ProfilePage: React.FC<Props> = ({ setMessanger }) => {
       <>
         {!isCommenting && (
           <ProfileCover
-            setMessanger={setMessanger}
+            createChat={createChat}
             toggleIsOnFollowers={toggleIsOnFollowers}
             user={profile as IUser}
             handleChange={handleChange}

@@ -25,12 +25,11 @@ export const Post: React.FC<Props> = ({
   const index = posts.indexOf(post);
   const toggleComment = useUpdateIsCommenting;
   const user = useGetUser();
+  const [render, setRender] = useState(false);
 
   const goToUserPage = () => {
     toggleComment();
   };
-
-  const [flag, setFlag] = useState(false);
 
   const handleDelete = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -41,18 +40,6 @@ export const Post: React.FC<Props> = ({
     setPosts(newArr);
     deletePost(post.id);
   };
-
-  const checkIfLiked = useCallback(() => {
-    if (post.likedBy?.includes(user?.userId as number) && flag) {
-      const newArr = [...posts];
-      newArr[index].isLiked = true;
-      setPosts(newArr);
-    }
-  }, [flag]);
-
-  useEffect(() => {
-    checkIfLiked();
-  }, [user]);
 
   return (
     <div className=" hover:bg-neutral-100 border-b-[1px] px-4 pt-4 w-full md:w-[53vw] lg:w-[40vw]">

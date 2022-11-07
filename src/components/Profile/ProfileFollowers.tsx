@@ -57,7 +57,7 @@ export const ProfileFollowers: React.FC<Props> = ({ id }) => {
             </label>
           </li>
         </div>
-        <div className="ml-3 pt-4">{usersList()}</div>
+        <div className="-ml-4 pt-4">{usersList()}</div>
       </div>
     </>
   );
