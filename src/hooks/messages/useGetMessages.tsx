@@ -15,6 +15,18 @@ export const useGetMessages = (chatId: number, page: number) => {
   const [messages, setMessages] = useState<Message[]>();
   const [hasMore, setHasMore] = useState<boolean>(false);
 
+  
+async function getBooks() {
+  const res = await fetch("https://localhost:7147/books", {
+    cache: "no-store",
+  });
+  const data = await res.json();
+  console.log(data);
+
+  return data;
+}
+
+getBooks();
   const sendQuery = useCallback(
     async (chatId: number, page: number) => {
       if (chatId !== 1) {

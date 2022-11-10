@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaArrowLeft, FaTrash } from "react-icons/fa";
 import { IUser } from "../consts/Interface";
-import { MessageUser } from "./MessageUser";
+import { MessageUser } from "../components/messages/MessageUser";
 import { useGetUser } from "context/UserContext";
 import { useGetChats } from "../hooks/messages/useGetChats";
 import { deleteChat } from "../services/messages/deleteChat";

@@ -6,7 +6,7 @@ export const useInfiniteScroll = (page: number, hasMore: boolean) => {
   const handleObserver = useCallback(
     (entries: IntersectionObserverEntry[]) => {
       const target = entries[0];
-      if (target.isIntersecting && hasMore) {
+      if (target.isIntersecting && !hasMore) {
         setScrollPage((prevPage) => prevPage + 1);
         console.log(scrollPage);
       }

@@ -3,11 +3,12 @@ import { useGetUser } from "context/UserContext";
 import { Message, useGetMessages } from "hooks/messages/useGetMessages";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useGetChat } from "../hooks/messages/useGetChat";
+import { useGetChat } from "../../hooks/messages/useGetChat";
 import { MessageInput } from "./MessageInput";
-import { sendMessage } from "../services/messages/sendMessage";
-import { connection } from "../services/messages/sendMessage";
-import { useInfiniteScroll } from "../hooks/utils/useInfiniteScroll";
+import { sendMessage } from "../../services/messages/sendMessage";
+import { connection } from "../../services/messages/sendMessage";
+import { useInfiniteScroll } from "../../hooks/utils/useInfiniteScroll";
+import { FaBook } from "react-icons/fa";
 
 interface Props {
   user: IUser;
@@ -66,17 +67,34 @@ export const MessageUser: React.FC<Props> = ({ user }) => {
   const messageList = () => {
     if (typeof messages !== "undefined") {
       return messages.map((message, index) => {
-        return (
-          <div className="my-4 -ml-20 border-b-2 flex-col w-[70vw] md:w-[50vw] lg:w-[37vw] justify-between">
-            <p className="bg-blue-400 text-white px-4 py-2 rounded-2xl mb-2">
-              {message.messageContent}
-            </p>
-            <p className="text-sm text-gray-300">
-              {message.created.substring(16, 11)}
-            </p>
-            <p className="font-bold">{message?.senderName}:</p>
-          </div>
-        );
+        if (index === messages.length - 1) {
+          return (
+            <div
+              ref={loader}
+              className="my-4 -ml-20 border-b-2 flex-col w-[70vw] md:w-[50vw] lg:w-[37vw] justify-between"
+            >
+              <p className="bg-blue-400 text-white px-4 py-2 rounded-2xl mb-2">
+                {message.messageContent}
+              </p>
+              <p className="text-sm text-gray-300">
+                {message.created.substring(16, 11)}
+              </p>
+              <p className="font-bold">{message?.senderName}:</p>
+            </div>
+          );
+        } else {
+          return (
+            <div className="my-4 -ml-20 border-b-2 flex-col w-[70vw] md:w-[50vw] lg:w-[37vw] justify-between">
+              <p className="bg-blue-400 text-white px-4 py-2 rounded-2xl mb-2">
+                {message.messageContent}
+              </p>
+              <p className="text-sm text-gray-300">
+                {message.created.substring(16, 11)}
+              </p>
+              <p className="font-bold">{message?.senderName}:</p>
+            </div>
+          );
+        }
       });
     }
   };
@@ -100,7 +118,7 @@ export const MessageUser: React.FC<Props> = ({ user }) => {
             </div>
           </div>
         </div>
-        <div className="h-64 w-[50w] md:w-[53vw] lg:w-[40vw] pl-20 overflow-y-scroll overflow-x-visible">
+        <div className="h-[70vw] flex-col-reverse w-[50w] md:w-[53vw] lg:w-[40vw] pl-20 overflow-y-scroll overflow-x-visible">
           {messageList()}
         </div>
       </div>
