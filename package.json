@@ -7,6 +7,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.2.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@microsoft/signalr": "^6.0.10",
     "@prisma/client": "^4.5.0",
     "@reduxjs/toolkit": "^1.8.6",
     "@testing-library/user-event": "^13.5.0",
@@ -24,6 +25,7 @@
     "react-redux": "^8.0.4",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
+    "react-signalr": "^0.2.14",
     "web-vitals": "^2.1.4",
     "zlib": "^1.0.5"
   },

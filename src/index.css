@@ -19,10 +19,10 @@
     @apply post-icon hover:bg-red-300;
   }
   .retweet-icon {
-    @apply post-icon hover:bg-blue-300;
+    @apply post-icon hover:bg-green-300;
   }
   .comment-icon {
-    @apply post-icon hover:bg-green-300;
+    @apply post-icon hover:bg-blue-300;
   }
   .button-primary {
     @apply font-bold text-white ml-auto h-10
@@ -30,12 +30,12 @@
        pr-4 rounded-2xl;
   }
   .profile-link {
-    @apply hover:bg-slate-100 px-6 py-4 font-bold text-gray-500 peer-checked:text-black
+    @apply hover:bg-slate-100 px-2 py-4 font-bold text-gray-500 peer-checked:text-black
     peer-checked:border-b-4 peer-checked:border-b-blue-400;
   }
   .login-button {
     @apply rounded-xl text-white font-bold
-     border-white border-2 h-8 self-center px-24 mx-2;
+     border-white border-2 h-8 self-center px-16 mx-2;
   }
   .signup-button {
     @apply login-button text-black bg-white;

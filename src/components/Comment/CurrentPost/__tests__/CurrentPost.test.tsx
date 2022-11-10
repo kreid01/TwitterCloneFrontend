@@ -3,7 +3,7 @@ import React from "react";
 import { CurrentPost } from "../CurrentPost";
 import { testPost, testPosts } from "consts/TestMocks";
 
-import { screen, render, cleanup, fireEvent } from "@testing-library/react";
+import { render, cleanup } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import renderer from "react-test-renderer";
 import { BrowserRouter } from "react-router-dom";
@@ -42,22 +42,4 @@ it("matched snapshot", async () => {
     )
     .toJSON();
   expect(tree).toMatchSnapshot();
-});
-
-it("return button when clicked functions", () => {
-  render(
-    <BrowserRouter>
-      <CurrentPost
-        makeCurrentPost={mockFn}
-        isUsersPost={true}
-        setPosts={mockFn}
-        posts={testPosts}
-        post={testPost}
-        key={1}
-      />
-    </BrowserRouter>
-  );
-  const returnButton = screen.getByTestId("returnButton");
-  fireEvent.click(returnButton);
-  expect(mockFn).toBeCalled();
 });

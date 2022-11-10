@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { PostInteraction } from "../PostInteractions/PostInteraction";
 import { IPost } from "../../consts/Interface";
 import { Link } from "react-router-dom";
 import { useUpdateIsCommenting } from "context/IsCommentingContext";
-import axios from "axios";
+import { FaTrash } from "react-icons/fa";
+import { deletePost } from "services/posts/deletePost";
+import { useGetUser } from "context/UserContext";
 
 interface Props {
   post: IPost;
@@ -22,30 +24,46 @@ export const Post: React.FC<Props> = ({
 }) => {
   const index = posts.indexOf(post);
   const toggleComment = useUpdateIsCommenting;
+  const user = useGetUser();
+  const [render, setRender] = useState(false);
 
   const goToUserPage = () => {
     toggleComment();
   };
 
+  const handleDelete = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    const newArr = [...posts];
+    newArr.splice(index, 1);
+    setPosts(newArr);
+    deletePost(post.id);
+  };
+
   return (
-    <div className=" hover:bg-neutral-100 border-b-2 px-4 pt-4">
+    <div className=" hover:bg-neutral-100 border-b-[1px] px-4 pt-4 w-full md:w-[53vw] lg:w-[40vw]">
       <div
-        onClick={
-          makeCurrentPost !== undefined
-            ? () => makeCurrentPost(post)
-            : undefined
-        }
+        onClick={() => makeCurrentPost(post)}
         className="flex"
-        data-testid="post"
+        data-testid="po)t"
       >
         <img className="w-12 h-12 rounded-full" src={post.userImg} alt="" />
-        <div className="flex-col pl-4">
+        <div className="flex-col pl-4 w-max">
           <p className="">
             <Link onClick={() => goToUserPage()} to={`/${post.userAt}`}>
               <strong>{post.userName}</strong>
             </Link>
             <span className="text-gray-500">
               @{post.userAt}·{post.postDate.substring(0, 7)}
+              {(post.posterId === user?.userId || user?.isAdmin) && (
+                <button
+                  onClick={(event) => handleDelete(event)}
+                  className="ml-12"
+                >
+                  <FaTrash className="color text-black" />
+                </button>
+              )}
             </span>
           </p>
           <p>{post.postTextBody}</p>

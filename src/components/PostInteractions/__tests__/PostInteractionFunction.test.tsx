@@ -8,7 +8,7 @@ const handleClickMockFn = jest.fn();
 const mockFn = jest.fn();
 
 afterEach(cleanup);
-it("comment button handles click", () => {
+it("comment button handles click", async () => {
   render(
     <PostInteraction
       makeCurrentPost={mockFn}
@@ -20,35 +20,5 @@ it("comment button handles click", () => {
     />
   );
   fireEvent.click(screen.getByTestId("commentButton"));
-  expect(handleClickMockFn).toBeCalled();
-});
-
-it("like button handles click", () => {
-  render(
-    <PostInteraction
-      makeCurrentPost={mockFn}
-      index={1}
-      post={testPost}
-      setPosts={handleClickMockFn}
-      posts={testPosts}
-      isUsersPost={false}
-    />
-  );
-  fireEvent.click(screen.getByTestId("likeButton"));
-  expect(handleClickMockFn).toBeCalled();
-});
-
-it("retweet button handles click", () => {
-  render(
-    <PostInteraction
-      makeCurrentPost={mockFn}
-      index={1}
-      post={testPost}
-      setPosts={handleClickMockFn}
-      posts={testPosts}
-      isUsersPost={false}
-    />
-  );
-  fireEvent.click(screen.getByTestId("retweetButton"));
-  expect(handleClickMockFn).toBeCalled();
+  expect(mockFn).toBeCalled();
 });

@@ -1,4 +1,4 @@
-import { ProfilePageHead, User } from "features/ProfilePageHead";
+import { ProfileCover } from "components/Profile/ProfileCover/ProfileCover";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
 import { PostsList } from "../components/PostsList/PostsList";
@@ -6,17 +6,27 @@ import { useInfiniteScroll } from "hooks/utils/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
 import { useGetUserPosts } from "hooks/posts/useGetUsersPosts";
-import { useGetUser } from "hooks/users/useGetUser";
+import { useGetUserProfile } from "hooks/users/useGetUserProfile";
 import { useIsCommenting } from "context/IsCommentingContext";
+import { ProfileFollowers } from "components/Profile/ProfileFollowers";
+import { IUser } from "consts/Interface";
 
-export const ProfilePage: React.FC = ({}) => {
+interface Props {
+  createChat: (user: IUser) => void;
+}
+
+export const ProfilePage: React.FC<Props> = ({ createChat }) => {
   const [query, setQuery] = useState("tweets");
   const { id } = useParams();
   const [isReset, setIsReset] = useState(false);
   const [page, setPage] = useState(0);
-  const { user } = useGetUser(id as string);
+  const { profile } = useGetUserProfile(id as string);
+  const toggleIsOnFollowers = () => {
+    setIsOnFollowers((prevState) => !prevState);
+  };
+  const [isOnFollowers, setIsOnFollowers] = useState(false);
   const { posts, error, loading, hasMore, setPosts } = useGetUserPosts(
-    user?.userId as number,
+    profile?.userId as number,
     query,
     page,
     setIsReset,
@@ -34,25 +44,35 @@ export const ProfilePage: React.FC = ({}) => {
     setPage(scrollPage);
   }, [scrollPage]);
 
-  if (user) {
+  if (profile) {
     return (
       <>
         {!isCommenting && (
-          <ProfilePageHead user={user as User} handleChange={handleChange} />
-        )}
-        <div className="ml-20">
-          <PostsList
-            loader={loader}
-            loading={loading}
-            error={error}
-            hasMore={hasMore}
-            setPosts={setPosts}
-            posts={posts as IPost[]}
+          <ProfileCover
+            createChat={createChat}
+            toggleIsOnFollowers={toggleIsOnFollowers}
+            user={profile as IUser}
+            handleChange={handleChange}
+            isOnFollowers={isOnFollowers}
           />
-        </div>
+        )}
+        {isOnFollowers ? (
+          <ProfileFollowers id={id as string} />
+        ) : (
+          <div>
+            <PostsList
+              loader={loader}
+              loading={loading}
+              error={error}
+              hasMore={hasMore}
+              setPosts={setPosts}
+              posts={posts as IPost[]}
+            />
+          </div>
+        )}
       </>
     );
   } else {
-    return <p>loading</p>;
+    return <p className="ml-3">loading...</p>;
   }
 };

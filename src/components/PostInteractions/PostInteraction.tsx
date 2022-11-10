@@ -1,8 +1,4 @@
 import { handleLike } from "utils/handleLike";
-import {
-  useIsCommenting,
-  useUpdateIsCommenting,
-} from "context/IsCommentingContext";
 import { handleRetweet } from "utils/handleRetweet";
 import React from "react";
 import { IconBaseProps } from "react-icons";
@@ -28,6 +24,7 @@ export const PostInteraction: React.FC<Props> = ({
   index,
 }) => {
   const user = useGetUser();
+
   return (
     <>
       <div className="flex">
@@ -47,7 +44,7 @@ export const PostInteraction: React.FC<Props> = ({
               className="retweet-icon"
               icon={
                 <FaRetweet
-                  style={{ color: post.isRetweeted ? "blue" : "none" }}
+                  style={{ color: post.isRetweeted ? "#77DD77" : "none" }}
                   data-testid="retweetButton"
                   onClick={() =>
                     handleRetweet(
@@ -65,7 +62,7 @@ export const PostInteraction: React.FC<Props> = ({
               className="heart-icon"
               icon={
                 <FaHeart
-                  style={{ color: post.isLiked ? "red" : "none" }}
+                  style={{ color: post.isLiked ? "#ff6961" : "none" }}
                   data-testid="likeButton"
                   onClick={() =>
                     handleLike(posts, index, setPosts, user?.userId as number)

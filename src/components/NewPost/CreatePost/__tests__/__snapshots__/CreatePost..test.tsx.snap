@@ -2,21 +2,28 @@
 
 exports[`matched snapshot 1`] = `
 <div
-  className="bottom-3 px-3 mb-18 flex"
+  className="bottom-3 px-3 mb-6 flex"
 >
   <img
     alt=""
-    className="w-12 h-12"
-    src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
+    className="w-12 h-12 rounded-full"
   />
   <div>
-    <textarea
-      className="text-lg pl-3 w-72 border-gray-300 h-36 resize-none text-gray-900 rounded-lg outline-0 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-      name="postTextBody"
-      onChange={[Function]}
-      placeholder="Whats Happening?"
-      required={true}
-    />
+    <div>
+      <textarea
+        className="text-lg pl-3 w-72 border-gray-300 h-28 resize-none text-gray-900 rounded-lg outline-0 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        name="postTextBody"
+        onChange={[Function]}
+        placeholder="What's Happening?"
+        required={true}
+        value=""
+      />
+      <p
+        className="mt-2 text-sm text-red-600 dark:text-red-500"
+      >
+        Please give your post text
+      </p>
+    </div>
     <img
       alt=""
       className="w-80 pt-2 pb-6 max-h-72 rounded-xl"
@@ -109,6 +116,8 @@ exports[`matched snapshot 1`] = `
  bg-blue-500 hover:bg-blue-400 p-2 pl-4
  pr-4 rounded-2xl"
         data-testid="tweetButton"
+        disabled={true}
+        id="tweetButton"
         onClick={[Function]}
       >
         Tweet

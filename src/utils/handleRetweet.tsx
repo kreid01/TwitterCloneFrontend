@@ -27,7 +27,7 @@ const updatePostRetwteetedBy = (
     newArr[index].retweetedBy?.includes(userId)
   ) {
     let indexOfUser = newArr[index].retweetedBy?.indexOf(userId);
-    newArr[index].retweetedBy?.splice(indexOfUser as number, userId);
+    newArr[index].retweetedBy?.splice(indexOfUser as number, 1);
   } else if (newArr[index].retweetedBy !== null) {
     newArr[index].retweetedBy = [
       ...(newArr[index].retweetedBy as Array<number>),
@@ -40,7 +40,7 @@ const updatePostRetwteetedBy = (
 };
 
 const updatePostsRetweetCount = (newArr: IPost[], index: number) => {
-  newArr[index].retweetCount = newArr[index].isLiked
+  newArr[index].retweetCount = newArr[index].isRetweeted
     ? newArr[index].retweetCount - 1
     : newArr[index].retweetCount + 1;
   newArr[index].isRetweeted = !newArr[index].isRetweeted;

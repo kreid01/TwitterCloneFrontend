@@ -13,6 +13,7 @@ exports[`matched snapshot 1`] = `
     <button
       className="mr-4 mb-4"
       data-testid="returnButton"
+      onClick={null}
     >
       <svg
         fill="currentColor"

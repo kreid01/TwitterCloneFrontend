@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useLoginUser } from "../../../hooks/users/useLoginUser";
 
 interface Props {
@@ -12,16 +11,15 @@ export const LoginComponent: React.FC<Props> = ({ openLoginPage }) => {
     password: "",
   });
 
-  const navigate = useNavigate();
   const [submit, setSubmit] = useState(false);
-
-  const { successful, error } = useLoginUser(loginInData, submit, setSubmit);
+  const [invalidLoginDetails, setInvalidLoginDetails] = useState<string>("");
+  const { unsuccesful } = useLoginUser(loginInData, submit, setSubmit);
 
   useEffect(() => {
-    if (successful) {
-      navigate("/profile");
+    if (unsuccesful) {
+      setInvalidLoginDetails("Invlaid login details please try again");
     }
-  }, [successful]);
+  }, [unsuccesful]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSignInData((prevData) => ({
@@ -32,7 +30,7 @@ export const LoginComponent: React.FC<Props> = ({ openLoginPage }) => {
 
   return (
     <>
-      <div className="mt-56 mx-auto flex w-4/6 flex-col mb-6">
+      <div className="mt-56 mx-auto flex w-7/12 lg:w-4/6 flex-col mb-6">
         <h1 className="my-3 ml-3 font-bold text-xl">Join Twitter Today</h1>
 
         <div className="w-full  px-3 mt-2">
@@ -50,7 +48,7 @@ export const LoginComponent: React.FC<Props> = ({ openLoginPage }) => {
           />
         </div>
       </div>
-      <div className="flex flex-wrap w-4/6 mx-auto mb-6">
+      <div className="flex flex-wrap w-7/12 lg:w-4/6 mx-auto mb-6">
         <div className="w-full px-3">
           <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
             Password
@@ -65,6 +63,7 @@ export const LoginComponent: React.FC<Props> = ({ openLoginPage }) => {
             minLength={7}
             onChange={handleChange}
           />
+          <div className="text-red-600">{invalidLoginDetails}</div>
           <button
             className="shadow w-full mt-6 bg-blue-500 hover:bg-blue-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded"
             type="submit"
@@ -77,6 +76,7 @@ export const LoginComponent: React.FC<Props> = ({ openLoginPage }) => {
             <button
               onClick={() => openLoginPage("signup")}
               className="text-blue-500 ml-2"
+              data-testid="loginSubmission"
             >
               Sign up
             </button>

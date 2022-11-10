@@ -11,7 +11,6 @@ export const useGetPosts = (query: string, page: number) => {
   const sendQuery = useCallback(
     async (query: string) => {
       try {
-        await setLoading(true);
         await setError(false);
         const { data } = await axios.get<IPost[]>(
           `https://localhost:7227/posts?PageNumber=${page}&PageSize=6`

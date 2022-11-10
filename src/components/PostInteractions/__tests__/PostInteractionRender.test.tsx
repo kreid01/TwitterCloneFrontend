@@ -1,7 +1,7 @@
 import { PostInteraction } from "../PostInteraction";
 import "@testing-library/jest-dom";
 
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, render, screen } from "@testing-library/react";
 import { testPost, testPosts } from "../../../consts/TestMocks";
 import renderer from "react-test-renderer";
 
@@ -20,6 +20,34 @@ it("render without crashing", () => {
       post={testPost}
     />
   );
+});
+
+it("is user post, then unable to retweet", () => {
+  render(
+    <PostInteraction
+      makeCurrentPost={mockFn}
+      setPosts={handleClickMockFn}
+      posts={testPosts}
+      isUsersPost={true}
+      index={1}
+      post={testPost}
+    />
+  );
+  expect(screen.queryByTestId("retweetButton")).not.toBeInTheDocument();
+});
+
+it("is user post, then unable to like", () => {
+  render(
+    <PostInteraction
+      makeCurrentPost={mockFn}
+      setPosts={handleClickMockFn}
+      posts={testPosts}
+      isUsersPost={true}
+      index={1}
+      post={testPost}
+    />
+  );
+  expect(screen.queryByTestId("likeButton")).not.toBeInTheDocument();
 });
 
 it("matched snapshot", () => {

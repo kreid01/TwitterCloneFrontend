@@ -1,22 +1,21 @@
 import axios from "axios";
 import { useState, useCallback, useEffect } from "react";
+import { IUser } from "consts/Interface";
 
-import { User } from "features/ProfilePageHead";
-
-export const useGetUser = (id: string) => {
+export const useGetUserProfile = (id: string) => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<User>();
+  const [profile, setProfile] = useState<IUser>();
 
   const sendUser = useCallback(
     async (id: string) => {
       try {
         await setLoading(true);
         await setError(false);
-        const { data } = await axios.get<User>(
+        const { data } = await axios.get<IUser>(
           `https://localhost:7227/users/${id}`
         );
-        setUser(await data);
+        setProfile(await data);
       } catch (err) {
         if (axios.isAxiosError(error)) {
           console.log("error message: ", error.message);
@@ -34,5 +33,5 @@ export const useGetUser = (id: string) => {
     sendUser(id);
   }, [id]);
 
-  return { user, loading, error };
+  return { profile, loading, error };
 };

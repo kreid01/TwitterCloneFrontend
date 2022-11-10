@@ -10,8 +10,6 @@ import renderer from "react-test-renderer";
 
 const mockFn = jest.fn();
 
-const handleTweet = jest.fn();
-
 afterEach(cleanup);
 it("render without crashing", () => {
   render(
