@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CurrentPost } from "components/Comment/CurrentPost/CurrentPost";
 import { Post } from "components/Post/Post";
 import { nanoid } from "nanoid";
@@ -11,27 +11,17 @@ import {
 import { useGetUser } from "context/UserContext";
 
 interface Props {
-  setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
   hasMore: boolean;
-  posts: IPost[];
+  data: IPost[];
   loading: boolean;
-  error: boolean;
-  loader?: React.MutableRefObject<null>;
 }
 
-export const PostsList: React.FC<Props> = ({
-  setPosts,
-  hasMore,
-  posts,
-  loading,
-  error,
-  loader,
-}) => {
+export const PostsList: React.FC<Props> = ({ hasMore, data, loading }) => {
   const user = useGetUser();
   const [currentPost, setCurrentPost] = useState<IPost>();
   const toggleIsCommenting = useUpdateIsCommenting();
   const isCommenting = useIsCommenting();
-  const [render, setRender] = useState(false);
+  const [posts, setPosts] = useState(data);
 
   useEffect(() => {
     if (typeof posts !== "undefined") {
@@ -43,24 +33,26 @@ export const PostsList: React.FC<Props> = ({
         }
       });
     }
-  }, [render]);
+  }, []);
+
+  const [render, setRender] = useState(false);
+  useEffect(() => {
+    setInterval(() => {
+      setRender((prevState) => !prevState);
+    }, 50);
+  }, []);
 
   useEffect(() => {
     if (typeof posts !== "undefined" && posts) {
       posts.map((post, index) => {
         if (post.likedBy?.includes(user?.userId as number)) {
           const newArr = [...posts];
+
           newArr[index].isLiked = true;
           setPosts(newArr);
         }
       });
     }
-  }, [render]);
-
-  useEffect(() => {
-    setInterval(() => {
-      setRender((prevState) => !prevState);
-    }, 100);
   }, []);
 
   const postsList = () => {
@@ -71,9 +63,13 @@ export const PostsList: React.FC<Props> = ({
         return (
           <div>
             <Post
+              setPosts={
+                setPosts as React.Dispatch<
+                  React.SetStateAction<IPost[] | undefined>
+                >
+              }
               isUsersPost={isUsersPost}
               post={post}
-              setPosts={setPosts}
               posts={posts}
               key={nanoid()}
               makeCurrentPost={makeCurrentPost}
@@ -92,10 +88,12 @@ export const PostsList: React.FC<Props> = ({
   return isCommenting && currentPost !== undefined ? (
     <>
       <CurrentPost
+        setPosts={
+          setPosts as React.Dispatch<React.SetStateAction<IPost[] | undefined>>
+        }
         makeCurrentPost={makeCurrentPost as () => void}
         isUsersPost={false}
         posts={posts}
-        setPosts={setPosts}
         post={currentPost as IPost}
       />
     </>
@@ -105,8 +103,6 @@ export const PostsList: React.FC<Props> = ({
         <div key={nanoid()}>{postsList()}</div>
       </div>
       {loading && hasMore && <p className="pl-4 pt-4">Loading...</p>}
-      {error && <p>Error!</p>}
-      <div ref={loader} />
     </>
   );
 };

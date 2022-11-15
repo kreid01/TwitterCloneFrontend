@@ -1,17 +1,31 @@
 import React, { useState } from "react";
 import { User } from "components/User/User";
-import { useGetFollows } from "hooks/users/useGetFollows";
 import { useGetUserProfile } from "hooks/users/useGetUserProfile";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { IUser } from "../../consts/Interface";
 
 interface Props {
   id: string;
 }
+const getFollows = async ({ queryKey }: any) => {
+  const { id, query } = queryKey[1];
+  const { data } = await axios.get<IUser[]>(
+    `https://localhost:7227/users/follows`,
+    { params: { id: id, query: query } }
+  );
+
+  return data as IUser[];
+};
 
 export const ProfileFollowers: React.FC<Props> = ({ id }) => {
   const { profile } = useGetUserProfile(id as string);
   const [query, setQuery] = useState("followers");
-
-  const { followers } = useGetFollows(profile?.userId as number, query);
+  const queryKey = {
+    id: profile?.userId as number,
+    query: query,
+  };
+  const { data: followers } = useQuery(["followers", queryKey], getFollows);
 
   const usersList = () => {
     if (typeof followers !== "undefined") {

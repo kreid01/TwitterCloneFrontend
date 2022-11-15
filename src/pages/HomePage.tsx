@@ -1,24 +1,56 @@
 import React, { useState, useEffect } from "react";
-import { useGetPosts } from "../hooks/posts/useGetPosts";
 import { IPost } from "../consts/Interface";
 import { PostsList } from "../components/PostsList/PostsList";
 import { CreatePost } from "components/NewPost/CreatePost/CreatePost";
-import { useInfiniteScroll } from "hooks/utils/useInfiniteScroll";
 import { useIsCommenting } from "context/IsCommentingContext";
 import { useGetUser } from "context/UserContext";
+import axios from "axios";
+import { useInfiniteQuery } from "react-query";
+
+const getPosts = async (pageParam: number) => {
+  const { data } = await axios.get<IPost[]>(
+    `https://localhost:7227/posts?PageNumber=${pageParam}&PageSize=6`
+  );
+  return data;
+};
 
 export const HomePage: React.FC = ({}) => {
-  const [page, setPage] = useState(1);
-  const [query, setQuery] = useState("");
-  const { loading, error, posts, hasMore, setPosts } = useGetPosts(query, page);
-  const { scrollPage, loader } = useInfiniteScroll(page, hasMore);
-
-  useEffect(() => {
-    setPage(scrollPage);
-  }, [scrollPage]);
-
   const isCommenting = useIsCommenting();
   const user = useGetUser();
+
+  const {
+    data: posts,
+    fetchNextPage,
+    hasNextPage,
+    isSuccess,
+    isFetching,
+  } = useInfiniteQuery({
+    queryKey: ["posts"],
+    queryFn: ({ pageParam = 1 }) => getPosts(pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = allPages.length + 1;
+      return lastPage.length !== 0 ? nextPage : undefined;
+    },
+  });
+
+  const [pages, setPages] = useState(posts?.pages[1]);
+
+  useEffect(() => {
+    let fetching = false;
+    const handleScroll = async (e: any) => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        e.target.scrollingElement;
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+        fetching = true;
+        if (hasNextPage) await fetchNextPage();
+        fetching = false;
+      }
+    };
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <div className="">
@@ -33,21 +65,25 @@ export const HomePage: React.FC = ({}) => {
           </h1>
           {user ? (
             <div className="pt-16">
-              <CreatePost setPosts={setPosts} />
+              <CreatePost />
             </div>
           ) : (
             <div className="pt-16"></div>
           )}
         </>
       )}
-      <PostsList
-        loader={loader}
-        loading={loading}
-        error={error}
-        hasMore={hasMore}
-        setPosts={setPosts}
-        posts={posts as IPost[]}
-      />
+      {isSuccess &&
+        posts?.pages.map((page) => {
+          return (
+            <div>
+              <PostsList
+                loading={isFetching}
+                hasMore={hasNextPage as boolean}
+                data={page as IPost[]}
+              />
+            </div>
+          );
+        })}
     </div>
   );
 };

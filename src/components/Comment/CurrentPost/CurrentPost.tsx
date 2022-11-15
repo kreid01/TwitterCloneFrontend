@@ -42,7 +42,6 @@ export const CurrentPost: React.FC<Props> = ({
     }
   };
 
-  const user = useGetUser();
   const index = posts.indexOf(post);
   const toggleComment = useUpdateIsCommenting() as () => void;
   const isCommenting = useIsCommenting();

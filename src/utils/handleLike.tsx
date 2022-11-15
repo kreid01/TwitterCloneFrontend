@@ -11,7 +11,6 @@ export const handleLike = (
   const updatedLikedByArr = updatePostLikedBy(newArr, index, userId);
   const updatedLikedCountArr = updatePostsLikeCount(updatedLikedByArr, index);
   setter(updatedLikedCountArr);
-  console.log(posts[index]);
   updatePost(posts[index]);
 };
 

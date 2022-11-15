@@ -42,7 +42,7 @@ export const ProfileHeader: React.FC<Props> = ({ user, createChat }) => {
 
   return (
     <header
-      className="flex pl-5 py-1 pb-2 fixed w-[84vw]  md:w-[49vw] lg:w-[40vw] pr-3 z-10
+      className="flex pl-5 py-1 pb-2 fixed w-full md:w-[53vw] lg:w-[40vw] pr-3 z-10
             backdrop-blur-lg bg-slate-400 
             bg-opacity-5 z-2"
     >
@@ -53,7 +53,7 @@ export const ProfileHeader: React.FC<Props> = ({ user, createChat }) => {
         <h2 className="font-bold">{user?.userName}</h2>
         <p className="text-sm text-gray-400"> Tweets</p>
       </div>
-      {currentUser?.userId === user?.userId ? (
+      {currentUser === null ? null : currentUser?.userId === user?.userId ? (
         <SignoutButton />
       ) : (
         <>

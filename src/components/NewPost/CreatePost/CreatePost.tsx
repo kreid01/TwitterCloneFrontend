@@ -6,15 +6,12 @@ import { FileUpload } from "../FileUpload/FileUpload";
 import { PreviewImg } from "../PreviewImg/PreviewImg";
 import { UserTextInput } from "../UserTextInput/UserTextInput";
 import { useFileReader } from "../../../hooks/utils/useFileReader";
-import { IPost } from "../../../consts/Interface";
 import { postPost } from "../../../services/posts/postPost";
 import { useGetUser } from "context/UserContext";
 
-interface Props {
-  setPosts: React.Dispatch<React.SetStateAction<IPost[] | undefined>>;
-}
+interface Props {}
 
-export const CreatePost: React.FC<Props> = ({ setPosts }) => {
+export const CreatePost: React.FC<Props> = ({}) => {
   const user = useGetUser();
   const newPostInitialState = {
     postTextBody: "",
@@ -50,8 +47,8 @@ export const CreatePost: React.FC<Props> = ({ setPosts }) => {
 
   const handleTweet = () => {
     postPost(newPost);
-    setPosts((prevArr) => [...(prevArr as Array<IPost>), newPost]);
     resetNewPost();
+    window.location.reload();
     setPreview(null);
   };
 
