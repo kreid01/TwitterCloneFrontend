@@ -1,18 +1,40 @@
 import { IUser } from "consts/Interface";
 import { useGetUser } from "context/UserContext";
-import { Message, useGetMessages } from "hooks/messages/useGetMessages";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useGetChat } from "../../hooks/messages/useGetChat";
 import { MessageInput } from "./MessageInput";
 import { sendMessage } from "../../services/messages/sendMessage";
 import { connection } from "../../services/messages/sendMessage";
-import { useInfiniteScroll } from "../../hooks/utils/useInfiniteScroll";
-import { FaBook } from "react-icons/fa";
+
+import axios from "axios";
+import { useInfiniteQuery } from "react-query";
 
 interface Props {
   user: IUser;
 }
+
+export type Message = {
+  id?: number;
+  chatId: number;
+  senderName: string;
+  messageContent: string;
+  created: string;
+};
+
+const getMesages = async (queryKey: any, pageParam: number) => {
+  const { data } = await axios.get<Message[]>(
+    `https://localhost:7227/chat/messages`,
+    {
+      params: {
+        chatId: queryKey,
+        PageNumber: pageParam,
+        PageSize: 8,
+      },
+    }
+  );
+  return data;
+};
 
 export const MessageUser: React.FC<Props> = ({ user }) => {
   const currentUser = useGetUser();
@@ -20,11 +42,23 @@ export const MessageUser: React.FC<Props> = ({ user }) => {
     user?.userId as number,
     currentUser?.userId as number
   );
-  const [page, setPage] = useState(0);
-  const { messages, setMessages, hasMore } = useGetMessages(
-    chat?.id as number,
-    page as number
-  );
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isSuccess,
+    isFetchingNextPage,
+    refetch,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["posts", chat?.id],
+    queryFn: ({ pageParam = 1 }) => getMesages(chat?.id, pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = allPages.length + 1;
+      return lastPage.length !== 0 ? nextPage : undefined;
+    },
+  });
   const [isMessaging, setIsMessaging] = useState(false);
   const [currentMessanger, setCurrentMessager] = useState<IUser>();
   const startMessage = (user: IUser) => {
@@ -35,16 +69,20 @@ export const MessageUser: React.FC<Props> = ({ user }) => {
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(event?.target.value);
   };
-  const { scrollPage, loader } = useInfiniteScroll(page, hasMore);
 
-  useEffect(() => {
-    setPage(scrollPage);
-  }, [scrollPage]);
-
+  const element = document.getElementById("messages");
   const sendMessageToUser = () => {
+    const newMessage = {
+      senderName: user?.userName as string,
+      messageContent: message,
+    };
     if (message.length > 0) {
-      setMessage("");
+      setNewMessages((prevState) => [
+        ...(prevState as Array<newMessage>),
+        newMessage,
+      ]);
       sendMessage(currentUser?.userName as string, chat?.id as number, message);
+      setMessage("");
       connection.invoke("NotifiyNewMessage", {
         messageContent: message,
         senderName: user?.userName,
@@ -56,54 +94,41 @@ export const MessageUser: React.FC<Props> = ({ user }) => {
 
   useEffect(() => {
     connection.on("RecieveNewMessage", (newMessage) => {
-      if (chat?.id === newMessage.chatId)
-        setMessages((prevState) => [
-          ...(prevState as Array<Message>),
-          newMessage,
-        ]);
+      if (chat?.id === newMessage.chatId) refetch();
     });
   }, []);
 
-  const messageList = () => {
-    if (typeof messages !== "undefined") {
-      return messages.map((message, index) => {
-        if (index === messages.length - 1) {
-          return (
-            <div
-              ref={loader}
-              className="my-4 -ml-20 border-b-2 flex-col w-[70vw] md:w-[50vw] lg:w-[37vw] justify-between"
-            >
-              <p className="bg-blue-400 text-white px-4 py-2 rounded-2xl mb-2">
-                {message.messageContent}
-              </p>
-              <p className="text-sm text-gray-300">
-                {message.created.substring(16, 11)}
-              </p>
-              <p className="font-bold">{message?.senderName}:</p>
-            </div>
-          );
-        } else {
-          return (
-            <div className="my-4 -ml-20 border-b-2 flex-col w-[70vw] md:w-[50vw] lg:w-[37vw] justify-between">
-              <p className="bg-blue-400 text-white px-4 py-2 rounded-2xl mb-2">
-                {message.messageContent}
-              </p>
-              <p className="text-sm text-gray-300">
-                {message.created.substring(16, 11)}
-              </p>
-              <p className="font-bold">{message?.senderName}:</p>
-            </div>
-          );
-        }
-      });
-    }
+  const handleObserver = useCallback(
+    (entries: any) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        fetchNextPage();
+      }
+    },
+    [hasNextPage, fetchNextPage]
+  );
+  const loader = useRef(null);
+
+  useEffect(() => {
+    const option = {
+      root: null,
+      rootMargin: "20px",
+      threshold: 0,
+    };
+    const observer = new IntersectionObserver(handleObserver, option);
+    if (loader.current) observer.observe(loader.current);
+  }, [handleObserver]);
+  type newMessage = {
+    senderName: string;
+    messageContent: string;
   };
+  const [newMessages, setNewMessages] = useState<newMessage[]>([]);
 
   return (
     <div>
       <div
         onClick={() => startMessage(user)}
-        className=" my-3 border-gray-400 md:w-[53vw] lg:w-[40vw] border-b-[1px] px-4 py-4  w-[85vw] hover:bg-gray-100"
+        className=" my-3 border-gray-400 md:w-[53vw] lg:w-[40vw] border-b-[1px] px-4 py-4  w-[85vw]"
       >
         <div className="flex">
           <img className="w-12 h-12 rounded-full" src={user?.userImg} alt="" />
@@ -118,8 +143,43 @@ export const MessageUser: React.FC<Props> = ({ user }) => {
             </div>
           </div>
         </div>
-        <div className="h-[70vw] flex-col-reverse w-[50w] md:w-[53vw] lg:w-[40vw] pl-20 overflow-y-scroll overflow-x-visible">
-          {messageList()}
+        <div
+          id="messages"
+          className="h-[70vw]  w-[50w] md:w-[53vw] lg:w-[40vw] pl-20 overflow-y-scroll overflow-x-visible"
+        >
+          {data &&
+            data?.pages.map((page) =>
+              page.map((message, i) => {
+                return (
+                  <div className="my-4 -ml-20 border-b-2 flex flex-col">
+                    <p className="text-sm text-center text-gray-300 ">
+                      {message.created.substring(0, 10)}
+                    </p>
+                    {message.senderName !== user?.userName ? (
+                      <p className="bg-blue-500 text-white self-end mr-3 px-4 py-2 rounded-2xl mb-2">
+                        {message.messageContent}
+                      </p>
+                    ) : (
+                      <p
+                        ref={loader}
+                        className="bg-gray-600 text-white self-start px-4 py-2 rounded-2xl mb-2"
+                      >
+                        {message.messageContent}
+                      </p>
+                    )}
+                  </div>
+                );
+              })
+            )}
+          {newMessages &&
+            newMessages.map((message) => (
+              <div className="my-4 -ml-20 border-b-2 flex flex-col">
+                <p className="text-sm text-center text-gray-300 ">Now</p>
+                <p className="bg-blue-500 text-white self-end mr-3 px-4 py-2 rounded-2xl mb-2">
+                  {message.messageContent}
+                </p>
+              </div>
+            ))}
         </div>
       </div>
       <div className="flex">

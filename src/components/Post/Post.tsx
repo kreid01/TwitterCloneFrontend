@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React from "react";
 import { PostInteraction } from "../PostInteractions/PostInteraction";
 import { IPost } from "../../consts/Interface";
 import { Link } from "react-router-dom";
@@ -25,9 +25,9 @@ export const Post: React.FC<Props> = ({
   const index = posts.indexOf(post);
   const toggleComment = useUpdateIsCommenting;
   const user = useGetUser();
-  const [render, setRender] = useState(false);
 
-  const goToUserPage = () => {
+  const goToUserPage = (event: any) => {
+    event?.stopPropagation();
     toggleComment();
   };
 
@@ -42,7 +42,7 @@ export const Post: React.FC<Props> = ({
   };
 
   return (
-    <div className=" hover:bg-neutral-100 border-b-[1px] px-4 pt-4 w-full md:w-[53vw] lg:w-[40vw]">
+    <div className=" hover:bg-neutral-100 border-b-[1px] px-4 pt-4 w-full md:w-[53vw] lg:w-[40vw] relative">
       <div
         onClick={() => makeCurrentPost(post)}
         className="flex"
@@ -51,15 +51,20 @@ export const Post: React.FC<Props> = ({
         <img className="w-12 h-12 rounded-full" src={post.userImg} alt="" />
         <div className="flex-col pl-4 w-max">
           <p className="">
-            <Link onClick={() => goToUserPage()} to={`/${post.userAt}`}>
+            <Link
+              onClick={(event) => goToUserPage(event)}
+              to={`/${post.userAt}`}
+            >
               <strong>{post.userName}</strong>
             </Link>
             <span className="text-gray-500">
-              @{post.userAt}·{post.postDate.substring(0, 7)}
+              @{post.userAt}
+              <span className="mx-2">·</span>
+              {post.postDate.substring(0, 10)}
               {(post.posterId === user?.userId || user?.isAdmin) && (
                 <button
                   onClick={(event) => handleDelete(event)}
-                  className="ml-12"
+                  className="absolute right-5"
                 >
                   <FaTrash className="color text-black" />
                 </button>

@@ -53,7 +53,7 @@ export const ProfileCover: React.FC<Props> = ({
   };
 
   return (
-    <div className="w-[84vw] md:w-[49vw] lg:w-[40vw] lg:ml-[5px]">
+    <div className="w-full md:w-[53vw] lg:w-[40vw]lg:ml-[5px]">
       <ProfileHeader createChat={createChat} user={user as IUser} />
       <div className="pt-14">
         <img src={user?.userCoverImg} alt="" className="h-44 w-full z-1" />

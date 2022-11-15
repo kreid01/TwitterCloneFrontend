@@ -27,7 +27,7 @@ export const MessagePage: React.FC<Props> = ({ messanger, setMessanger }) => {
       return (
         <div
           onClick={() => getUserAndSet(chat.user2At, setMessanger)}
-          className="flex border-gray-400 md:w-[53vw] lg:w-[40vw] border-b-[1px] px-4 py-4  w-8/12 hover:bg-gray-100"
+          className="flex border-gray-400 md:w-[53vw] lg:w-[40vw] relative border-b-[1px] px-4 py-4  w-8/12 hover:bg-gray-100"
         >
           <img className="w-12 h-12 rounded-full" src={chat?.user2Img} alt="" />
           <div className="flex-col pl-4 w-max ">
@@ -42,7 +42,7 @@ export const MessagePage: React.FC<Props> = ({ messanger, setMessanger }) => {
           </div>
           <button
             onClick={(event) => trashChat(event, chat.id)}
-            className="ml-32"
+            className="absolute right-5"
           >
             <FaTrash>Delete</FaTrash>
           </button>
@@ -52,7 +52,7 @@ export const MessagePage: React.FC<Props> = ({ messanger, setMessanger }) => {
       return (
         <div
           onClick={() => getUserAndSet(chat.user1At, setMessanger)}
-          className="flex border-gray-400 md:w-[53vw] lg:w-[40vw] border-b-[1px] px-4 py-4  w-8/12 hover:bg-gray-100"
+          className="flex border-gray-400 md:w-[53vw] lg:w-[40vw] relative border-b-[1px] px-4 py-4  w-8/12 hover:bg-gray-100"
         >
           <img className="w-12 h-12 rounded-full" src={chat?.user1Img} alt="" />
           <div className="flex-col pl-4 w-max ">
@@ -67,7 +67,7 @@ export const MessagePage: React.FC<Props> = ({ messanger, setMessanger }) => {
           </div>
           <button
             onClick={(event) => trashChat(event, chat.id)}
-            className="ml-32"
+            className="right-5 absolute"
           >
             <FaTrash>Delete</FaTrash>
           </button>
@@ -84,7 +84,7 @@ export const MessagePage: React.FC<Props> = ({ messanger, setMessanger }) => {
               bg-opacity-5 font flex"
       >
         {!messanger ? (
-          <Link to="/chatpage" data-testid="backButton" className="mr-4 mt-1">
+          <Link to="/home" data-testid="backButton" className="mr-4 mt-1">
             <FaArrowLeft />
           </Link>
         ) : (

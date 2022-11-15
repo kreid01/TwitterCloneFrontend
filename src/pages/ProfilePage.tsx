@@ -2,47 +2,86 @@ import { ProfileCover } from "components/Profile/ProfileCover/ProfileCover";
 import React, { useEffect, useState } from "react";
 import { IPost } from "consts/Interface";
 import { PostsList } from "../components/PostsList/PostsList";
-import { useInfiniteScroll } from "hooks/utils/useInfiniteScroll";
 
 import { useParams } from "react-router-dom";
-import { useGetUserPosts } from "hooks/posts/useGetUsersPosts";
 import { useGetUserProfile } from "hooks/users/useGetUserProfile";
 import { useIsCommenting } from "context/IsCommentingContext";
 import { ProfileFollowers } from "components/Profile/ProfileFollowers";
 import { IUser } from "consts/Interface";
+import axios from "axios";
+import { useInfiniteQuery } from "react-query";
 
 interface Props {
   createChat: (user: IUser) => void;
 }
 
+export const getUserPosts = async (queryKey: any, pageParam: number) => {
+  const { userId, query } = queryKey;
+  console.log(query);
+  const { data } = await axios.get(
+    `https://localhost:7227/posts/users/${userId}`,
+    {
+      params: {
+        filterMethod: query,
+        PageNumber: pageParam,
+        PageSize: 5,
+      },
+    }
+  );
+  return data;
+};
+
 export const ProfilePage: React.FC<Props> = ({ createChat }) => {
   const [query, setQuery] = useState("tweets");
   const { id } = useParams();
-  const [isReset, setIsReset] = useState(false);
-  const [page, setPage] = useState(0);
   const { profile } = useGetUserProfile(id as string);
+  const queryKey = {
+    query: query,
+    userId: profile?.userId,
+  };
   const toggleIsOnFollowers = () => {
     setIsOnFollowers((prevState) => !prevState);
   };
   const [isOnFollowers, setIsOnFollowers] = useState(false);
-  const { posts, error, loading, hasMore, setPosts } = useGetUserPosts(
-    profile?.userId as number,
-    query,
-    page,
-    setIsReset,
-    isReset
-  );
-  const { scrollPage, loader } = useInfiniteScroll(page, hasMore);
+  const {
+    data: posts,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isSuccess,
+    isFetching,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: ["posts", queryKey],
+    queryFn: ({ pageParam = 1 }) => getUserPosts(queryKey, pageParam),
+    getNextPageParam: (lastPage, allPages) => {
+      const nextPage = allPages.length + 1;
+      return lastPage.length !== 0 ? nextPage : undefined;
+    },
+  });
+
   const isCommenting = useIsCommenting();
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIsReset(true);
     setQuery(event.target.value);
-    setPage(0);
   };
 
   useEffect(() => {
-    setPage(scrollPage);
-  }, [scrollPage]);
+    let fetching = false;
+    const handleScroll = async (e: any) => {
+      const { scrollHeight, scrollTop, clientHeight } =
+        e.target.scrollingElement;
+      if (!fetching && scrollHeight - scrollTop <= clientHeight * 1.2) {
+        fetching = true;
+        if (hasNextPage) await fetchNextPage();
+        fetching = false;
+      }
+    };
+    document.addEventListener("scroll", handleScroll);
+    return () => {
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [fetchNextPage, hasNextPage]);
 
   if (profile) {
     return (
@@ -59,20 +98,22 @@ export const ProfilePage: React.FC<Props> = ({ createChat }) => {
         {isOnFollowers ? (
           <ProfileFollowers id={id as string} />
         ) : (
-          <div>
-            <PostsList
-              loader={loader}
-              loading={loading}
-              error={error}
-              hasMore={hasMore}
-              setPosts={setPosts}
-              posts={posts as IPost[]}
-            />
-          </div>
+          isSuccess &&
+          posts?.pages.map((page) => {
+            return (
+              <div>
+                <PostsList
+                  loading={isFetching}
+                  hasMore={hasNextPage as boolean}
+                  data={page as IPost[]}
+                />
+              </div>
+            );
+          })
         )}
       </>
     );
   } else {
-    return <p className="ml-3">loading...</p>;
+    return <p className="spin"></p>;
   }
 };
