@@ -4,6 +4,7 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
+    "outDir": "./build",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
@@ -17,11 +18,11 @@
     "noEmit": true,
     "jsx": "preserve",
     "pretty": true,
-    "baseUrl": "src",
+    "baseUrl": "./src",
     "types": ["jest", "node"],
     "typeRoots": ["./src/types", "./node_modules/@types"],
     "suppressImplicitAnyIndexErrors": true
   },
-  "include": ["src", "node_modules/@types/jest"],
+  "include": ["src/**/*", "node_modules/@types/jest", "postcss.config.js"],
   "exclude": ["node_modules"]
 }
